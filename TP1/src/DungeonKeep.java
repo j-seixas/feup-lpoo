@@ -13,7 +13,7 @@ public class DungeonKeep {
 	}
 	
 	public void getInput() {
-		KeyEvent press = new KeyEvent();
+		KeyEvent press;
 		char key = press.getKeyCode();
 		switch(key) {
 		
