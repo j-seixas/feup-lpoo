@@ -14,38 +14,71 @@ public class DungeonKeep {
 
 	public char getInput() {
 		Scanner s = new Scanner(System.in);
-		char answer = s.nextLine().charAt(0);
-		s.close();
+		char answer = s.next().charAt(0);
+		// s.close();
 		return answer;
+	}
+
+	public boolean checkGuard(char[][] map, int[] posHero) {
+		if (map[posHero[1]][posHero[0] + 1] == 'G' || map[posHero[1]][posHero[0] - 1] == 'G'
+				|| map[posHero[1] + 1][posHero[0]] == 'G' || map[posHero[1] - 1][posHero[0]] == 'G')
+			return true;
+		return false;
 	}
 
 	public int checkNext(char[][] map, char answer, int[] posHero) {
 		int check = 0;
 		if (answer == 'a') {
-			if (map[posHero[0] - 1][posHero[1]] == ' ') {
-				map[posHero[0] - 1][posHero[1]] = 'H';
-				map[posHero[0]][posHero[1]] = ' ';
-				check = 1;
+			if (map[posHero[1]][posHero[0] - 1] == ' ') {
+				map[posHero[1]][posHero[0] - 1] = 'H';
+				map[posHero[1]][posHero[0]] = ' ';
+				posHero[0]--;
+				if (checkGuard(map, posHero))
+					check = 5;
+				else
+					check = 1;
+			} else if (map[posHero[1]][posHero[0] - 1] == 'k') {
+				for (int i = 0; i < map.length; i++) {
+					for (int j = 0; j < map[i].length; j++) {
+						if (map[i][j] == 'S')
+							map[i][j] = 'I';
+						else if (map[i][j] == 'I')
+							map[i][j] = 'S';
+					}
+				}
 			}
 
 		} else if (answer == 'w') {
-			if (map[posHero[0]][posHero[1] + 1] == ' ') {
-				map[posHero[0]][posHero[1] + 1] = 'H';
-				map[posHero[0]][posHero[1]] = ' ';
-				check = 2;
+			if (map[posHero[1] - 1][posHero[0]] == ' ') {
+				map[posHero[1] - 1][posHero[0]] = 'H';
+				map[posHero[1]][posHero[0]] = ' ';
+				posHero[1]--;
+				if (checkGuard(map, posHero))
+					check = 5;
+				else
+					check = 2;
 			}
 		} else if (answer == 's') {
-			if (map[posHero[0]][posHero[1] - 1] == ' ') {
-				map[posHero[0]][posHero[1] - 1] = 'H';
-				map[posHero[0]][posHero[1]] = ' ';
-				check = 3;
+			if (map[posHero[1] + 1][posHero[0]] == ' ') {
+				map[posHero[1] + 1][posHero[0]] = 'H';
+				map[posHero[1]][posHero[0]] = ' ';
+				posHero[1]++;
+				if (checkGuard(map, posHero))
+					check = 5;
+				else
+					check = 3;
 			}
 		} else if (answer == 'd') {
-			if (map[posHero[0] + 1][posHero[1]] == ' ') {
-				map[posHero[0] + 1][posHero[1]] = 'H';
-				map[posHero[0]][posHero[1]] = ' ';
-				check = 4;
-			} 
+			if (map[posHero[1]][posHero[0] + 1] == ' ') {
+				map[posHero[1]][posHero[0] + 1] = 'H';
+				map[posHero[1]][posHero[0]] = ' ';
+				posHero[0]++;
+				if (checkGuard(map, posHero))
+					check = 5;
+				else
+					check = 4;
+
+			}
 		}
 		return check;
 	}
@@ -67,7 +100,9 @@ public class DungeonKeep {
 			char answer = getInput();
 			dir = checkNext(map, answer, posHero);
 		}
-
+		printMap(map);
+		if(dir == 5)
+			System.out.println("Game Over!");
 	}
 
 	public static void main(String[] args) {
@@ -86,7 +121,6 @@ public class DungeonKeep {
 		DungeonKeep dungeonKeep = new DungeonKeep();
 
 		dungeonKeep.play(map);
-
 
 	}
 
