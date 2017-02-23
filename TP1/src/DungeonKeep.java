@@ -1,3 +1,4 @@
+import java.util.Random;
 import java.util.Scanner;
 
 public class DungeonKeep {
@@ -9,26 +10,29 @@ public class DungeonKeep {
 	enum GameStat {
 		LOSE, WIN, RUNNING
 	}
-	
-	private final int HEIGHT = 10;
-	private final int WIDTH = 10;
+
+	private final int HEIGHT1 = 10;
+	private final int WIDTH1 = 10;
+	private final int HEIGHT2 = 9;
+	private final int WIDTH2 = 9;
 	private final int exit_door_1_y = 5;
 	private final int exit_door_2_y = 6;
 	private final int exit_door_1_x = 0;
 	private final int exit_door_2_x = 0;
+	private int height = HEIGHT1;
+	private int current_map = 1;
 	private int guardian_x = 8;
 	private int guardian_y = 1;
 	private int guardian_index = 0;
 	private int hero_x = 1;
 	private int hero_y = 1;
+	private int ogre_x = 4;
+	private int ogre_y = 1;
 	private Direction direction;
 	private GameStat game_stat = GameStat.RUNNING;
-	private final int[] guardian_path_x = 
-		{ 8, 7, 7, 7, 7, 7, 6, 5, 4, 3, 2, 1, 1, 2, 3, 4, 5, 6, 7, 8, 8, 8, 8, 8 };
-	private final int[] guardian_path_y = 
-		{ 1, 1, 2, 3, 4, 5, 5, 5, 5, 5, 5, 5, 6, 6, 6, 6, 6, 6, 6, 6, 5, 4, 3, 2 };
-	private char map[][] = { 
-{ 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', },
+	private final int[] guardian_path_x = { 8, 7, 7, 7, 7, 7, 6, 5, 4, 3, 2, 1, 1, 2, 3, 4, 5, 6, 7, 8, 8, 8, 8, 8 };
+	private final int[] guardian_path_y = { 1, 1, 2, 3, 4, 5, 5, 5, 5, 5, 5, 5, 6, 6, 6, 6, 6, 6, 6, 6, 5, 4, 3, 2 };
+	private char map1[][] = { { 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', },
 			{ 'X', 'H', ' ', ' ', 'I', ' ', 'X', ' ', 'G', 'X', },
 			{ 'X', 'X', 'X', ' ', 'X', 'X', 'X', ' ', ' ', 'X', },
 			{ 'X', ' ', 'I', ' ', 'I', ' ', 'X', ' ', ' ', 'X', },
@@ -38,6 +42,12 @@ public class DungeonKeep {
 			{ 'X', 'X', 'X', ' ', 'X', 'X', 'X', 'X', ' ', 'X', },
 			{ 'X', ' ', 'I', ' ', 'I', ' ', 'X', 'k', ' ', 'X', },
 			{ 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', } };
+	private char map2[][] = { { 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', },
+			{ 'I', ' ', ' ', ' ', 'O', ' ', ' ', 'k', 'X', }, { 'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'X', },
+			{ 'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'X', }, { 'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'X', },
+			{ 'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'X', }, { 'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'X', },
+			{ 'X', 'H', ' ', ' ', ' ', ' ', ' ', ' ', 'X', }, { 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', } };
+	private char map[][] = map1;
 
 	public void printMap() {
 		for (int i = 0; i < map.length; i++) {
@@ -50,7 +60,9 @@ public class DungeonKeep {
 	}
 
 	private void moveHero() {
+
 		map[hero_y][hero_x] = ' ';
+
 		switch (direction) {
 		case UP:
 			hero_y--;
@@ -65,7 +77,9 @@ public class DungeonKeep {
 			hero_x--;
 			break;
 		}
+
 		map[hero_y][hero_x] = 'H';
+
 	}
 
 	private void moveGuard() {
@@ -79,6 +93,77 @@ public class DungeonKeep {
 		map[guardian_y][guardian_x] = 'G';
 	}
 
+	private void moveOgre(int dir) {
+
+		map[ogre_y][ogre_x] = ' ';
+
+		switch (dir) {
+		case 0:
+			ogre_y--;
+			break;
+		case 1:
+			ogre_y++;
+			break;
+		case 2:
+			ogre_x++;
+			break;
+		case 3:
+			ogre_x--;
+			break;
+		}
+
+		map[ogre_y][ogre_x] = 'O';
+
+	}
+
+	private void nextPosOgre() {
+		Random rand = new Random();
+		int dir = rand.nextInt(4);
+		Boolean insideCanvas = false;
+		char nextCharacter = '\0';
+		switch (dir) {
+		case 0:
+			if (ogre_y > 0) {
+				insideCanvas = true;
+				nextCharacter = map[ogre_y - 1][ogre_x];
+			}
+			break;
+		case 1:
+			if (ogre_y < height - 1) {
+				insideCanvas = true;
+				nextCharacter = map[ogre_y + 1][ogre_x];
+			}
+			break;
+		case 2:
+			if (ogre_x < height - 1) {
+				insideCanvas = true;
+				nextCharacter = map[ogre_y][ogre_x + 1];
+
+			}
+			break;
+		case 3:
+			if (ogre_x > 0) {
+				insideCanvas = true;
+				nextCharacter = map[ogre_y][ogre_x - 1];
+			}
+			break;
+		default:
+			return;
+		}
+		if (insideCanvas) {
+			if (nextCharacter == ' ')
+				this.moveOgre(dir);
+		}
+	}
+
+	private void checkOgre() {
+		if ((hero_x == ogre_x && hero_y == ogre_y)
+				|| (hero_x == ogre_x && (hero_y == ogre_y + 1 || hero_y == ogre_y - 1))
+				|| (hero_y == ogre_y && (hero_x == ogre_x + 1 || hero_x == ogre_x - 1))) {
+			this.game_stat = GameStat.LOSE;
+		}
+	}
+	
 	private void processInput() {
 		Boolean insideCanvas = false;
 		char nextCharacter = '\0';
@@ -90,15 +175,16 @@ public class DungeonKeep {
 			}
 			break;
 		case DOWN:
-			if (hero_y < HEIGHT - 1) {
+			if (hero_y < height - 1) {
 				insideCanvas = true;
 				nextCharacter = map[hero_y + 1][hero_x];
 			}
 			break;
 		case RIGHT:
-			if (hero_x < WIDTH - 1) {
+			if (hero_x < height - 1) {
 				insideCanvas = true;
 				nextCharacter = map[hero_y][hero_x + 1];
+
 			}
 			break;
 		case LEFT:
@@ -114,24 +200,39 @@ public class DungeonKeep {
 		if (insideCanvas) {
 			if (nextCharacter == ' ') {
 				this.moveHero();
-				this.moveGuard();
+				// this.moveGuard();
 			} else if (nextCharacter == 'S') {
-				this.moveHero();
-				this.moveGuard();
-				this.game_stat = DungeonKeep.GameStat.WIN;
+				if (current_map == 1)
+					this.goMap2();
+				else
+					this.game_stat = DungeonKeep.GameStat.WIN;
 			} else if (nextCharacter == 'k') {
 				this.moveHero();
-				this.moveGuard();
+				// this.moveGuard();
 				this.openDoors();
 			}
-			this.checkGuard();
+			// this.checkGuard();
 		}
+		if (current_map == 1) {
+			this.moveGuard();
+			this.checkGuard();
+		} else {
+			this.nextPosOgre();
+			this.checkOgre();
+		}
+	}
 
+	private void goMap2() {
+		current_map = 2;
+		map = map2;
+		height = HEIGHT2;
+		hero_x = 1;
+		hero_y = 7;
 	}
 
 	private void openDoors() {
-		map[exit_door_1_y][exit_door_1_x] = 'S';
-		map[exit_door_2_y][exit_door_2_x] = 'S';
+		map1[exit_door_1_y][exit_door_1_x] = 'S';
+		map1[exit_door_2_y][exit_door_2_x] = 'S';
 	}
 
 	private void checkGuard() {
