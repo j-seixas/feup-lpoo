@@ -200,29 +200,36 @@ public class DungeonKeep {
 		if (insideCanvas) {
 			if (nextCharacter == ' ') {
 				this.moveHero();
+				if (current_map == 1) {
+					this.moveGuard();
+					this.checkGuard();
+				} else {
+					this.nextPosOgre();
+					this.checkOgre();
+				}
 				// this.moveGuard();
 			} else if (nextCharacter == 'S') {
 				if (current_map == 1)
-					this.goMap2();
+					this.gotoMap2();
 				else
 					this.game_stat = DungeonKeep.GameStat.WIN;
 			} else if (nextCharacter == 'k') {
 				this.moveHero();
+				if (current_map == 1) {
+					this.moveGuard();
+					this.checkGuard();
+				} else {
+					this.nextPosOgre();
+					this.checkOgre();
+				}
 				// this.moveGuard();
 				this.openDoors();
 			}
 			// this.checkGuard();
 		}
-		if (current_map == 1) {
-			this.moveGuard();
-			this.checkGuard();
-		} else {
-			this.nextPosOgre();
-			this.checkOgre();
-		}
 	}
 
-	private void goMap2() {
+	private void gotoMap2() {
 		current_map = 2;
 		map = map2;
 		height = HEIGHT2;
