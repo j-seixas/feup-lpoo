@@ -164,11 +164,91 @@ public class DungeonKeep {
 			return;
 		}
 		if (insideCanvas) {
-			if (nextCharacter == ' ')
+			if (nextCharacter == ' ' || nextCharacter == '*')
 				this.moveOgre(ogreDirection, 'O');
 			else if(nextCharacter == 'k'){
 				this.moveOgre(ogreDirection, '$');
 				this.ogre_on_key = true;
+			}
+		}
+	}
+	
+	private void moveClub(int dir, char ch) {
+
+		if(club_on_key){
+			map[club_y][club_x] = 'k';
+			club_on_key = false;
+		}
+		else if(map[club_y][club_x] != 'O')
+			map[club_y][club_x] = ' ';
+
+
+		switch (dir) {
+		case 0:
+			club_y = ogre_y - 1;
+			club_x = ogre_x;
+			break;
+		case 1:
+			club_y = ogre_y + 1;
+			club_x = ogre_x;
+			break;
+		case 2:
+			club_x = ogre_x + 1;
+			club_y = ogre_y;
+			break;
+		case 3:
+			club_x = ogre_x - 1;
+			club_y = ogre_y;
+			break;
+		}
+
+		map[club_y][club_x] = ch;
+
+	}
+
+	private void nextPosClub() {
+		char nextCharacter = '\0';
+		Boolean insideCanvas = false;
+		int clubDirection;
+		do{
+		Random rand = new Random();
+		clubDirection = rand.nextInt(4);
+		switch (clubDirection) {
+		case 0:
+			if (club_y > 0) {
+				insideCanvas = true;
+				nextCharacter = map[ogre_y - 1][ogre_x];
+			}
+			break;
+		case 1:
+			if (club_y < height - 1) {
+				insideCanvas = true;
+				nextCharacter = map[ogre_y + 1][ogre_x];
+			}
+			break;
+		case 2:
+			if (club_x < height - 1) {
+				insideCanvas = true;
+				nextCharacter = map[ogre_y][ogre_x + 1];
+
+			}
+			break;
+		case 3:
+			if (club_x > 0) {
+				insideCanvas = true;
+				nextCharacter = map[ogre_y][ogre_x - 1];
+			}
+			break;
+		default:
+			return;
+		}
+		}while(nextCharacter == 'O' || nextCharacter == 'X' || nextCharacter == 'I' || nextCharacter == 'S');
+		if (insideCanvas) {
+			if (nextCharacter == ' ')
+				this.moveClub(clubDirection, '*');
+			else if(nextCharacter == 'k'){
+				this.moveClub(clubDirection, '$');
+				this.club_on_key = true;
 			}
 		}
 	}
@@ -243,6 +323,7 @@ public class DungeonKeep {
 				this.checkGuard();
 			} else {
 				this.nextPosOgre();
+				this.nextPosClub();
 				this.checkOgre();
 			}
 		}
