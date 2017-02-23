@@ -11,6 +11,7 @@ public class DungeonKeep {
 		LOSE, WIN, RUNNING
 	}
 
+	
 	private final int HEIGHT1 = 10;
 	private final int WIDTH1 = 10;
 	private final int HEIGHT2 = 9;
@@ -19,15 +20,22 @@ public class DungeonKeep {
 	private final int exit_door_2_y = 6;
 	private final int exit_door_1_x = 0;
 	private final int exit_door_2_x = 0;
+	private final int exit_door_3_x = 0;
+	private final int exit_door_3_y = 1;
 	private int height = HEIGHT1;
 	private int current_map = 1;
 	private int guardian_x = 8;
 	private int guardian_y = 1;
+	private int club_x = 4;
+	private int club_y = 2;
 	private int guardian_index = 0;
 	private int hero_x = 1;
 	private int hero_y = 1;
 	private int ogre_x = 4;
 	private int ogre_y = 1;
+	private Boolean ogre_on_key = false;
+	private Boolean club_on_key = false;
+	private Boolean hero_has_key = false;
 	private Direction direction;
 	private GameStat game_stat = GameStat.RUNNING;
 	private final int[] guardian_path_x = { 8, 7, 7, 7, 7, 7, 6, 5, 4, 3, 2, 1, 1, 2, 3, 4, 5, 6, 7, 8, 8, 8, 8, 8 };
@@ -93,9 +101,14 @@ public class DungeonKeep {
 		map[guardian_y][guardian_x] = 'G';
 	}
 
-	private void moveOgre(int dir) {
+	private void moveOgre(int dir, char ch) {
 
-		map[ogre_y][ogre_x] = ' ';
+		if(ogre_on_key){
+			map[ogre_y][ogre_x] = 'k';
+			ogre_on_key = false;
+		}
+		else map[ogre_y][ogre_x] = ' ';
+
 
 		switch (dir) {
 		case 0:
@@ -112,16 +125,16 @@ public class DungeonKeep {
 			break;
 		}
 
-		map[ogre_y][ogre_x] = 'O';
+		map[ogre_y][ogre_x] = ch;
 
 	}
 
 	private void nextPosOgre() {
 		Random rand = new Random();
-		int dir = rand.nextInt(4);
+		int ogreDirection = rand.nextInt(4);
 		Boolean insideCanvas = false;
 		char nextCharacter = '\0';
-		switch (dir) {
+		switch (ogreDirection) {
 		case 0:
 			if (ogre_y > 0) {
 				insideCanvas = true;
@@ -152,14 +165,21 @@ public class DungeonKeep {
 		}
 		if (insideCanvas) {
 			if (nextCharacter == ' ')
-				this.moveOgre(dir);
+				this.moveOgre(ogreDirection, 'O');
+			else if(nextCharacter == 'k'){
+				this.moveOgre(ogreDirection, '$');
+				this.ogre_on_key = true;
+			}
 		}
 	}
 
 	private void checkOgre() {
 		if ((hero_x == ogre_x && hero_y == ogre_y)
-				|| (hero_x == ogre_x && (hero_y == ogre_y + 1 || hero_y == ogre_y - 1))
-				|| (hero_y == ogre_y && (hero_x == ogre_x + 1 || hero_x == ogre_x - 1))) {
+		|| (hero_x == ogre_x && (hero_y == ogre_y + 1 || hero_y == ogre_y - 1))
+		|| (hero_y == ogre_y && (hero_x == ogre_x + 1 || hero_x == ogre_x - 1))
+		|| (hero_x == club_x && hero_y == club_y)
+		|| (hero_x == club_x && (hero_y == club_y + 1 || hero_y == club_y - 1))
+		|| (hero_y == club_y && (hero_x == club_x + 1 || hero_x == club_x - 1))) {
 			this.game_stat = GameStat.LOSE;
 		}
 	}
@@ -200,32 +220,31 @@ public class DungeonKeep {
 		if (insideCanvas) {
 			if (nextCharacter == ' ') {
 				this.moveHero();
-				if (current_map == 1) {
-					this.moveGuard();
-					this.checkGuard();
-				} else {
-					this.nextPosOgre();
-					this.checkOgre();
-				}
-				// this.moveGuard();
-			} else if (nextCharacter == 'S') {
+				} else if (nextCharacter == 'S') {
 				if (current_map == 1)
 					this.gotoMap2();
-				else
+				else {
+					this.moveHero();
 					this.game_stat = DungeonKeep.GameStat.WIN;
+				}
 			} else if (nextCharacter == 'k') {
 				this.moveHero();
 				if (current_map == 1) {
-					this.moveGuard();
-					this.checkGuard();
+					this.openMap1Doors();
 				} else {
-					this.nextPosOgre();
-					this.checkOgre();
+					hero_has_key = true;
 				}
-				// this.moveGuard();
-				this.openDoors();
+			} else if(nextCharacter == 'I' && hero_has_key) {
+				this.openMap2Door();
 			}
-			// this.checkGuard();
+			
+			if (current_map == 1) {
+				this.moveGuard();
+				this.checkGuard();
+			} else {
+				this.nextPosOgre();
+				this.checkOgre();
+			}
 		}
 	}
 
@@ -237,9 +256,13 @@ public class DungeonKeep {
 		hero_y = 7;
 	}
 
-	private void openDoors() {
+	private void openMap1Doors() {
 		map1[exit_door_1_y][exit_door_1_x] = 'S';
 		map1[exit_door_2_y][exit_door_2_x] = 'S';
+	}
+	
+	private void openMap2Door() {
+		map2[exit_door_3_y][exit_door_3_x] = 'S';
 	}
 
 	private void checkGuard() {
