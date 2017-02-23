@@ -296,13 +296,16 @@ public class DungeonKeep {
 		default:
 			return;
 		}
-
+		boolean changeMap = false;
 		if (insideCanvas) {
 			if (nextCharacter == ' ') {
 				this.moveHero();
 				} else if (nextCharacter == 'S') {
-				if (current_map == 1)
+				if (current_map == 1){
+					changeMap = true;
 					this.gotoMap2();
+					map[club_y][club_x] = '*';
+				}
 				else {
 					this.moveHero();
 					this.game_stat = DungeonKeep.GameStat.WIN;
@@ -321,7 +324,7 @@ public class DungeonKeep {
 			if (current_map == 1) {
 				this.moveGuard();
 				this.checkGuard();
-			} else {
+			} else if(!changeMap){
 				this.nextPosOgre();
 				this.nextPosClub();
 				this.checkOgre();
