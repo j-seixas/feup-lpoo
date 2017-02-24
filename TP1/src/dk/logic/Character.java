@@ -7,7 +7,7 @@ public abstract class Character {
 		UP, DOWN, RIGHT, LEFT, NONE
 	};
 	
-	private Coordinates coordinates;
+	protected Coordinates coordinates;
 	
 	//Constructors
 	public Character(int x, int y){
@@ -32,6 +32,12 @@ public abstract class Character {
 	}
 	
 	//Methods
-	protected abstract boolean moveCharacter(char[][] map);
+	protected abstract boolean moveCharacter(Game game);
+	
+	public boolean checkColision(Character character) {
+		return (character.getX() == this.getX() && character.getY() == this.getY())
+		|| (character.getX() == this.getX() && (character.getY() == this.getY() + 1 || character.getY() == this.getY() - 1))
+		|| (character.getY() == this.getY() && (character.getX() == this.getX() + 1 || character.getX() == this.getX() - 1));
+		}
 	
 }

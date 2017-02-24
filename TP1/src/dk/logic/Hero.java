@@ -6,10 +6,10 @@ public class Hero extends Character {
 
 	private Direction direction;
 	
-	public boolean moveCharacter(char[][] map) {
+	public boolean moveCharacter(Game game) {
 
 		if (direction != Direction.NONE) {
-			map[getY()][getX()] = ' ';
+			game.setMap(this.coordinates, ' ');
 
 			switch (direction) {
 			case UP:
@@ -28,12 +28,11 @@ public class Hero extends Character {
 				return false;
 			}
 
-			map[getY()][getX()] = 'H';
+			game.setMap(this.coordinates, 'H');
 			return true;
 		}
 		return false;
 	}
-
 	
 	//Gets/Sets
 	public Direction getDirection() {

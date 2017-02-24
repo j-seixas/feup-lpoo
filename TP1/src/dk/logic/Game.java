@@ -1,7 +1,7 @@
 package dk.logic;
 
 import dk.logic.Hero;
-
+import dk.util.Coordinates;
 
 public class Game {
 	public enum GameStat {
@@ -15,7 +15,7 @@ public class Game {
 	private Guardian guardian;
 	private GameStat game_stat = GameStat.RUNNING;
 	
-	char map[][];
+	private char map[][];
 	
 	private void advanceLevel(int currentLevel){
 		/*TODO*/
@@ -82,12 +82,12 @@ public class Game {
 			
 			if (level == 1) {
 				guardian.moveCharacter(map);
-				guardian.checkColision();
+				guardian.checkColision(hero);
 			} else if(!changeMap){
 				ogre.moveCharacter(map);
 				club.moveCharacter(map);
-				ogre.checkColision();
-				club.checkColision();
+				ogre.checkColision(hero);
+				club.checkColision(hero);
 			}
 		}
 	}
@@ -102,6 +102,10 @@ public class Game {
 		}
 	}
 
+	public void setMap(Coordinates coordinate, char ch) {
+		map[coordinate.getY()][coordinate.getX()] = ch;
+	}
+	
 	public GameStat getGameStatus(){
 		return this.game_stat;
 	}
