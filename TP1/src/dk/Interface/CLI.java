@@ -1,10 +1,10 @@
-package dk.cli;
+package dk.Interface;
 
 import java.util.Scanner;
 import dk.logic.Game;
 import dk.logic.Character;
 
-public class cli {
+public class CLI {
 	
 	
 	private Character.Direction getInput(Scanner keyboard_scanner){
@@ -29,12 +29,12 @@ public class cli {
 		game.printMap();
 		Game.GameStat currentStatus;
 		do{
-			currentStatus = game.getGameStatus();
 			Character.Direction currentDirection = this.getInput(keyboard_scanner);
 			if (currentDirection != Character.Direction.NONE) {
 				game.processInput(currentDirection);
 				game.printMap();
 			}
+			currentStatus = game.getGameStatus();
 		}while(currentStatus == Game.GameStat.RUNNING);
 			
 		keyboard_scanner.close();
@@ -47,7 +47,7 @@ public class cli {
 	
 	public static void main(String[] args) {
 		Game dungeonKeep = new Game();
-		cli consoleInterface = new cli();
+		CLI consoleInterface = new CLI();
 		consoleInterface.run(dungeonKeep);
 	}
 }

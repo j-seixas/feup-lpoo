@@ -4,7 +4,12 @@ import dk.logic.Character;
 
 public class Hero extends Character {
 
+	public Hero(int x, int y) {
+		super(x,y);
+	}
+	
 	private Direction direction;
+	private boolean hero_has_key = false;
 	
 	public boolean moveCharacter(Game game) {
 
@@ -38,9 +43,14 @@ public class Hero extends Character {
 	public Direction getDirection() {
 		return direction;
 	}
-
 	public void setDirection(Direction direction) {
 		this.direction = direction;
+	}
+	public void setHasKey(boolean key){
+		hero_has_key = key;
+	}
+	public boolean getHasKey(){
+		return hero_has_key;
 	}
 
 	
