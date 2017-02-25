@@ -11,10 +11,11 @@ public class Club extends Character{
 	private boolean club_on_key = false;
 	
 	public boolean moveCharacter(Game game) {
-		boolean can_move = true;
+		boolean can_move, on_key = false;
 		char draw_char = '\0';
 		int clubDirection;
 		do {
+		can_move = true;
 		Random rand = new Random();
 		clubDirection = rand.nextInt(4);
 		boolean insideCanvas = false;
@@ -51,7 +52,7 @@ public class Club extends Character{
 				draw_char = '*';
 			else if(nextCharacter == 'k'){
 				draw_char = '$';
-				club_on_key = true;
+				on_key = true;
 			}
 			else can_move = false; 
 		}
@@ -61,6 +62,9 @@ public class Club extends Character{
 	
 		moveClub(clubDirection, draw_char, game);
 		
+		if(on_key)
+			club_on_key = true;
+		
 		return true;
 	}
 
@@ -69,7 +73,8 @@ public class Club extends Character{
 			game.setMap(coordinates, 'k');
 			club_on_key = false;
 		}
-		else game.setMap(coordinates, ' ');
+		else if(game.getMap(coordinates.getX(), coordinates.getY()) == '*')
+				game.setMap(coordinates, ' ');
 
 
 		switch (clubDirection) {

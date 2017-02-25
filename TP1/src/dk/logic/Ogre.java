@@ -13,10 +13,11 @@ public class Ogre extends Character {
 	}
 	
 	public boolean moveCharacter(Game game) {
-		boolean can_move = true;
+		boolean can_move, on_key = false;
 		char draw_char = '\0';
 		int ogreDirection;
 		do {
+		can_move = true;
 		Random rand = new Random();
 		ogreDirection = rand.nextInt(4);
 		boolean insideCanvas = false;
@@ -53,7 +54,7 @@ public class Ogre extends Character {
 				draw_char = 'O';
 			else if(nextCharacter == 'k'){
 				draw_char = '$';
-				ogre_on_key = true;
+				on_key = true;
 			}
 			else can_move = false; 
 		}
@@ -62,6 +63,9 @@ public class Ogre extends Character {
 		
 		
 		moveOgre(ogreDirection, draw_char, game);
+		
+		if(on_key)
+			ogre_on_key = true;
 		
 		return true;
 	}
