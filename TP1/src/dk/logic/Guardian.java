@@ -31,7 +31,7 @@ public abstract class Guardian extends Character {
 	};
 
 	protected int indexPath = 0;
-	protected Boolean sleeping = false;
+	protected boolean sleeping = false;
 
 	public Guardian() {
 		coordinates = path[indexPath];
@@ -39,7 +39,7 @@ public abstract class Guardian extends Character {
 	
 	protected abstract boolean moveCharacter(Game game);
 	
-	public Boolean getIsSleeping(){
+	public boolean IsSleeping(){
 		return sleeping;
 	}
 }
