@@ -1,9 +1,9 @@
 package dk.logic;
 import dk.util.Coordinates;
 
-public class Guardian extends Character {
+public abstract class Guardian extends Character {
 	
-	private Coordinates path[] = {
+	protected Coordinates path[] = {
 			new Coordinates(8,1),
 			new Coordinates(7,1),
 			new Coordinates(7,2),
@@ -30,27 +30,16 @@ public class Guardian extends Character {
 			new Coordinates(8,2)
 	};
 
-	private int indexPath = 0;
-	
+	protected int indexPath = 0;
+	protected Boolean sleeping = false;
 
 	public Guardian() {
 		coordinates = path[indexPath];
 	}
 	
+	protected abstract boolean moveCharacter(Game game);
 	
-	public boolean moveCharacter(Game game) {
-		indexPath++;
-		if(indexPath >= path.length)
-			indexPath = 0;
-		
-		game.setMap(this.coordinates, ' ');
-		
-		Coordinates newCoordinates = path[indexPath];
-		setX(newCoordinates.getX());
-		setY(newCoordinates.getY());
-
-		game.setMap(this.coordinates, 'G');
-		
-		return true;
+	public Boolean getIsSleeping(){
+		return sleeping;
 	}
 }

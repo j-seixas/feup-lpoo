@@ -45,7 +45,7 @@ public class Game {
 	
 	public Game() {
 		hero = new Hero(1,1);
-		guardian = new Guardian();
+		guardian = new RookieG(); 
 		ogre = new Ogre(4,1);
 		club = new Club(4,2);
 	}
@@ -130,7 +130,7 @@ public class Game {
 			
 			if (level == 1) {
 				guardian.moveCharacter(this);
-				if(guardian.checkColision(hero))
+				if(guardian.checkColision(hero) && !guardian.getIsSleeping())
 					this.game_stat = Game.GameStat.LOSE;
 			} else if(!changeMap){
 				ogre.moveCharacter(this);

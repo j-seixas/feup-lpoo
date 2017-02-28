@@ -5,7 +5,7 @@ import dk.logic.Game;
 import dk.logic.Character;
 
 public class CLI {
-	
+	 
 	
 	private Character.Direction getInput(Scanner keyboard_scanner){
 		System.out.print("Move: ");
