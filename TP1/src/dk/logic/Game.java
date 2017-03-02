@@ -54,6 +54,19 @@ public class Game {
 		club = new Club(4, 2);
 	}
 
+	public Game(char gameMap[][]){
+		map = gameMap;
+		for(int i = 0; i < map.length; i++){
+			for(int j = 0; j < map[i].length; j++){
+				if(map[i][j] == 'H')
+					hero = new Hero(j,i);
+				else if(map[i][j] == 'G')
+					guardian = new RookieG(j,i);
+				
+			}
+		}
+	}
+	
 	private void advanceLevel() {
 		level++;
 
@@ -164,6 +177,10 @@ public class Game {
 
 	public Ogre getOgre() {
 		return ogre;
+	}
+	
+	public Hero getHero() {
+		return hero;
 	}
 
 	public GameStat getGameStatus() {

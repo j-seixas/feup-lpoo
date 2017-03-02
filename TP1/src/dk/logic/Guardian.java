@@ -2,6 +2,7 @@ package dk.logic;
 import dk.util.Coordinates;
 
 public abstract class Guardian extends Character {
+	boolean hasPath = false;
 	
 	protected Coordinates path[] = {
 			new Coordinates(8,1),
@@ -30,12 +31,16 @@ public abstract class Guardian extends Character {
 			new Coordinates(8,2)
 	};
 
-	protected int indexPath;
+	protected int indexPath = 0;
 	protected boolean sleeping = false;
 
 	public Guardian() {
-		indexPath = 0;
+		hasPath = true;
 		coordinates = path[indexPath];
+	}
+	
+	public Guardian(int x, int y){
+		super(x,y);
 	}
 	
 	protected abstract boolean moveCharacter(Game game);

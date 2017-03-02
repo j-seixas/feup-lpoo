@@ -35,6 +35,10 @@ public abstract class Character {
 		coordinates = coord;
 	}
 	
+	public Coordinates getCoord(){
+		return coordinates;
+	}
+	
 	//Methods
 	protected abstract boolean moveCharacter(Game game);
 	
