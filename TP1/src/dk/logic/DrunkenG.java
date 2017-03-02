@@ -53,7 +53,7 @@ public class DrunkenG extends Guardian {
 
 		Coordinates newCoordinates = path[indexPath];
 		setCoord(newCoordinates);
-
+		sleeping = false;
 		game.setMap(this.coordinates, 'G');
 
 		return true;
