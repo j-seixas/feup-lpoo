@@ -2,36 +2,38 @@ package dk.Interface;
 
 import java.util.Scanner;
 import dk.logic.Game;
-import dk.logic.Character;
+import dk.logic.GameCharacter;
 
 public class CLI {
 	 
 	
-	private Character.Direction getInput(Scanner keyboard_scanner){
+	private GameCharacter.Direction getInput(Scanner keyboard_scanner){
 		System.out.print("Move: ");
 		String input = keyboard_scanner.nextLine();
 		switch (input) {
 		case "w":
-			return Character.Direction.UP;
+			return GameCharacter.Direction.UP;
 		case "a":
-			return Character.Direction.LEFT;
+			return GameCharacter.Direction.LEFT;
 		case "s":
-			return Character.Direction.DOWN;
+			return GameCharacter.Direction.DOWN;
 		case "d":
-			return Character.Direction.RIGHT;
+			return GameCharacter.Direction.RIGHT;
 		default:
-			return Character.Direction.NONE;
+			return GameCharacter.Direction.NONE;
 		}
 	}
 	
 	public void run(Game game){
 		Scanner keyboard_scanner = new Scanner(System.in);
+		game.updateMap();
 		game.printMap();
 		Game.GameStat currentStatus;
 		do{
-			Character.Direction currentDirection = this.getInput(keyboard_scanner);
-			if (currentDirection != Character.Direction.NONE) {
+			GameCharacter.Direction currentDirection = this.getInput(keyboard_scanner);
+			if (currentDirection != GameCharacter.Direction.NONE) {
 				game.processInput(currentDirection);
+				game.updateMap();
 				game.printMap();
 			}
 			currentStatus = game.getGameStatus();

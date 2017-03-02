@@ -1,8 +1,8 @@
 package dk.logic;
 
-import dk.logic.Character;
+import dk.logic.GameCharacter;
 
-public class Hero extends Character {
+public class Hero extends GameCharacter {
 
 	public Hero(int x, int y) {
 		super(x,y);
@@ -15,7 +15,6 @@ public class Hero extends Character {
 	public boolean moveCharacter(Game game) {
 
 		if (direction != Direction.NONE) {
-			game.setMap(this.coordinates, ' ');
 
 			switch (direction) {
 			case UP:
@@ -34,14 +33,6 @@ public class Hero extends Character {
 				return false;
 			}
 			
-			char draw_char;
-			if(hero_has_key)
-				draw_char = 'K';
-			else if(hero_has_club)
-				draw_char = 'A';
-			else 
-				draw_char = 'H';
-			game.setMap(this.coordinates, draw_char);
 			return true;
 		}
 		return false;

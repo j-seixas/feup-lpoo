@@ -1,7 +1,7 @@
 package dk.logic;
 import dk.util.Coordinates;
 
-public abstract class Guardian extends Character {
+public abstract class Guardian extends GameCharacter {
 	
 	protected Coordinates path[] = {
 			new Coordinates(8,1),

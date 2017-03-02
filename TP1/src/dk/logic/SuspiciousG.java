@@ -36,12 +36,9 @@ public class SuspiciousG extends Guardian {
 		directionMove();
 		wait--;
 
-		game.setMap(this.coordinates, ' ');
 
 		Coordinates newCoordinates = path[indexPath];
 		setCoord(newCoordinates);
-
-		game.setMap(this.coordinates, 'G');
 
 		return true;
 	}
