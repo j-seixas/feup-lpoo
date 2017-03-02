@@ -30,10 +30,11 @@ public abstract class Guardian extends Character {
 			new Coordinates(8,2)
 	};
 
-	protected int indexPath = 0;
+	protected int indexPath;
 	protected boolean sleeping = false;
 
 	public Guardian() {
+		indexPath = 0;
 		coordinates = path[indexPath];
 	}
 	

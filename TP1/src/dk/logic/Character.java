@@ -31,6 +31,10 @@ public abstract class Character {
 		coordinates.setY(y);
 	}
 	
+	public void setCoord(Coordinates coord){
+		coordinates = coord;
+	}
+	
 	//Methods
 	protected abstract boolean moveCharacter(Game game);
 	
