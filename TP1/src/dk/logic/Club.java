@@ -4,8 +4,11 @@ import java.util.Random;
 
 public class Club extends Character {
 
-	public Club(int x, int y) {
+	public Character character;
+	
+	public Club(int x, int y, Character c) {
 		super(x, y);
+		character = c;
 	}
 
 	private boolean club_on_key = false;
@@ -24,31 +27,31 @@ public class Club extends Character {
 			case 0:
 				if (getY() > 0) {
 					insideCanvas = true;
-					nextCharacter = game.getMap(game.getOgre().getX(), game.getOgre().getY() - 1);
+					nextCharacter = game.getMap(character.getX(), character.getY() - 1);
 				}
 				break;
 			case 1:
 				if (getY() < 8) {
 					insideCanvas = true;
-					nextCharacter = game.getMap(game.getOgre().getX(), game.getOgre().getY() + 1);
+					nextCharacter = game.getMap(character.getX(), character.getY() + 1);
 				}
 				break;
 			case 2:
 				if (getX() < 8) {
 					insideCanvas = true;
-					nextCharacter = game.getMap(game.getOgre().getX() + 1, game.getOgre().getY());
+					nextCharacter = game.getMap(character.getX() + 1, character.getY());
 
 				}
 				break;
 			case 3:
 				if (getX() > 0) {
 					insideCanvas = true;
-					nextCharacter = game.getMap(game.getOgre().getX() - 1, game.getOgre().getY());
+					nextCharacter = game.getMap(character.getX() - 1, character.getY());
 				}
 				break;
 			}
 			if (insideCanvas) {
-				if (nextCharacter == ' ')
+				if (nextCharacter == ' ' || nextCharacter == '*' || nextCharacter == 'O')
 					draw_char = '*';
 				else if (nextCharacter == 'k') {
 					draw_char = '$';
@@ -76,20 +79,20 @@ public class Club extends Character {
 
 		switch (clubDirection) {
 		case 0:
-			setY(game.getOgre().getY() - 1);
-			setX(game.getOgre().getX());
+			setY(character.getY() - 1);
+			setX(character.getX());
 			break;
 		case 1:
-			setY(game.getOgre().getY() + 1);
-			setX(game.getOgre().getX());
+			setY(character.getY() + 1);
+			setX(character.getX());
 			break;
 		case 2:
-			setY(game.getOgre().getY());
-			setX(game.getOgre().getX() + 1);
+			setY(character.getY());
+			setX(character.getX() + 1);
 			break;
 		case 3:
-			setY(game.getOgre().getY());
-			setX(game.getOgre().getX() - 1);
+			setY(character.getY());
+			setX(character.getX() - 1);
 			break;
 		}
 

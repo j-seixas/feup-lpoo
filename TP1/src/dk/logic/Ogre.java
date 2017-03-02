@@ -5,9 +5,11 @@ import java.util.Random;
 public class Ogre extends Character {
 
 	private boolean ogre_on_key = false;
+	private Club club;
 
 	public Ogre(int x, int y) {
 		super(x, y);
+		club = new Club(x, y + 1, this);
 	}
 
 	public boolean moveCharacter(Game game) {
@@ -48,7 +50,7 @@ public class Ogre extends Character {
 				break;
 			}
 			if (insideCanvas) {
-				if (nextCharacter == ' ' || nextCharacter == '*')
+				if (nextCharacter == ' ' || nextCharacter == '*' || nextCharacter == 'O')
 					draw_char = 'O';
 				else if (nextCharacter == 'k') {
 					draw_char = '$';
@@ -64,6 +66,8 @@ public class Ogre extends Character {
 		if (on_key)
 			ogre_on_key = true;
 
+		club.moveCharacter(game);
+		
 		return true;
 	}
 
@@ -92,4 +96,8 @@ public class Ogre extends Character {
 		game.setMap(coordinates, draw_char);
 	}
 
+	
+	public Club getClub(){
+		return club;
+	}
 }

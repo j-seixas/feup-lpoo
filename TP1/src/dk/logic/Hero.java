@@ -10,6 +10,7 @@ public class Hero extends Character {
 	
 	private Direction direction;
 	private boolean hero_has_key = false;
+	private boolean hero_has_club = false;
 	
 	public boolean moveCharacter(Game game) {
 
@@ -32,8 +33,15 @@ public class Hero extends Character {
 			default:
 				return false;
 			}
-
-			game.setMap(this.coordinates, 'H');
+			
+			char draw_char;
+			if(hero_has_key)
+				draw_char = 'K';
+			else if(hero_has_club)
+				draw_char = 'A';
+			else 
+				draw_char = 'H';
+			game.setMap(this.coordinates, draw_char);
 			return true;
 		}
 		return false;
@@ -52,7 +60,11 @@ public class Hero extends Character {
 	public boolean getHasKey(){
 		return hero_has_key;
 	}
-
-	
+	public void setHasClub(boolean club){
+		this.hero_has_club = club;
+	}
+	public boolean getHasClub(){
+		return hero_has_club;
+	}
 
 }

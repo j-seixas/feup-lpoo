@@ -1,6 +1,7 @@
 package dk.logic;
 
 import java.util.Random;
+import java.util.Vector;
 
 import dk.logic.Hero;
 import dk.util.Coordinates;
@@ -12,8 +13,7 @@ public class Game {
 
 	public int level = 1;
 	private Hero hero;
-	private Club club;
-	private Ogre ogre;
+	private Vector<Ogre> ogres;
 	private Guardian guardian;
 	private Door doors[][] = { { new Door(0, 5), new Door(0, 6) }, { new Door(0, 1) } };
 	private GameStat game_stat = GameStat.RUNNING;
@@ -45,13 +45,22 @@ public class Game {
 		hero = new Hero(1, 1);
 		Random rand = new Random();
 		int guard = rand.nextInt(3);
-		switch(guard){
-		case 0: guardian = new RookieG(); break;
-		case 1: guardian = new DrunkenG(); break;
-		case 2: guardian = new SuspiciousG(); break;
+		switch (guard) {
+		case 0:
+			guardian = new RookieG();
+			break;
+		case 1:
+			guardian = new DrunkenG();
+			break;
+		case 2:
+			guardian = new SuspiciousG();
+			break;
 		}
-		ogre = new Ogre(4, 1);
-		club = new Club(4, 2);
+		ogres = new Vector<Ogre>();
+		ogres.addElement(new Ogre(4,1));
+		ogres.addElement(new Ogre(4,4));
+		ogres.addElement(new Ogre(6,6));
+
 	}
 
 	private void advanceLevel() {
@@ -60,6 +69,7 @@ public class Game {
 		if (level == 2) {
 			hero.setX(1);
 			hero.setY(7);
+			hero.setHasClub(true);
 		}
 
 		map = maps[level - 1];
@@ -115,7 +125,7 @@ public class Game {
 				if (level == 1) {
 					changeMap = true;
 					this.advanceLevel();
-					map[club.getY()][club.getX()] = '*';
+					//map[club.getY()][club.getX()] = '*';
 				} else {
 					hero.moveCharacter(this);
 					this.game_stat = Game.GameStat.WIN;
@@ -136,10 +146,12 @@ public class Game {
 				if (guardian.checkColision(hero) && !guardian.IsSleeping())
 					this.game_stat = Game.GameStat.LOSE;
 			} else if (!changeMap) {
-				ogre.moveCharacter(this);
-				club.moveCharacter(this);
-				if (ogre.checkColision(hero) || club.checkColision(hero))
-					this.game_stat = Game.GameStat.LOSE;
+				for(Ogre currentOgre : ogres){
+					currentOgre.moveCharacter(this);
+					if (currentOgre.checkColision(hero) || currentOgre.getClub().checkColision(hero))
+						this.game_stat = Game.GameStat.LOSE;
+				}
+				//club.moveCharacter(this);
 			}
 		}
 	}
@@ -160,10 +172,6 @@ public class Game {
 
 	public char getMap(int x, int y) {
 		return map[y][x];
-	}
-
-	public Ogre getOgre() {
-		return ogre;
 	}
 
 	public GameStat getGameStatus() {
