@@ -157,7 +157,8 @@ public class Game {
 			} else if (!changeMap) {
 				for (Ogre currentOgre : ogres) {
 					currentOgre.moveCharacter(this);
-					if (currentOgre.checkColision(hero) || currentOgre.getClub().checkColision(hero))
+					currentOgre.setIsStunned(currentOgre.checkColision(hero));
+					if(currentOgre.getClub().checkColision(hero))
 						this.game_stat = Game.GameStat.LOSE;
 				}
 			}
@@ -203,6 +204,8 @@ public class Game {
 				// Draw Ogre
 				if (currentOgre.getCoord().equals(key))
 					setMap(currentOgre.getCoord(), '$');
+				else if(currentOgre.isStunned())
+					setMap(currentOgre.getCoord(), '8');
 				else
 					setMap(currentOgre.getCoord(), 'O');
 				// Draw Club

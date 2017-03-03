@@ -5,6 +5,7 @@ import java.util.Random;
 public class Ogre extends GameCharacter {
 
 	private Club club;
+	private boolean ogre_is_stunned = false; 
 
 	public Ogre(int x, int y) {
 		super(x, y);
@@ -79,7 +80,14 @@ public class Ogre extends GameCharacter {
 		}
 
 	}
-
+	
+	public void setIsStunned(boolean stun){
+		ogre_is_stunned = stun;
+	}
+	
+	public boolean isStunned(){
+		return ogre_is_stunned;
+	}
 	
 	public Club getClub(){
 		return club;
