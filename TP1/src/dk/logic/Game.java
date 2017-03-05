@@ -11,7 +11,7 @@ public class Game {
 		LOSE, WIN, RUNNING
 	}
 
-	public int level = 1; 
+	public int level = 1;
 	private Hero hero;
 	private Vector<Ogre> ogres;
 	private Guardian guardian;
@@ -252,16 +252,12 @@ public class Game {
 		return map[y][x];
 	}
 
-	public Ogre getOgre() {
-		return ogre;
-	}
-	
-	public Hero getHero() {
-		return hero;
-	}
-
 	public GameStat getGameStatus() {
 		return this.game_stat;
+	}
+
+	public GameCharacter getHero() {
+		return hero;
 	}
 
 }
