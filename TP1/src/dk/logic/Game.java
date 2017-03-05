@@ -256,6 +256,12 @@ public class Game {
 		return this.game_stat;
 	}
 
+	public boolean isGameOver() {
+		if(this.game_stat == GameStat.LOSE)
+			return true;
+		return false;
+	}
+	
 	public GameCharacter getHero() {
 		return hero;
 	}

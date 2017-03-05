@@ -31,4 +31,13 @@ public class TestDungeonGameLogic {
 		assertEquals(new Coordinates(1,1), game.getHero().getCoord()); 
 	}
 
+	@Test
+	public void testHeroIsCapturedByGuard() {
+		Game game = new Game(map);
+		assertFalse(game.isGameOver());
+		game.processInput(GameCharacter.Direction.RIGHT);
+		assertTrue(game.isGameOver());
+		assertEquals(Game.GameStat.LOSE, game.getGameStatus()); 
+	}
+	
 }
