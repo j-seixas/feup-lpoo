@@ -2,20 +2,17 @@ package dk.logic;
 
 import java.util.Random;
 
-public class Club extends Character {
+public class Club extends GameCharacter {
 
-	public Character character;
+	public GameCharacter character;
 	
-	public Club(int x, int y, Character c) {
+	public Club(int x, int y, GameCharacter c) {
 		super(x, y);
 		character = c;
 	}
 
-	private boolean club_on_key = false;
-
 	public boolean moveCharacter(Game game) {
-		boolean can_move, on_key = false;
-		char draw_char = '\0';
+		boolean can_move;
 		int clubDirection;
 		do {
 			can_move = true;
@@ -51,32 +48,18 @@ public class Club extends Character {
 				break;
 			}
 			if (insideCanvas) {
-				if (nextCharacter == ' ' || nextCharacter == '*' || nextCharacter == 'O')
-					draw_char = '*';
-				else if (nextCharacter == 'k') {
-					draw_char = '$';
-					on_key = true;
-				} else
+				if (nextCharacter == 'X' || nextCharacter == 'I' || nextCharacter == 'S')
 					can_move = false;
 			} else
 				can_move = false;
 		} while (!can_move);
 
-		moveClub(clubDirection, draw_char, game);
-
-		if (on_key)
-			club_on_key = true;
+		moveClub(clubDirection, game);
 
 		return true;
 	}
 
-	public void moveClub(int clubDirection, char draw_char, Game game) {
-		if (club_on_key) {
-			game.setMap(coordinates, 'k');
-			club_on_key = false;
-		} else if (game.getMap(coordinates.getX(), coordinates.getY()) == '*')
-			game.setMap(coordinates, ' ');
-
+	public void moveClub(int clubDirection, Game game) {
 		switch (clubDirection) {
 		case 0:
 			setY(character.getY() - 1);
@@ -95,8 +78,6 @@ public class Club extends Character {
 			setX(character.getX() - 1);
 			break;
 		}
-
-		game.setMap(coordinates, draw_char);
 	}
 
 }

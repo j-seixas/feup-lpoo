@@ -2,19 +2,18 @@ package dk.logic;
 
 import java.util.Random;
 
-public class Ogre extends Character {
+public class Ogre extends GameCharacter {
 
-	private boolean ogre_on_key = false;
 	private Club club;
+	private boolean ogre_is_stunned = false; 
 
 	public Ogre(int x, int y) {
 		super(x, y);
-		club = new Club(x, y + 1, this);
+		club = new Club(x, y, this);
 	}
 
 	public boolean moveCharacter(Game game) {
-		boolean can_move, on_key = false;
-		char draw_char = '\0';
+		boolean can_move;
 		int ogreDirection;
 		do {
 			can_move = true;
@@ -50,33 +49,20 @@ public class Ogre extends Character {
 				break;
 			}
 			if (insideCanvas) {
-				if (nextCharacter == ' ' || nextCharacter == '*' || nextCharacter == 'O')
-					draw_char = 'O';
-				else if (nextCharacter == 'k') {
-					draw_char = '$';
-					on_key = true;
-				} else
+				if (nextCharacter == 'S' || nextCharacter == 'X' || nextCharacter == 'I')
 					can_move = false;
 			} else
 				can_move = false;
 		} while (!can_move);
 
-		moveOgre(ogreDirection, draw_char, game);
-
-		if (on_key)
-			ogre_on_key = true;
+		moveOgre(ogreDirection, game);
 
 		club.moveCharacter(game);
 		
 		return true;
 	}
 
-	private void moveOgre(int direction, char draw_char, Game game) {
-		if (ogre_on_key) {
-			game.setMap(coordinates, 'k');
-			ogre_on_key = false;
-		} else
-			game.setMap(coordinates, ' ');
+	private void moveOgre(int direction, Game game) {
 
 		switch (direction) {
 		case 0:
@@ -93,9 +79,15 @@ public class Ogre extends Character {
 			break;
 		}
 
-		game.setMap(coordinates, draw_char);
 	}
-
+	
+	public void setIsStunned(boolean stun){
+		ogre_is_stunned = stun;
+	}
+	
+	public boolean isStunned(){
+		return ogre_is_stunned;
+	}
 	
 	public Club getClub(){
 		return club;
