@@ -10,7 +10,7 @@ public class Game {
 		LOSE, WIN, RUNNING
 	}
 
-	public int level = 1;
+	public int level = 1; 
 	private Hero hero;
 	private Club club;
 	private Ogre ogre;

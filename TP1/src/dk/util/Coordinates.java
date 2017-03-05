@@ -1,5 +1,7 @@
 package dk.util;
 
+import java.util.Objects;
+
 public class Coordinates {
 	private int x;
 	private int y;
@@ -29,5 +31,26 @@ public class Coordinates {
 		this.y = y;
 	}
 	
-	
+	@Override
+	public boolean equals(Object o) {
+		// self check
+	    if (this == o)
+	        return true;
+	    // null check
+	    if (o == null)
+	        return false;
+	    // type check and cast
+	    if (getClass() != o.getClass())
+	        return false;
+	    Coordinates coord = (Coordinates) o;
+	    return Objects.equals(this.x, coord.getX())
+	            && Objects.equals(this.y, coord.getY());
+	}
+	/*
+	public boolean equals(Coordinates c){
+		if(this.x == c.getX() && this.y == c.getY())
+			return true;
+		else
+			return false;
+	}*/
 }
