@@ -44,17 +44,13 @@ public class DrunkenG extends Guardian {
 
 	public boolean moveCharacter(Game game) {
 		if (directionMove() == 1) {
-			game.setMap(this.coordinates, 'g');
 			wait--;
 			return true;
 		}
 
-		game.setMap(this.coordinates, ' ');
-
 		Coordinates newCoordinates = path[indexPath];
 		setCoord(newCoordinates);
 		sleeping = false;
-		game.setMap(this.coordinates, 'G');
 
 		return true;
 	}

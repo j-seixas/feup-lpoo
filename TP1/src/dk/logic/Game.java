@@ -1,6 +1,7 @@
 package dk.logic;
 
 import java.util.Random;
+import java.util.Vector;
 
 import dk.logic.Hero;
 import dk.util.Coordinates;
@@ -12,9 +13,9 @@ public class Game {
 
 	public int level = 1; 
 	private Hero hero;
-	private Club club;
-	private Ogre ogre;
+	private Vector<Ogre> ogres;
 	private Guardian guardian;
+	private Coordinates key;
 	private Door doors[][] = { { new Door(0, 5), new Door(0, 6) }, { new Door(0, 1) } };
 	private GameStat game_stat = GameStat.RUNNING;
 
@@ -22,36 +23,48 @@ public class Game {
 			{
 					// Map_1
 					{ 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', },
-					{ 'X', 'H', ' ', ' ', 'I', ' ', 'X', ' ', 'G', 'X', },
+					{ 'X', ' ', ' ', ' ', 'I', ' ', 'X', ' ', ' ', 'X', },
 					{ 'X', 'X', 'X', ' ', 'X', 'X', 'X', ' ', ' ', 'X', },
 					{ 'X', ' ', 'I', ' ', 'I', ' ', 'X', ' ', ' ', 'X', },
 					{ 'X', 'X', 'X', ' ', 'X', 'X', 'X', ' ', ' ', 'X', },
-					{ 'I', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'X', },
-					{ 'I', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'X', },
+					{ ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'X', },
+					{ ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'X', },
 					{ 'X', 'X', 'X', ' ', 'X', 'X', 'X', 'X', ' ', 'X', },
-					{ 'X', ' ', 'I', ' ', 'I', ' ', 'X', 'k', ' ', 'X', },
+					{ 'X', ' ', 'I', ' ', 'I', ' ', 'X', ' ', ' ', 'X', },
 					{ 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', } },
 			{
 					// Map_2
-					{ 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', }, { 'I', ' ', ' ', ' ', 'O', ' ', ' ', 'k', 'X', },
+					{ 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', }, { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'X', },
 					{ 'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'X', }, { 'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'X', },
 					{ 'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'X', }, { 'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'X', },
-					{ 'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'X', }, { 'X', 'H', ' ', ' ', ' ', ' ', ' ', ' ', 'X', },
+					{ 'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'X', }, { 'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'X', },
 					{ 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', } } };
 
-	private char map[][] = maps[level - 1];
+	private char map[][];
 
 	public Game() {
+		map = new char[maps[level - 1].length][maps[level - 1].length];
+		for (int i = 0; i < maps[level - 1].length; i++)
+			map[i] = maps[level - 1][i].clone();
 		hero = new Hero(1, 1);
 		Random rand = new Random();
 		int guard = rand.nextInt(3);
-		switch(guard){
-		case 0: guardian = new RookieG(); break;
-		case 1: guardian = new DrunkenG(); break;
-		case 2: guardian = new SuspiciousG(); break;
+		switch (guard) {
+		case 0:
+			guardian = new RookieG();
+			break;
+		case 1:
+			guardian = new DrunkenG();
+			break;
+		case 2:
+			guardian = new SuspiciousG();
+			break;
 		}
-		ogre = new Ogre(4, 1);
-		club = new Club(4, 2);
+		ogres = new Vector<Ogre>();
+		// TODO Change to random
+		ogres.addElement(new Ogre(1, 1));
+		ogres.addElement(new Ogre(7,7));
+		key = new Coordinates(7, 8);
 	}
 
 	public Game(char gameMap[][]){
@@ -70,23 +83,29 @@ public class Game {
 	private void advanceLevel() {
 		level++;
 
+		map = new char[maps[level - 1].length][maps[level - 1].length];
+		updateMap();
+
 		if (level == 2) {
-			hero.setX(1);
-			hero.setY(7);
+			hero = new Hero(1, 7);
+			hero.setHasClub(true);
+			hero.setHasKey(false);
+			key = new Coordinates(7, 1);
+			for(Ogre currentOgre : ogres){
+				currentOgre.getClub().moveCharacter(this);
+			}
 		}
 
-		map = maps[level - 1];
+		updateMap();
 	}
 
 	public void openDoors() {
 		for (int i = 0; i < doors[level - 1].length; i++) {
-			int currentDoor_x = doors[level - 1][i].getX();
-			int currentDoor_y = doors[level - 1][i].getY();
-			map[currentDoor_y][currentDoor_x] = 'S';
+			doors[level - 1][i].openDoor();
 		}
 	}
 
-	public void processInput(Character.Direction direction) {
+	public void processInput(GameCharacter.Direction direction) {
 		Boolean insideCanvas = false;
 		char nextCharacter = '\0';
 		hero.setDirection(direction);
@@ -128,7 +147,6 @@ public class Game {
 				if (level == 1) {
 					changeMap = true;
 					this.advanceLevel();
-					map[club.getY()][club.getX()] = '*';
 				} else {
 					hero.moveCharacter(this);
 					this.game_stat = Game.GameStat.WIN;
@@ -137,6 +155,7 @@ public class Game {
 				hero.moveCharacter(this);
 				if (level == 1) {
 					this.openDoors();
+					hero.setHasKey(true);
 				} else {
 					hero.setHasKey(true);
 				}
@@ -149,12 +168,70 @@ public class Game {
 				if (guardian.checkColision(hero) && !guardian.IsSleeping())
 					this.game_stat = Game.GameStat.LOSE;
 			} else if (!changeMap) {
-				ogre.moveCharacter(this);
-				club.moveCharacter(this);
-				if (ogre.checkColision(hero) || club.checkColision(hero))
-					this.game_stat = Game.GameStat.LOSE;
+				for (Ogre currentOgre : ogres) {
+					currentOgre.moveCharacter(this);
+					currentOgre.setIsStunned(currentOgre.checkColision(hero));
+					if(currentOgre.getClub().checkColision(hero))
+						this.game_stat = Game.GameStat.LOSE;
+				}
 			}
 		}
+	}
+
+	public void updateMap() {
+		for (int i = 0; i < maps[level - 1].length; i++)
+			map[i] = maps[level - 1][i].clone();
+		char draw_char;
+
+		// Draw doors
+		for (Door currentDoor : doors[level - 1]) {
+			if (currentDoor.isOpen())
+				draw_char = 'S';
+			else
+				draw_char = 'I';
+			setMap(currentDoor.getCoordinates(), draw_char);
+		}
+
+		// Draw key
+		if (!hero.getHasKey() || level == 1)
+			setMap(key, 'k');
+
+		// Draw hero
+		if (hero.getHasKey() && level == 2) {
+			draw_char = 'K';
+		} else if (hero.getHasClub())
+			draw_char = 'A';
+		else
+			draw_char = 'H';
+		setMap(hero.getCoord(), draw_char);
+
+		if (level == 1) {
+			// Draw Guardian
+			if (guardian.IsSleeping())
+				draw_char = 'g';
+			else
+				draw_char = 'G';
+			setMap(guardian.getCoord(), draw_char);
+		} else if (level == 2) {
+			for (Ogre currentOgre : ogres) {
+				// Draw Ogre
+				if (currentOgre.getCoord().equals(key))
+					setMap(currentOgre.getCoord(), '$');
+				else if(currentOgre.isStunned())
+					setMap(currentOgre.getCoord(), '8');
+				else
+					setMap(currentOgre.getCoord(), 'O');
+				// Draw Club
+				if (currentOgre.getClub().getCoord().equals(key))
+					setMap(currentOgre.getClub().getCoord(), '$');
+				else if (getMap(currentOgre.getClub().getCoord()) != 'O')
+					setMap(currentOgre.getClub().getCoord(), '*');
+			}
+		}
+	}
+
+	public char getMap(Coordinates coord) {
+		return map[coord.getY()][coord.getX()];
 	}
 
 	public void printMap() {

@@ -14,17 +14,14 @@ public class RookieG extends Guardian {
 
 	public boolean moveCharacter(Game game) {
 		if (hasPath) {
-			this.indexPath++;
-			if (this.indexPath >= path.length)
-				this.indexPath = 0;
-
-			game.setMap(this.coordinates, ' ');
-
-			Coordinates newCoordinates = path[indexPath];
-			setCoord(newCoordinates);
-
-			game.setMap(this.coordinates, 'G');
-			return true;
+		this.indexPath++;	
+		if (this.indexPath >= path.length)
+			this.indexPath = 0;
+		
+		Coordinates newCoordinates = path[indexPath];
+		setCoord(newCoordinates);
+		
+		return true;
 		}
 		return false;
 	}

@@ -1,8 +1,8 @@
 package dk.logic;
 
-import dk.logic.Character;
+import dk.logic.GameCharacter;
 
-public class Hero extends Character {
+public class Hero extends GameCharacter {
 
 	public Hero(int x, int y) {
 		super(x,y);
@@ -10,11 +10,11 @@ public class Hero extends Character {
 	
 	private Direction direction;
 	private boolean hero_has_key = false;
+	private boolean hero_has_club = false;
 	
 	public boolean moveCharacter(Game game) {
 
 		if (direction != Direction.NONE) {
-			game.setMap(this.coordinates, ' ');
 
 			switch (direction) {
 			case UP:
@@ -32,8 +32,7 @@ public class Hero extends Character {
 			default:
 				return false;
 			}
-
-			game.setMap(this.coordinates, 'H');
+			
 			return true;
 		}
 		return false;
@@ -52,7 +51,11 @@ public class Hero extends Character {
 	public boolean getHasKey(){
 		return hero_has_key;
 	}
-
-	
+	public void setHasClub(boolean club){
+		this.hero_has_club = club;
+	}
+	public boolean getHasClub(){
+		return hero_has_club;
+	}
 
 }
