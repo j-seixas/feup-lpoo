@@ -1,4 +1,4 @@
-package dk.util;
+package dk.logic;
 
 import java.util.Objects;
 

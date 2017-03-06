@@ -1,7 +1,5 @@
 package dk.logic;
 
-import dk.util.Coordinates;
-
 public abstract class GameCharacter {
 	public enum Direction {
 		UP, DOWN, RIGHT, LEFT, NONE

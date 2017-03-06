@@ -4,7 +4,6 @@ import java.util.Random;
 import java.util.Vector;
 
 import dk.logic.Hero;
-import dk.util.Coordinates;
 
 public class Game {
 	public enum GameStat {

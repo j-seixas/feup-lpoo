@@ -1,7 +1,5 @@
 package dk.logic;
 
-import dk.util.Coordinates;
-
 public class RookieG extends Guardian {
 
 	public RookieG() {

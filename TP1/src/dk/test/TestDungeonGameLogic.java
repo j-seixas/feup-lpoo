@@ -3,8 +3,6 @@ package dk.test;
 import static org.junit.Assert.*;
 import org.junit.Test;
 import dk.logic.*;
-import dk.logic.GameCharacter;
-import dk.util.Coordinates;
 
 public class TestDungeonGameLogic {
 	char map[][] = {{'X','X','X','X','X'},

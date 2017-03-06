@@ -1,5 +1,4 @@
 package dk.logic;
-import dk.util.Coordinates;
 
 public abstract class Guardian extends GameCharacter {
 	boolean hasPath = false;

@@ -2,8 +2,6 @@ package dk.logic;
 
 import java.util.Random;
 
-import dk.util.Coordinates;
-
 public class SuspiciousG extends Guardian {
 	private boolean dir = true;
 	private int wait = 0;
