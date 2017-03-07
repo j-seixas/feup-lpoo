@@ -6,8 +6,8 @@ public class DrunkenG extends Guardian {
 	private boolean dir = true;
 	private int wait = 0;
 
-	public DrunkenG() {
-		super();
+	public DrunkenG(Coordinates[] guard_path) {
+		super(guard_path);
 	}
 
 	private int directionMove() {

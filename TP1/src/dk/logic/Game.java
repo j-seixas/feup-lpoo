@@ -43,7 +43,7 @@ public class Game {
 
 	private char map[][];
 
-	public Game() {
+	/*public Game() {
 		map = new char[maps[level - 1].length][maps[level - 1].length];
 		for (int i = 0; i < maps[level - 1].length; i++)
 			map[i] = maps[level - 1][i].clone();
@@ -66,8 +66,16 @@ public class Game {
 		ogres.addElement(new Ogre(1, 1));
 		ogres.addElement(new Ogre(7,7));
 		key = new Coordinates(7, 8);
-	}
+	}*/
 
+	public Game(char gameMap[][], Hero h, Guardian g, Coordinates k){
+		map = gameMap;
+		hero = h;
+		guardian = g;
+		key = k;
+		
+	}
+	
 	public Game(char gameMap[][]){
 		map = gameMap;
 		door = new ArrayList<Door>();

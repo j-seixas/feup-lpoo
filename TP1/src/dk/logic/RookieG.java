@@ -2,8 +2,8 @@ package dk.logic;
 
 public class RookieG extends Guardian {
 
-	public RookieG() {
-		super();
+	public RookieG(Coordinates[] guard_path) {
+		super(guard_path);
 	}
 
 	public RookieG(int x, int y) {
