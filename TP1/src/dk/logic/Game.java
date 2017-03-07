@@ -185,21 +185,24 @@ public class Game {
 						this.game_stat = Game.GameStat.LOSE;
 				}
 			}
+			updateMap();
 		}
 	}
 
 	public void updateMap() {
+		/*
 		for (int i = 0; i < map.length; i++)
-			map[i] = map[i].clone();
+			map[i] = map[i].clone();*/
 		char draw_char;
 
 		// Draw doors
-		for (Door currentDoor : door) {
-			if (currentDoor.isOpen())
+		for (int i = 0; i < door.size(); i++) {
+			if (door.get(i).isOpen())
 				draw_char = 'S';
 			else
 				draw_char = 'I';
-			setMap(currentDoor.getCoordinates(), draw_char);
+			System.out.print(draw_char);
+			setMap(door.get(i).getCoordinates(), draw_char);
 		}
 
 		// Draw key

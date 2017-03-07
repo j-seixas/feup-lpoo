@@ -58,6 +58,7 @@ public class TestDungeonGameLogic {
 		assertEquals('I', game.getMap(new Coordinates(0,3)));
 		game.processInput(GameCharacter.Direction.DOWN);
 		assertTrue(game.getHeroHasKey());
+		assertNotEquals('X', game.getMap(new Coordinates(0,2)));
 		assertEquals('S', game.getMap(new Coordinates(0,2)));
 		assertEquals('S', game.getMap(new Coordinates(0,3)));
 		game.processInput(GameCharacter.Direction.LEFT);
