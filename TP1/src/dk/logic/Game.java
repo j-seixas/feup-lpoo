@@ -1,5 +1,6 @@
 package dk.logic;
 
+import java.util.ArrayList;
 import java.util.Random;
 import java.util.Vector;
 
@@ -16,6 +17,7 @@ public class Game {
 	private Guardian guardian;
 	private Coordinates key;
 	private Door doors[][] = { { new Door(0, 5), new Door(0, 6) }, { new Door(0, 1) } };
+	private ArrayList<Door> door;
 	private GameStat game_stat = GameStat.RUNNING;
 
 	private char maps[][][] = {
@@ -68,15 +70,21 @@ public class Game {
 
 	public Game(char gameMap[][]){
 		map = gameMap;
+		door = new ArrayList<Door>();
 		for(int i = 0; i < map.length; i++){
 			for(int j = 0; j < map[i].length; j++){
 				if(map[i][j] == 'H')
 					hero = new Hero(j,i);
 				else if(map[i][j] == 'G')
 					guardian = new RookieG(j,i);
-				
+				else if (map[i][j] == 'I')
+					door.add(new Door(j,i));
+				else if (map[i][j] == 'k')
+					key = new Coordinates(j,i);
 			}
 		}
+		
+		
 	}
 	
 	private void advanceLevel() {
@@ -99,8 +107,11 @@ public class Game {
 	}
 
 	public void openDoors() {
-		for (int i = 0; i < doors[level - 1].length; i++) {
-			doors[level - 1][i].openDoor();
+		for (int i = 0; i < door.size(); i++) {
+			Door doortemp = door.get(i);
+			doortemp.openDoor();
+			door.set(i, doortemp);
+			
 		}
 	}
 
@@ -178,12 +189,12 @@ public class Game {
 	}
 
 	public void updateMap() {
-		for (int i = 0; i < maps[level - 1].length; i++)
-			map[i] = maps[level - 1][i].clone();
+		for (int i = 0; i < map.length; i++)
+			map[i] = map[i].clone();
 		char draw_char;
 
 		// Draw doors
-		for (Door currentDoor : doors[level - 1]) {
+		for (Door currentDoor : door) {
 			if (currentDoor.isOpen())
 				draw_char = 'S';
 			else
@@ -263,6 +274,10 @@ public class Game {
 	
 	public GameCharacter getHero() {
 		return hero;
+	}
+	
+	public boolean getHeroHasKey() {
+		return hero.getHasKey();
 	}
 
 }
