@@ -275,7 +275,7 @@ public class Game {
 		return false;
 	}
 	
-	public GameCharacter getHero() {
+	public GameCharacter getHero() { 
 		return hero;
 	}
 	
