@@ -17,14 +17,18 @@ public class Game {
 	private Coordinates key;
 	private ArrayList<Door> door;
 	private GameStat game_stat = GameStat.RUNNING;
-	private char map[][];
+	private char map[][], map1[][];
 	private boolean has_guardian;
 	private boolean has_ogres;
 
 
-	public Game(char gameMap[][], Hero h, Guardian g, Coordinates k, boolean l) {
-		door = new ArrayList<Door>();
-		map = gameMap;
+	public Game(char gameMap[][], Hero h, Guardian g, Coordinates k, ArrayList<Door> doors, boolean l) {
+		door = doors;
+		map1 = gameMap;
+		map = new char[map1.length][map1.length];
+		for (int i = 0; i < map1.length; i++)
+			map[i] = map1[i].clone();
+		
 		hero = h;
 		guardian = g;
 		key = k;
@@ -35,29 +39,32 @@ public class Game {
 
 	public Game(char gameMap[][], boolean l) {
 		lever = true;
-		map = gameMap;
+		map1 = gameMap;
 		has_guardian = false;
 		has_ogres = false;
 		door = new ArrayList<Door>();
-		for (int i = 0; i < map.length; i++) {
-			for (int j = 0; j < map[i].length; j++) {
-				if (map[i][j] == 'H')
+		for (int i = 0; i < map1.length; i++) {
+			for (int j = 0; j < map1[i].length; j++) {
+				if (map1[i][j] == 'H')
 					hero = new Hero(j, i);
-				else if (map[i][j] == 'G'){
+				else if (map1[i][j] == 'G'){
 					guardian = new RookieG(j, i);
 					has_guardian = true;
-				}else if (map[i][j] == 'I')
+				}else if (map1[i][j] == 'I')
 					door.add(new Door(j, i));
-				else if (map[i][j] == 'k')
+				else if (map1[i][j] == 'k')
 					key = new Coordinates(j, i);
 			}
 		}
 
 	}
 
-	public Game(char[][] gameMap, Hero h, Vector<Ogre> o, Coordinates k, boolean l) {
-		door = new ArrayList<Door>();
-		map = gameMap;
+	public Game(char[][] gameMap, Hero h, Vector<Ogre> o, Coordinates k, ArrayList<Door> doors, boolean l) {
+		door = doors;
+		map1 = gameMap;
+		map = new char[map1.length][map1.length];
+		for (int i = 0; i < map1.length; i++)
+			map[i] = map1[i].clone();
 		hero = h;
 		ogres = o;
 		key = k;
@@ -148,6 +155,8 @@ public class Game {
 		/*
 		 * for (int i = 0; i < map.length; i++) map[i] = map[i].clone();
 		 */
+		for (int i = 0; i < map1.length; i++)
+			map[i] = map1[i].clone();
 		char draw_char;
 
 		// Draw doors
@@ -156,7 +165,7 @@ public class Game {
 				draw_char = 'S';
 			else
 				draw_char = 'I';
-			System.out.print(draw_char);
+			//System.out.print(draw_char);
 			setMap(door.get(i).getCoordinates(), draw_char);
 		}
 

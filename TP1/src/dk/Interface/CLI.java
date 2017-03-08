@@ -1,10 +1,12 @@
 package dk.Interface;
 
+import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
 import java.util.Vector;
 
 import dk.logic.Coordinates;
+import dk.logic.Door;
 import dk.logic.DrunkenG;
 import dk.logic.Game;
 import dk.logic.GameCharacter;
@@ -21,6 +23,8 @@ public class CLI {
 	private Coordinates key1 = new Coordinates(7, 8);
 	private Coordinates key2 = new Coordinates(7, 1);
 	private Vector<Ogre> ogres;
+	private ArrayList<Door> doors1 = new ArrayList<Door>();
+	private ArrayList<Door> doors2 = new ArrayList<Door>();
 
 	private Coordinates[] guard_path = { new Coordinates(8, 1), new Coordinates(7, 1), new Coordinates(7, 2),
 			new Coordinates(7, 3), new Coordinates(7, 4), new Coordinates(7, 5), new Coordinates(6, 5),
@@ -64,6 +68,9 @@ public class CLI {
 	}
 
 	public void run() {
+		doors1.add(new Door(0, 5));
+		doors1.add(new Door(0, 6));
+		doors2.add(new Door(0, 1));
 		Random rand = new Random();
 		int guard1 = rand.nextInt(3);
 		switch (guard1) {
@@ -77,7 +84,7 @@ public class CLI {
 			guard = new SuspiciousG(guard_path);
 			break;
 		}
-		Game game = new Game(map1, hero1, guard, key1, true);
+		Game game = new Game(map1, hero1, guard, key1, doors1, true);
 		Scanner keyboard_scanner = new Scanner(System.in);
 		game.updateMap();
 		game.printMap();
@@ -86,39 +93,38 @@ public class CLI {
 			GameCharacter.Direction currentDirection = this.getInput(keyboard_scanner);
 			if (currentDirection != GameCharacter.Direction.NONE) {
 				game.processInput(currentDirection);
-				//game.updateMap();
+				// game.updateMap();
 				game.printMap();
 			}
 			currentStatus = game.getGameStatus();
 		} while (currentStatus == Game.GameStat.RUNNING);
 
-		
 		if (currentStatus == Game.GameStat.LOSE) {
 			System.out.println("You lost!");
 		} else if (currentStatus == Game.GameStat.WIN) {
 			ogres = new Vector<Ogre>();
 			// TODO Change to random
 			ogres.addElement(new Ogre(1, 1));
-			ogres.addElement(new Ogre(7,7));
+			ogres.addElement(new Ogre(7, 7));
 			hero2.setHasClub(true);
-			
-			game = new Game(map2, hero2, ogres, key2, false);
-			for(Ogre currentOgre : ogres){
+
+			game = new Game(map2, hero2, ogres, key2, doors2, false);
+			for (Ogre currentOgre : ogres) {
 				currentOgre.getClub().moveCharacter(game);
 			}
 			game.updateMap();
 			game.printMap();
-			//Game.GameStat currentStatus;
+			// Game.GameStat currentStatus;
 			do {
 				GameCharacter.Direction currentDirection = this.getInput(keyboard_scanner);
 				if (currentDirection != GameCharacter.Direction.NONE) {
 					game.processInput(currentDirection);
-					//game.updateMap();
+					// game.updateMap();
 					game.printMap();
 				}
 				currentStatus = game.getGameStatus();
 			} while (currentStatus == Game.GameStat.RUNNING);
-			
+
 			if (currentStatus == Game.GameStat.LOSE) {
 				System.out.println("You lost!");
 			} else if (currentStatus == Game.GameStat.WIN) {
