@@ -95,6 +95,13 @@ public class Game {
 		
 	}
 	
+	public Game(char[][] gameMap, Hero h, Vector<Ogre> o, Coordinates k) {
+		map = gameMap;
+		hero = h;
+		ogres = o;
+		key = k;
+	}
+
 	private void advanceLevel() {
 		level++;
 

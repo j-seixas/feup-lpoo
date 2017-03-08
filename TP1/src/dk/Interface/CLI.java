@@ -2,6 +2,7 @@ package dk.Interface;
 
 import java.util.Random;
 import java.util.Scanner;
+import java.util.Vector;
 
 import dk.logic.Coordinates;
 import dk.logic.DrunkenG;
@@ -9,6 +10,7 @@ import dk.logic.Game;
 import dk.logic.GameCharacter;
 import dk.logic.Guardian;
 import dk.logic.Hero;
+import dk.logic.Ogre;
 import dk.logic.RookieG;
 import dk.logic.SuspiciousG;
 
@@ -18,6 +20,7 @@ public class CLI {
 	private Guardian guard;
 	private Coordinates key1 = new Coordinates(7, 8);
 	private Coordinates key2 = new Coordinates(7, 1);
+	private Vector<Ogre> ogres;
 
 	private Coordinates[] guard_path = { new Coordinates(8, 1), new Coordinates(7, 1), new Coordinates(7, 2),
 			new Coordinates(7, 3), new Coordinates(7, 4), new Coordinates(7, 5), new Coordinates(6, 5),
@@ -26,7 +29,7 @@ public class CLI {
 			new Coordinates(4, 6), new Coordinates(5, 6), new Coordinates(6, 6), new Coordinates(7, 6),
 			new Coordinates(8, 6), new Coordinates(8, 5), new Coordinates(8, 4), new Coordinates(8, 3),
 			new Coordinates(8, 2) };
-	
+
 	private char map1[][] = { { 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', },
 			{ 'X', ' ', ' ', ' ', 'I', ' ', 'X', ' ', ' ', 'X', },
 			{ 'X', 'X', 'X', ' ', 'X', 'X', 'X', ' ', ' ', 'X', },
@@ -89,12 +92,35 @@ public class CLI {
 			currentStatus = game.getGameStatus();
 		} while (currentStatus == Game.GameStat.RUNNING);
 
-		keyboard_scanner.close();
+		
 		if (currentStatus == Game.GameStat.LOSE) {
 			System.out.println("You lost!");
 		} else if (currentStatus == Game.GameStat.WIN) {
-			System.out.println("You won!");
+			ogres = new Vector<Ogre>();
+			// TODO Change to random
+			ogres.addElement(new Ogre(1, 1));
+			ogres.addElement(new Ogre(7,7));
+			game = new Game(map2, hero2, ogres, key2);
+			game.updateMap();
+			game.printMap();
+			//Game.GameStat currentStatus;
+			do {
+				GameCharacter.Direction currentDirection = this.getInput(keyboard_scanner);
+				if (currentDirection != GameCharacter.Direction.NONE) {
+					game.processInput(currentDirection);
+					//game.updateMap();
+					game.printMap();
+				}
+				currentStatus = game.getGameStatus();
+			} while (currentStatus == Game.GameStat.RUNNING);
+			
+			if (currentStatus == Game.GameStat.LOSE) {
+				System.out.println("You lost!");
+			} else if (currentStatus == Game.GameStat.WIN) {
+				System.out.println("You won!");
+			}
 		}
+		keyboard_scanner.close();
 	}
 
 	public static void main(String[] args) {
