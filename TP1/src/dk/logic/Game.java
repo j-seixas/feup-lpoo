@@ -1,7 +1,6 @@
 package dk.logic;
 
 import java.util.ArrayList;
-import java.util.Random;
 import java.util.Vector;
 
 import dk.logic.Hero;
@@ -11,122 +10,69 @@ public class Game {
 		LOSE, WIN, RUNNING
 	}
 
-	public int level = 1;
+	private boolean lever;
 	private Hero hero;
 	private Vector<Ogre> ogres;
 	private Guardian guardian;
 	private Coordinates key;
-	private Door doors[][] = { { new Door(0, 5), new Door(0, 6) }, { new Door(0, 1) } };
 	private ArrayList<Door> door;
 	private GameStat game_stat = GameStat.RUNNING;
-
-	private char maps[][][] = {
-			{
-					// Map_1
-					{ 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', },
-					{ 'X', ' ', ' ', ' ', 'I', ' ', 'X', ' ', ' ', 'X', },
-					{ 'X', 'X', 'X', ' ', 'X', 'X', 'X', ' ', ' ', 'X', },
-					{ 'X', ' ', 'I', ' ', 'I', ' ', 'X', ' ', ' ', 'X', },
-					{ 'X', 'X', 'X', ' ', 'X', 'X', 'X', ' ', ' ', 'X', },
-					{ ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'X', },
-					{ ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'X', },
-					{ 'X', 'X', 'X', ' ', 'X', 'X', 'X', 'X', ' ', 'X', },
-					{ 'X', ' ', 'I', ' ', 'I', ' ', 'X', ' ', ' ', 'X', },
-					{ 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', } },
-			{
-					// Map_2
-					{ 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', }, { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'X', },
-					{ 'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'X', }, { 'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'X', },
-					{ 'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'X', }, { 'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'X', },
-					{ 'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'X', }, { 'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'X', },
-					{ 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', } } };
-
 	private char map[][];
+	private boolean has_guardian;
+	private boolean has_ogres;
 
-	/*public Game() {
-		map = new char[maps[level - 1].length][maps[level - 1].length];
-		for (int i = 0; i < maps[level - 1].length; i++)
-			map[i] = maps[level - 1][i].clone();
-		hero = new Hero(1, 1);
-		Random rand = new Random();
-		int guard = rand.nextInt(3);
-		switch (guard) {
-		case 0:
-			guardian = new RookieG();
-			break;
-		case 1:
-			guardian = new DrunkenG();
-			break;
-		case 2:
-			guardian = new SuspiciousG();
-			break;
-		}
-		ogres = new Vector<Ogre>();
-		// TODO Change to random
-		ogres.addElement(new Ogre(1, 1));
-		ogres.addElement(new Ogre(7,7));
-		key = new Coordinates(7, 8);
-	}*/
 
-	public Game(char gameMap[][], Hero h, Guardian g, Coordinates k){
+	public Game(char gameMap[][], Hero h, Guardian g, Coordinates k, boolean l) {
+		door = new ArrayList<Door>();
 		map = gameMap;
 		hero = h;
 		guardian = g;
 		key = k;
-		
+		has_guardian = true;
+		has_ogres = false;
+		lever = l;
 	}
-	
-	public Game(char gameMap[][]){
+
+	public Game(char gameMap[][], boolean l) {
+		lever = true;
 		map = gameMap;
+		has_guardian = false;
+		has_ogres = false;
 		door = new ArrayList<Door>();
-		for(int i = 0; i < map.length; i++){
-			for(int j = 0; j < map[i].length; j++){
-				if(map[i][j] == 'H')
-					hero = new Hero(j,i);
-				else if(map[i][j] == 'G')
-					guardian = new RookieG(j,i);
-				else if (map[i][j] == 'I')
-					door.add(new Door(j,i));
+		for (int i = 0; i < map.length; i++) {
+			for (int j = 0; j < map[i].length; j++) {
+				if (map[i][j] == 'H')
+					hero = new Hero(j, i);
+				else if (map[i][j] == 'G'){
+					guardian = new RookieG(j, i);
+					has_guardian = true;
+				}else if (map[i][j] == 'I')
+					door.add(new Door(j, i));
 				else if (map[i][j] == 'k')
-					key = new Coordinates(j,i);
+					key = new Coordinates(j, i);
 			}
 		}
-		
-		
+
 	}
-	
-	public Game(char[][] gameMap, Hero h, Vector<Ogre> o, Coordinates k) {
+
+	public Game(char[][] gameMap, Hero h, Vector<Ogre> o, Coordinates k, boolean l) {
+		door = new ArrayList<Door>();
 		map = gameMap;
 		hero = h;
 		ogres = o;
 		key = k;
+		has_ogres = true;
+		has_guardian = false;
+		lever = l;
 	}
 
-	private void advanceLevel() {
-		level++;
-
-		map = new char[maps[level - 1].length][maps[level - 1].length];
-		updateMap();
-
-		if (level == 2) {
-			hero = new Hero(1, 7);
-			hero.setHasClub(true);
-			hero.setHasKey(false);
-			key = new Coordinates(7, 1);
-			for(Ogre currentOgre : ogres){
-				currentOgre.getClub().moveCharacter(this);
-			}
-		}
-
-		updateMap();
-	}
 
 	public void openDoors() {
 		for (int i = 0; i < door.size(); i++) {
 			Door doortemp = door.get(i);
 			doortemp.openDoor();
 			door.set(i, doortemp);
-			
+
 		}
 	}
 
@@ -164,21 +110,15 @@ public class Game {
 			return;
 		}
 		if (insideCanvas) {
-			boolean changeMap = false;
-
 			if (nextCharacter == ' ') {
 				hero.moveCharacter(this);
 			} else if (nextCharacter == 'S') {
-				if (level == 1) {
-					changeMap = true;
-					this.advanceLevel();
-				} else {
-					hero.moveCharacter(this);
-					this.game_stat = Game.GameStat.WIN;
-				}
+				hero.moveCharacter(this);
+				this.game_stat = Game.GameStat.WIN;
+
 			} else if (nextCharacter == 'k') {
 				hero.moveCharacter(this);
-				if (level == 1) {
+				if (lever) {
 					this.openDoors();
 					hero.setHasKey(true);
 				} else {
@@ -188,15 +128,15 @@ public class Game {
 				this.openDoors();
 			}
 
-			if (level == 1) {
+			if (has_guardian) {
 				guardian.moveCharacter(this);
 				if (guardian.checkColision(hero) && !guardian.IsSleeping())
 					this.game_stat = Game.GameStat.LOSE;
-			} else if (!changeMap) {
+			} else if (has_ogres) {
 				for (Ogre currentOgre : ogres) {
 					currentOgre.moveCharacter(this);
 					currentOgre.setIsStunned(currentOgre.checkColision(hero));
-					if(currentOgre.getClub().checkColision(hero))
+					if (currentOgre.getClub().checkColision(hero))
 						this.game_stat = Game.GameStat.LOSE;
 				}
 			}
@@ -206,8 +146,8 @@ public class Game {
 
 	public void updateMap() {
 		/*
-		for (int i = 0; i < map.length; i++)
-			map[i] = map[i].clone();*/
+		 * for (int i = 0; i < map.length; i++) map[i] = map[i].clone();
+		 */
 		char draw_char;
 
 		// Draw doors
@@ -221,11 +161,11 @@ public class Game {
 		}
 
 		// Draw key
-		if (!hero.getHasKey() || level == 1)
+		if (!hero.getHasKey() || lever)
 			setMap(key, 'k');
 
 		// Draw hero
-		if (hero.getHasKey() && level == 2) {
+		if (hero.getHasKey() && lever == false) {
 			draw_char = 'K';
 		} else if (hero.getHasClub())
 			draw_char = 'A';
@@ -233,19 +173,19 @@ public class Game {
 			draw_char = 'H';
 		setMap(hero.getCoord(), draw_char);
 
-		if (level == 1) {
+		if (has_guardian) {
 			// Draw Guardian
 			if (guardian.IsSleeping())
 				draw_char = 'g';
 			else
 				draw_char = 'G';
 			setMap(guardian.getCoord(), draw_char);
-		} else if (level == 2) {
+		} else if (has_ogres) {
 			for (Ogre currentOgre : ogres) {
 				// Draw Ogre
 				if (currentOgre.getCoord().equals(key))
 					setMap(currentOgre.getCoord(), '$');
-				else if(currentOgre.isStunned())
+				else if (currentOgre.isStunned())
 					setMap(currentOgre.getCoord(), '8');
 				else
 					setMap(currentOgre.getCoord(), 'O');
@@ -285,15 +225,15 @@ public class Game {
 	}
 
 	public boolean isGameOver() {
-		if(this.game_stat == GameStat.LOSE)
+		if (this.game_stat == GameStat.LOSE)
 			return true;
 		return false;
 	}
-	
-	public GameCharacter getHero() { 
+
+	public GameCharacter getHero() {
 		return hero;
 	}
-	
+
 	public boolean getHeroHasKey() {
 		return hero.getHasKey();
 	}

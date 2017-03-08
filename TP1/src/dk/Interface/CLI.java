@@ -77,7 +77,7 @@ public class CLI {
 			guard = new SuspiciousG(guard_path);
 			break;
 		}
-		Game game = new Game(map1, hero1, guard, key1);
+		Game game = new Game(map1, hero1, guard, key1, true);
 		Scanner keyboard_scanner = new Scanner(System.in);
 		game.updateMap();
 		game.printMap();
@@ -100,7 +100,12 @@ public class CLI {
 			// TODO Change to random
 			ogres.addElement(new Ogre(1, 1));
 			ogres.addElement(new Ogre(7,7));
-			game = new Game(map2, hero2, ogres, key2);
+			hero2.setHasClub(true);
+			
+			game = new Game(map2, hero2, ogres, key2, false);
+			for(Ogre currentOgre : ogres){
+				currentOgre.getClub().moveCharacter(game);
+			}
 			game.updateMap();
 			game.printMap();
 			//Game.GameStat currentStatus;

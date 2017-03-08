@@ -13,7 +13,7 @@ public class TestDungeonGameLogic {
 
 	@Test
 	public void testMoveHeroIntoToFreeCell() {
-		Game game = new Game(map);
+		Game game = new Game(map, true);
 		assertEquals(new Coordinates(1,1), game.getHero().getCoord());
 		game.processInput(GameCharacter.Direction.DOWN);
 		assertEquals(new Coordinates(1,2), game.getHero().getCoord()); 
@@ -21,7 +21,7 @@ public class TestDungeonGameLogic {
 	
 	@Test
 	public void testMoveHeroIntoToWall() {
-		Game game = new Game(map);
+		Game game = new Game(map, true);
 		assertEquals(new Coordinates(1,1), game.getHero().getCoord());
 		game.processInput(GameCharacter.Direction.UP);
 		assertEquals(new Coordinates(1,1), game.getHero().getCoord()); 
@@ -31,7 +31,7 @@ public class TestDungeonGameLogic {
 
 	@Test
 	public void testHeroIsCapturedByGuard() {
-		Game game = new Game(map);
+		Game game = new Game(map, true);
 		assertFalse(game.isGameOver());
 		game.processInput(GameCharacter.Direction.RIGHT);
 		assertTrue(game.isGameOver());
@@ -40,7 +40,7 @@ public class TestDungeonGameLogic {
 	
 	@Test
 	public void testMoveHeroIntoToClosedDoors() {
-		Game game = new Game(map);
+		Game game = new Game(map, true);
 		assertEquals(new Coordinates(1,1), game.getHero().getCoord());
 		game.processInput(GameCharacter.Direction.DOWN);
 		game.processInput(GameCharacter.Direction.LEFT);
@@ -51,7 +51,7 @@ public class TestDungeonGameLogic {
 	
 	@Test
 	public void testMoveHeroOpensDoorsAndWins() {
-		Game game = new Game(map);
+		Game game = new Game(map, true);
 		assertEquals(new Coordinates(1,1), game.getHero().getCoord());
 		game.processInput(GameCharacter.Direction.DOWN);
 		assertEquals('I', game.getMap(new Coordinates(0,2)));
