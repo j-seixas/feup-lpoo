@@ -6,13 +6,25 @@ public class Ogre extends GameCharacter {
 
 	private Club club;
 	private boolean ogre_is_stunned = false; 
+	private boolean moves;
+	private boolean has_club;
 
 	public Ogre(int x, int y) {
 		super(x, y);
+		moves = true;
+		has_club = true;
 		club = new Club(x, y, this);
 	}
 
+	public Ogre(int x, int y, boolean move, boolean hasclub) {
+		super(x, y);
+		moves = move;
+		has_club = hasclub;
+	}
+
 	public boolean moveCharacter(Game game) {
+		if(!moves)
+			return false;
 		boolean can_move;
 		int ogreDirection;
 		do {
@@ -91,5 +103,9 @@ public class Ogre extends GameCharacter {
 	
 	public Club getClub(){
 		return club;
+	}
+
+	public boolean getHasClub() {
+		return has_club;
 	}
 }

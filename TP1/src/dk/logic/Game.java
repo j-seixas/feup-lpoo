@@ -12,7 +12,7 @@ public class Game {
 
 	private boolean lever;
 	private Hero hero;
-	private Vector<Ogre> ogres;
+	private Vector<Ogre> ogres = new Vector<Ogre>();
 	private Guardian guardian;
 	private Coordinates key;
 	private ArrayList<Door> door;
@@ -21,26 +21,25 @@ public class Game {
 	private boolean has_guardian;
 	private boolean has_ogres;
 
-
 	public Game(char gameMap[][], Hero h, Guardian g, Coordinates k, ArrayList<Door> doors, boolean l) {
 		door = doors;
 		map1 = gameMap;
 		map = new char[map1.length][map1.length];
 		for (int i = 0; i < map1.length; i++)
 			map[i] = map1[i].clone();
-		
+
 		hero = h;
 		guardian = g;
 		key = k;
 		has_guardian = true;
 		has_ogres = false;
 		lever = l;
-		for (int i = 0; i < door.size(); i++) 
+		for (int i = 0; i < door.size(); i++)
 			setMap(door.get(i).getCoordinates(), 'I');
 	}
 
 	public Game(char gameMap[][], boolean l) {
-		lever = true;
+		lever = l;
 		map1 = gameMap;
 		map = new char[map1.length][map1.length];
 		has_guardian = false;
@@ -48,18 +47,29 @@ public class Game {
 		door = new ArrayList<Door>();
 		for (int i = 0; i < map1.length; i++) {
 			for (int j = 0; j < map1[i].length; j++) {
-				if (map1[i][j] == 'H')
+				if (map1[i][j] == 'H'){
 					hero = new Hero(j, i);
-				else if (map1[i][j] == 'G'){
+					map1[i][j] =  ' ';
+				} else if (map1[i][j] == 'G') {
 					guardian = new RookieG(j, i);
 					has_guardian = true;
-				}else if (map1[i][j] == 'I')
+					map1[i][j] =  ' ';
+				} else if (map1[i][j] == 'I'){
 					door.add(new Door(j, i));
-				else if (map1[i][j] == 'k')
+					map1[i][j] =  ' ';
+				}else if (map1[i][j] == 'k'){
 					key = new Coordinates(j, i);
+					map1[i][j] =  ' ';
+				}else if (map1[i][j] == 'O') {
+					has_ogres = true;
+					ogres.add(new Ogre(j, i, false, false));
+					map1[i][j] =  ' ';
+				}
 			}
 		}
-		for (int i = 0; i < door.size(); i++) 
+		for (int i = 0; i < map1.length; i++)
+			map[i] = map1[i].clone();
+		for (int i = 0; i < door.size(); i++)
 			setMap(door.get(i).getCoordinates(), 'I');
 	}
 
@@ -75,10 +85,9 @@ public class Game {
 		has_ogres = true;
 		has_guardian = false;
 		lever = l;
-		for (int i = 0; i < door.size(); i++) 
+		for (int i = 0; i < door.size(); i++)
 			setMap(door.get(i).getCoordinates(), 'I');
 	}
-
 
 	public void openDoors() {
 		for (int i = 0; i < door.size(); i++) {
@@ -130,13 +139,10 @@ public class Game {
 				this.game_stat = Game.GameStat.WIN;
 
 			} else if (nextCharacter == 'k') {
+				hero.setHasKey(true);
 				hero.moveCharacter(this);
-				if (lever) {
+				if (lever) 
 					this.openDoors();
-					hero.setHasKey(true);
-				} else {
-					hero.setHasKey(true);
-				}
 			} else if (nextCharacter == 'I' && hero.getHasKey()) {
 				this.openDoors();
 			}
@@ -148,9 +154,14 @@ public class Game {
 			} else if (has_ogres) {
 				for (Ogre currentOgre : ogres) {
 					currentOgre.moveCharacter(this);
-					currentOgre.setIsStunned(currentOgre.checkColision(hero));
-					if (currentOgre.getClub().checkColision(hero))
+					if (hero.getHasClub())
+						currentOgre.setIsStunned(currentOgre.checkColision(hero));
+					else if (currentOgre.checkColision(hero))
 						this.game_stat = Game.GameStat.LOSE;
+					if (currentOgre.getHasClub()) {
+						if (currentOgre.getClub().checkColision(hero))
+							this.game_stat = Game.GameStat.LOSE;
+					}
 				}
 			}
 			updateMap();
@@ -171,7 +182,7 @@ public class Game {
 				draw_char = 'S';
 			else
 				draw_char = 'I';
-			//System.out.print(draw_char);
+
 			setMap(door.get(i).getCoordinates(), draw_char);
 		}
 
@@ -186,6 +197,7 @@ public class Game {
 			draw_char = 'A';
 		else
 			draw_char = 'H';
+
 		setMap(hero.getCoord(), draw_char);
 
 		if (has_guardian) {
@@ -205,10 +217,12 @@ public class Game {
 				else
 					setMap(currentOgre.getCoord(), 'O');
 				// Draw Club
-				if (currentOgre.getClub().getCoord().equals(key))
-					setMap(currentOgre.getClub().getCoord(), '$');
-				else if (getMap(currentOgre.getClub().getCoord()) != 'O')
-					setMap(currentOgre.getClub().getCoord(), '*');
+				if (currentOgre.getHasClub()) {
+					if (currentOgre.getClub().getCoord().equals(key))
+						setMap(currentOgre.getClub().getCoord(), '$');
+					else if (getMap(currentOgre.getClub().getCoord()) != 'O')
+						setMap(currentOgre.getClub().getCoord(), '*');
+				}
 			}
 		}
 	}

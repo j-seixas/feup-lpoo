@@ -76,5 +76,85 @@ public class TestDungeonGameLogic {
  
 	}
 	
+	@Test
+	public void testHeroIsCapturedByOgre() {
+		Game game = new Game(map1, true);
+		game.updateMap();
+		assertFalse(game.isGameOver());
+		game.processInput(GameCharacter.Direction.RIGHT);
+		assertTrue(game.isGameOver());
+		assertEquals(Game.GameStat.LOSE, game.getGameStatus()); 
+	}
+	
+	@Test
+	public void testMoveHeroPicksKeyAndChangesToK() {
+		Game game = new Game(map1, false);
+		game.updateMap();
+		assertEquals(new Coordinates(1,1), game.getHero().getCoord());
+		game.processInput(GameCharacter.Direction.DOWN);
+		assertEquals('I', game.getMap(new Coordinates(0,3)));
+		game.processInput(GameCharacter.Direction.DOWN);
+		assertEquals(new Coordinates(1,3), game.getHero().getCoord());
+		assertTrue(game.getHeroHasKey());
+		assertEquals('K', game.getMap(game.getHero().getCoord()));
+		assertEquals('I', game.getMap(new Coordinates(0,3)));
+ 
+	}
+	
+	@Test
+	public void testMoveHeroIntoToClosedDoors2() {
+		Game game = new Game(map, false);
+		game.updateMap();
+		assertEquals(new Coordinates(1,1), game.getHero().getCoord());
+		game.processInput(GameCharacter.Direction.DOWN);
+		game.processInput(GameCharacter.Direction.LEFT);
+		assertEquals('I', game.getMap(new Coordinates(0,2)));
+		assertEquals(new Coordinates(1,2), game.getHero().getCoord());
+		assertEquals(Game.GameStat.RUNNING, game.getGameStatus());
+		game.processInput(GameCharacter.Direction.LEFT);
+		assertEquals('I', game.getMap(new Coordinates(0,2)));
+		assertEquals(new Coordinates(1,2), game.getHero().getCoord());
+		assertEquals(Game.GameStat.RUNNING, game.getGameStatus());
+	}
+	
+	@Test
+	public void testMoveHeroOpensDoors() {
+		Game game = new Game(map1, false);
+		game.updateMap();
+		assertEquals(new Coordinates(1,1), game.getHero().getCoord());
+		game.processInput(GameCharacter.Direction.DOWN);
+		assertEquals('I', game.getMap(new Coordinates(0,3)));
+		game.processInput(GameCharacter.Direction.DOWN);
+		assertEquals(new Coordinates(1,3), game.getHero().getCoord());
+		assertTrue(game.getHeroHasKey());
+		assertEquals('K', game.getMap(game.getHero().getCoord()));
+		game.processInput(GameCharacter.Direction.LEFT);
+		assertEquals(new Coordinates(1,3), game.getHero().getCoord());
+		assertEquals(Game.GameStat.RUNNING, game.getGameStatus());
+		assertEquals('S', game.getMap(new Coordinates(0,2)));
+		assertEquals('S', game.getMap(new Coordinates(0,3))); 
+	}
+	
+	@Test
+	public void testMoveHeroOpensDoorsAndWins2() {
+		Game game = new Game(map1, false);
+		game.updateMap();
+		assertEquals(new Coordinates(1,1), game.getHero().getCoord());
+		game.processInput(GameCharacter.Direction.DOWN);
+		assertEquals('I', game.getMap(new Coordinates(0,3)));
+		game.processInput(GameCharacter.Direction.DOWN);
+		assertEquals(new Coordinates(1,3), game.getHero().getCoord());
+		assertTrue(game.getHeroHasKey());
+		assertEquals('K', game.getMap(game.getHero().getCoord()));
+		game.processInput(GameCharacter.Direction.LEFT);
+		assertEquals(new Coordinates(1,3), game.getHero().getCoord());
+		assertEquals(Game.GameStat.RUNNING, game.getGameStatus());
+		assertEquals('S', game.getMap(new Coordinates(0,2)));
+		assertEquals('S', game.getMap(new Coordinates(0,3)));
+		game.processInput(GameCharacter.Direction.LEFT);
+		assertEquals(new Coordinates(0,3), game.getHero().getCoord());
+		assertEquals(Game.GameStat.WIN, game.getGameStatus());
+ 
+	}
 	
 }
