@@ -2,16 +2,11 @@ package dk.logic;
 
 public class RookieG extends Guardian {
 
-	public RookieG(Coordinates[] guard_path) {
-		super(guard_path);
+	public RookieG() {
+		super();
 	}
 
-	public RookieG(int x, int y) {
-		super(x, y);
-	}
-
-	public boolean moveCharacter(Game game) {
-		if (hasPath) {
+	public boolean moveCharacter(Level level) {
 		this.indexPath++;	
 		if (this.indexPath >= path.length)
 			this.indexPath = 0;
@@ -20,8 +15,6 @@ public class RookieG extends Guardian {
 		setCoord(newCoordinates);
 		
 		return true;
-		}
-		return false;
 	}
 
 }

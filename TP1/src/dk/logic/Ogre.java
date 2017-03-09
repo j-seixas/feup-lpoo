@@ -12,7 +12,7 @@ public class Ogre extends GameCharacter {
 		club = new Club(x, y, this);
 	}
 
-	public boolean moveCharacter(Game game) {
+	public boolean moveCharacter(Level level) {
 		boolean can_move;
 		int ogreDirection;
 		do {
@@ -25,26 +25,26 @@ public class Ogre extends GameCharacter {
 			case 0:
 				if (getY() > 0) {
 					insideCanvas = true;
-					nextCharacter = game.getMap(getX() ,getY() - 1 );
+					nextCharacter = level.getMap(getX() ,getY() - 1 );
 				}
 				break;
 			case 1:
 				if (getY() < 8) {
 					insideCanvas = true;
-					nextCharacter = game.getMap(getX() ,getY() + 1 );
+					nextCharacter = level.getMap(getX() ,getY() + 1 );
 				}
 				break;
 			case 2:
 				if (getX() < 8) {
 					insideCanvas = true;
-					nextCharacter = game.getMap(getX() + 1,getY());
+					nextCharacter = level.getMap(getX() + 1,getY());
 
 				}
 				break;
 			case 3:
 				if (getX() > 0) {
 					insideCanvas = true;
-					nextCharacter = game.getMap(getX() - 1,getY());
+					nextCharacter = level.getMap(getX() - 1,getY());
 				}
 				break;
 			}
@@ -55,14 +55,14 @@ public class Ogre extends GameCharacter {
 				can_move = false;
 		} while (!can_move);
 
-		moveOgre(ogreDirection, game);
+		moveOgre(ogreDirection);
 
-		club.moveCharacter(game);
+		club.moveCharacter(level);
 		
 		return true;
 	}
 
-	private void moveOgre(int direction, Game game) {
+	private void moveOgre(int direction) {
 
 		switch (direction) {
 		case 0:

@@ -36,7 +36,7 @@ public abstract class GameCharacter {
 	}
 	
 	//Methods
-	protected abstract boolean moveCharacter(Game game);
+	protected abstract boolean moveCharacter(Level level);
 	
 	public boolean checkColision(GameCharacter character) {
 		return (character.getX() == this.getX() && character.getY() == this.getY())

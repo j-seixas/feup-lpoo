@@ -1,54 +1,11 @@
 package dk.Interface;
 
-import java.util.ArrayList;
-import java.util.Random;
 import java.util.Scanner;
-import java.util.Vector;
-
-import dk.logic.Coordinates;
-import dk.logic.Door;
-import dk.logic.DrunkenG;
 import dk.logic.Game;
 import dk.logic.GameCharacter;
-import dk.logic.Guardian;
-import dk.logic.Hero;
-import dk.logic.Ogre;
-import dk.logic.RookieG;
-import dk.logic.SuspiciousG;
+import dk.logic.Level;
 
 public class CLI {
-	private Hero hero1 = new Hero(1, 1);
-	private Hero hero2 = new Hero(1, 7);
-	private Guardian guard;
-	private Coordinates key1 = new Coordinates(7, 8);
-	private Coordinates key2 = new Coordinates(7, 1);
-	private Vector<Ogre> ogres;
-	private ArrayList<Door> doors1 = new ArrayList<Door>();
-	private ArrayList<Door> doors2 = new ArrayList<Door>();
-
-	private Coordinates[] guard_path = { new Coordinates(8, 1), new Coordinates(7, 1), new Coordinates(7, 2),
-			new Coordinates(7, 3), new Coordinates(7, 4), new Coordinates(7, 5), new Coordinates(6, 5),
-			new Coordinates(5, 5), new Coordinates(4, 5), new Coordinates(3, 5), new Coordinates(2, 5),
-			new Coordinates(1, 5), new Coordinates(1, 6), new Coordinates(2, 6), new Coordinates(3, 6),
-			new Coordinates(4, 6), new Coordinates(5, 6), new Coordinates(6, 6), new Coordinates(7, 6),
-			new Coordinates(8, 6), new Coordinates(8, 5), new Coordinates(8, 4), new Coordinates(8, 3),
-			new Coordinates(8, 2) };
-
-	private char map1[][] = { { 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', },
-			{ 'X', ' ', ' ', ' ', 'I', ' ', 'X', ' ', ' ', 'X', },
-			{ 'X', 'X', 'X', ' ', 'X', 'X', 'X', ' ', ' ', 'X', },
-			{ 'X', ' ', 'I', ' ', 'I', ' ', 'X', ' ', ' ', 'X', },
-			{ 'X', 'X', 'X', ' ', 'X', 'X', 'X', ' ', ' ', 'X', },
-			{ ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'X', },
-			{ ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'X', },
-			{ 'X', 'X', 'X', ' ', 'X', 'X', 'X', 'X', ' ', 'X', },
-			{ 'X', ' ', 'I', ' ', 'I', ' ', 'X', ' ', ' ', 'X', },
-			{ 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', } };
-	private char map2[][] = { { 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', },
-			{ ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'X', }, { 'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'X', },
-			{ 'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'X', }, { 'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'X', },
-			{ 'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'X', }, { 'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'X', },
-			{ 'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'X', }, { 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', } };
 
 	private GameCharacter.Direction getInput(Scanner keyboard_scanner) {
 		System.out.print("Move: ");
@@ -67,76 +24,55 @@ public class CLI {
 		}
 	}
 
-	public void run() {
-		doors1.add(new Door(0, 5));
-		doors1.add(new Door(0, 6));
-		doors2.add(new Door(0, 1));
-		Random rand = new Random();
-		int guard1 = rand.nextInt(3);
-		switch (guard1) {
-		case 0:
-			guard = new RookieG(guard_path);
-			break;
-		case 1:
-			guard = new DrunkenG(guard_path);
-			break;
-		case 2:
-			guard = new SuspiciousG(guard_path);
-			break;
+	public void printMap(char map[][]) {
+		for (int i = 0; i < map.length; i++) {
+			for (int j = 0; j < map[i].length; j++) {
+				System.out.print(map[i][j]);
+				System.out.print(' ');
+			}
+			System.out.println();
 		}
-		Game game = new Game(map1, hero1, guard, key1, doors1, true);
+	}
+
+	public void run(Game game) {
 		Scanner keyboard_scanner = new Scanner(System.in);
-		game.updateMap();
-		game.printMap();
-		Game.GameStat currentStatus;
-		do {
+		game.getCurrentLevel().updateMap();
+		printMap(game.getCurrentLevel().getMap());
+		Game.GameStat currentStatus = Game.GameStat.RUNNING;
+		while(true) {
 			GameCharacter.Direction currentDirection = this.getInput(keyboard_scanner);
 			if (currentDirection != GameCharacter.Direction.NONE) {
+				//Process input
 				game.processInput(currentDirection);
-				// game.updateMap();
-				game.printMap();
+				//Check for final level
+				Level currentLevel = game.getCurrentLevel();
+				if(currentLevel == null){
+					currentStatus = game.getGameStatus();
+					break;
+				}
+				else {
+					//Update and print the map
+					currentLevel.updateMap();
+					printMap(game.getCurrentLevel().getMap());
+				}
+				//Check status
+				currentStatus = game.getGameStatus();
+				if(currentStatus != Game.GameStat.RUNNING)
+					break;
 			}
-			currentStatus = game.getGameStatus();
-		} while (currentStatus == Game.GameStat.RUNNING);
+		}
 
+		keyboard_scanner.close();
 		if (currentStatus == Game.GameStat.LOSE) {
 			System.out.println("You lost!");
 		} else if (currentStatus == Game.GameStat.WIN) {
-			ogres = new Vector<Ogre>();
-			// TODO Change to random
-			ogres.addElement(new Ogre(1, 1));
-			ogres.addElement(new Ogre(7, 7));
-			hero2.setHasClub(true);
-
-			game = new Game(map2, hero2, ogres, key2, doors2, false);
-			for (Ogre currentOgre : ogres) {
-				currentOgre.getClub().moveCharacter(game);
-			}
-			game.updateMap();
-			game.printMap();
-			// Game.GameStat currentStatus;
-			do {
-				GameCharacter.Direction currentDirection = this.getInput(keyboard_scanner);
-				if (currentDirection != GameCharacter.Direction.NONE) {
-					game.processInput(currentDirection);
-					// game.updateMap();
-					game.printMap();
-				}
-				currentStatus = game.getGameStatus();
-			} while (currentStatus == Game.GameStat.RUNNING);
-
-			if (currentStatus == Game.GameStat.LOSE) {
-				System.out.println("You lost!");
-			} else if (currentStatus == Game.GameStat.WIN) {
-				System.out.println("You won!");
-			}
+			System.out.println("You won!");
 		}
-		keyboard_scanner.close();
 	}
 
 	public static void main(String[] args) {
-		// Game dungeonKeep = new Game();
+		Game dungeonKeep = new Game();
 		CLI consoleInterface = new CLI();
-		consoleInterface.run();
+		consoleInterface.run(dungeonKeep);
 	}
 }

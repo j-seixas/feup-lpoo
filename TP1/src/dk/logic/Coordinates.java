@@ -1,7 +1,5 @@
 package dk.logic;
 
-import java.util.Objects;
-
 public class Coordinates {
 	private int x;
 	private int y;
@@ -31,17 +29,8 @@ public class Coordinates {
 		this.y = y;
 	}
 	
-	@Override
-	public boolean equals(Object o) {
-	    Coordinates coord = (Coordinates) o;
-	    return Objects.equals(this.x, coord.getX())
-	            && Objects.equals(this.y, coord.getY());
-	}
-	/*
 	public boolean equals(Coordinates c){
-		if(this.x == c.getX() && this.y == c.getY())
-			return true;
-		else
-			return false;
-	}*/
+		return x == c.x && y == c.y;
+	}
+	
 }

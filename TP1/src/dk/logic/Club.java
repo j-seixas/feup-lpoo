@@ -11,7 +11,7 @@ public class Club extends GameCharacter {
 		character = c;
 	}
 
-	public boolean moveCharacter(Game game) {
+	public boolean moveCharacter(Level level) {
 		boolean can_move;
 		int clubDirection;
 		do {
@@ -24,26 +24,26 @@ public class Club extends GameCharacter {
 			case 0:
 				if (getY() > 0) {
 					insideCanvas = true;
-					nextCharacter = game.getMap(character.getX(), character.getY() - 1);
+					nextCharacter = level.getMap(character.getX(), character.getY() - 1);
 				}
 				break;
 			case 1:
 				if (getY() < 8) {
 					insideCanvas = true;
-					nextCharacter = game.getMap(character.getX(), character.getY() + 1);
+					nextCharacter = level.getMap(character.getX(), character.getY() + 1);
 				}
 				break;
 			case 2:
 				if (getX() < 8) {
 					insideCanvas = true;
-					nextCharacter = game.getMap(character.getX() + 1, character.getY());
+					nextCharacter = level.getMap(character.getX() + 1, character.getY());
 
 				}
 				break;
 			case 3:
 				if (getX() > 0) {
 					insideCanvas = true;
-					nextCharacter = game.getMap(character.getX() - 1, character.getY());
+					nextCharacter = level.getMap(character.getX() - 1, character.getY());
 				}
 				break;
 			}
@@ -54,12 +54,12 @@ public class Club extends GameCharacter {
 				can_move = false;
 		} while (!can_move);
 
-		moveClub(clubDirection, game);
+		moveClub(clubDirection);
 
 		return true;
 	}
 
-	public void moveClub(int clubDirection, Game game) {
+	public void moveClub(int clubDirection) {
 		switch (clubDirection) {
 		case 0:
 			setY(character.getY() - 1);
