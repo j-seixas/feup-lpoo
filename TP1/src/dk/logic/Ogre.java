@@ -5,7 +5,7 @@ import java.util.Random;
 public class Ogre extends GameCharacter {
 
 	private Club club;
-	private boolean ogre_is_stunned = false; 
+	private boolean ogre_is_stunned = false;
 	private boolean moves;
 	private boolean has_club;
 
@@ -20,57 +20,59 @@ public class Ogre extends GameCharacter {
 		super(x, y);
 		moves = move;
 		has_club = hasclub;
+		if (has_club)
+			club = new Club(x, y, this);
 	}
 
 	public boolean moveCharacter(Game game) {
-		if(!moves)
-			return false;
-		boolean can_move;
-		int ogreDirection;
-		do {
-			can_move = true;
-			Random rand = new Random();
-			ogreDirection = rand.nextInt(4);
-			boolean insideCanvas = false;
-			char nextCharacter = '\0';
-			switch (ogreDirection) {
-			case 0:
-				if (getY() > 0) {
-					insideCanvas = true;
-					nextCharacter = game.getMap(getX() ,getY() - 1 );
-				}
-				break;
-			case 1:
-				if (getY() < 8) {
-					insideCanvas = true;
-					nextCharacter = game.getMap(getX() ,getY() + 1 );
-				}
-				break;
-			case 2:
-				if (getX() < 8) {
-					insideCanvas = true;
-					nextCharacter = game.getMap(getX() + 1,getY());
+		if (moves) {
+			boolean can_move;
+			int ogreDirection;
+			do {
+				can_move = true;
+				Random rand = new Random();
+				ogreDirection = rand.nextInt(4);
+				boolean insideCanvas = false;
+				char nextCharacter = '\0';
+				switch (ogreDirection) {
+				case 0:
+					if (getY() > 0) {
+						insideCanvas = true;
+						nextCharacter = game.getMap(getX(), getY() - 1);
+					}
+					break;
+				case 1:
+					if (getY() < 8) {
+						insideCanvas = true;
+						nextCharacter = game.getMap(getX(), getY() + 1);
+					}
+					break;
+				case 2:
+					if (getX() < 8) {
+						insideCanvas = true;
+						nextCharacter = game.getMap(getX() + 1, getY());
 
+					}
+					break;
+				case 3:
+					if (getX() > 0) {
+						insideCanvas = true;
+						nextCharacter = game.getMap(getX() - 1, getY());
+					}
+					break;
 				}
-				break;
-			case 3:
-				if (getX() > 0) {
-					insideCanvas = true;
-					nextCharacter = game.getMap(getX() - 1,getY());
-				}
-				break;
-			}
-			if (insideCanvas) {
-				if (nextCharacter == 'S' || nextCharacter == 'X' || nextCharacter == 'I')
+				if (insideCanvas) {
+					if (nextCharacter == 'S' || nextCharacter == 'X' || nextCharacter == 'I')
+						can_move = false;
+				} else
 					can_move = false;
-			} else
-				can_move = false;
-		} while (!can_move);
+			} while (!can_move);
 
-		moveOgre(ogreDirection, game);
+			moveOgre(ogreDirection, game);
+		}
+		if(has_club)
+			club.moveCharacter(game);
 
-		club.moveCharacter(game);
-		
 		return true;
 	}
 
@@ -92,16 +94,16 @@ public class Ogre extends GameCharacter {
 		}
 
 	}
-	
-	public void setIsStunned(boolean stun){
+
+	public void setIsStunned(boolean stun) {
 		ogre_is_stunned = stun;
 	}
-	
-	public boolean isStunned(){
+
+	public boolean isStunned() {
 		return ogre_is_stunned;
 	}
-	
-	public Club getClub(){
+
+	public Club getClub() {
 		return club;
 	}
 

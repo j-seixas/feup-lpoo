@@ -6,7 +6,7 @@ import java.util.Scanner;
 import java.util.Vector;
 
 import dk.logic.Coordinates;
-import dk.logic.Door;
+import dk.logic.Door; 
 import dk.logic.DrunkenG;
 import dk.logic.Game;
 import dk.logic.GameCharacter;

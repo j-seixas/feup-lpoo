@@ -18,7 +18,7 @@ public class TestDungeonGameLogic {
 	
 	@Test
 	public void testMoveHeroIntoToFreeCell() {
-		Game game = new Game(map, true);
+		Game game = new Game(map, true, false, false);
 		game.updateMap();
 		assertEquals(new Coordinates(1,1), game.getHero().getCoord());
 		game.processInput(GameCharacter.Direction.DOWN);
@@ -27,7 +27,7 @@ public class TestDungeonGameLogic {
 	
 	@Test
 	public void testMoveHeroIntoToWall() {
-		Game game = new Game(map, true);
+		Game game = new Game(map, true, false, false);
 		game.updateMap();
 		assertEquals(new Coordinates(1,1), game.getHero().getCoord());
 		game.processInput(GameCharacter.Direction.UP);
@@ -38,7 +38,7 @@ public class TestDungeonGameLogic {
 
 	@Test
 	public void testHeroIsCapturedByGuard() {
-		Game game = new Game(map, true);
+		Game game = new Game(map, true, false, false);
 		game.updateMap();
 		assertFalse(game.isGameOver());
 		game.processInput(GameCharacter.Direction.RIGHT);
@@ -48,7 +48,7 @@ public class TestDungeonGameLogic {
 	
 	@Test
 	public void testMoveHeroIntoToClosedDoors() {
-		Game game = new Game(map, true);
+		Game game = new Game(map, true, false, false);
 		game.updateMap();
 		assertEquals(new Coordinates(1,1), game.getHero().getCoord());
 		game.processInput(GameCharacter.Direction.DOWN);
@@ -60,7 +60,7 @@ public class TestDungeonGameLogic {
 	
 	@Test
 	public void testMoveHeroOpensDoorsAndWins() {
-		Game game = new Game(map, true);
+		Game game = new Game(map, true, false, false);
 		game.updateMap();
 		assertEquals(new Coordinates(1,1), game.getHero().getCoord());
 		game.processInput(GameCharacter.Direction.DOWN);
@@ -78,7 +78,7 @@ public class TestDungeonGameLogic {
 	
 	@Test
 	public void testHeroIsCapturedByOgre() {
-		Game game = new Game(map1, true);
+		Game game = new Game(map1, true, false, false);
 		game.updateMap();
 		assertFalse(game.isGameOver());
 		game.processInput(GameCharacter.Direction.RIGHT);
@@ -88,7 +88,7 @@ public class TestDungeonGameLogic {
 	
 	@Test
 	public void testMoveHeroPicksKeyAndChangesToK() {
-		Game game = new Game(map1, false);
+		Game game = new Game(map1, false, false, false);
 		game.updateMap();
 		assertEquals(new Coordinates(1,1), game.getHero().getCoord());
 		game.processInput(GameCharacter.Direction.DOWN);
@@ -103,7 +103,7 @@ public class TestDungeonGameLogic {
 	
 	@Test
 	public void testMoveHeroIntoToClosedDoors2() {
-		Game game = new Game(map, false);
+		Game game = new Game(map, false, false, false);
 		game.updateMap();
 		assertEquals(new Coordinates(1,1), game.getHero().getCoord());
 		game.processInput(GameCharacter.Direction.DOWN);
@@ -119,7 +119,7 @@ public class TestDungeonGameLogic {
 	
 	@Test
 	public void testMoveHeroOpensDoors() {
-		Game game = new Game(map1, false);
+		Game game = new Game(map1, false, false, false);
 		game.updateMap();
 		assertEquals(new Coordinates(1,1), game.getHero().getCoord());
 		game.processInput(GameCharacter.Direction.DOWN);
@@ -137,7 +137,7 @@ public class TestDungeonGameLogic {
 	
 	@Test
 	public void testMoveHeroOpensDoorsAndWins2() {
-		Game game = new Game(map1, false);
+		Game game = new Game(map1, false, false, false);
 		game.updateMap();
 		assertEquals(new Coordinates(1,1), game.getHero().getCoord());
 		game.processInput(GameCharacter.Direction.DOWN);

@@ -38,7 +38,7 @@ public class Game {
 			setMap(door.get(i).getCoordinates(), 'I');
 	}
 
-	public Game(char gameMap[][], boolean l) {
+	public Game(char gameMap[][], boolean l, boolean hasMovement, boolean OgreHasClub) {
 		lever = l;
 		map1 = gameMap;
 		map = new char[map1.length][map1.length];
@@ -62,7 +62,7 @@ public class Game {
 					map1[i][j] =  ' ';
 				}else if (map1[i][j] == 'O') {
 					has_ogres = true;
-					ogres.add(new Ogre(j, i, false, false));
+					ogres.add(new Ogre(j, i, hasMovement, OgreHasClub));
 					map1[i][j] =  ' ';
 				}
 			}
