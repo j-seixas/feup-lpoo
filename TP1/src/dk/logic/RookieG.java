@@ -1,14 +1,17 @@
 package dk.logic;
 
-import dk.util.Coordinates;
-
 public class RookieG extends Guardian {
 
-	public RookieG() {
-		super();
+	public RookieG(Coordinates[] guard_path) {
+		super(guard_path);
+	}
+
+	public RookieG(int x, int y) {
+		super(x, y);
 	}
 
 	public boolean moveCharacter(Game game) {
+		if (hasPath) {
 		this.indexPath++;	
 		if (this.indexPath >= path.length)
 			this.indexPath = 0;
@@ -17,6 +20,8 @@ public class RookieG extends Guardian {
 		setCoord(newCoordinates);
 		
 		return true;
+		}
+		return false;
 	}
 
 }

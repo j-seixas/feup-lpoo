@@ -1,7 +1,5 @@
 package dk.logic;
 
-import dk.util.Coordinates;
-
 public class Door {
 	private Coordinates coordinates;
 	private boolean door_is_open = false;
