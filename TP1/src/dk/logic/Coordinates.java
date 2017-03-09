@@ -33,15 +33,6 @@ public class Coordinates {
 	
 	@Override
 	public boolean equals(Object o) {
-		// self check
-	    if (this == o)
-	        return true;
-	    // null check
-	    if (o == null)
-	        return false;
-	    // type check and cast
-	    if (getClass() != o.getClass())
-	        return false;
 	    Coordinates coord = (Coordinates) o;
 	    return Objects.equals(this.x, coord.getX())
 	            && Objects.equals(this.y, coord.getY());

@@ -35,11 +35,14 @@ public class Game {
 		has_guardian = true;
 		has_ogres = false;
 		lever = l;
+		for (int i = 0; i < door.size(); i++) 
+			setMap(door.get(i).getCoordinates(), 'I');
 	}
 
 	public Game(char gameMap[][], boolean l) {
 		lever = true;
 		map1 = gameMap;
+		map = new char[map1.length][map1.length];
 		has_guardian = false;
 		has_ogres = false;
 		door = new ArrayList<Door>();
@@ -56,7 +59,8 @@ public class Game {
 					key = new Coordinates(j, i);
 			}
 		}
-
+		for (int i = 0; i < door.size(); i++) 
+			setMap(door.get(i).getCoordinates(), 'I');
 	}
 
 	public Game(char[][] gameMap, Hero h, Vector<Ogre> o, Coordinates k, ArrayList<Door> doors, boolean l) {
@@ -71,6 +75,8 @@ public class Game {
 		has_ogres = true;
 		has_guardian = false;
 		lever = l;
+		for (int i = 0; i < door.size(); i++) 
+			setMap(door.get(i).getCoordinates(), 'I');
 	}
 
 

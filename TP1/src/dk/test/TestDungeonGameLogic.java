@@ -10,10 +10,16 @@ public class TestDungeonGameLogic {
 			{'I',' ',' ',' ','X'},
 			{'I','k',' ',' ','X'},
 			{'X','X','X','X','X'}};
-
+	char map1[][] = {{'X','X','X','X','X'},
+			{'X','H',' ','O','X'},
+			{'I',' ',' ',' ','X'},
+			{'I','k',' ',' ','X'},
+			{'X','X','X','X','X'}};
+	
 	@Test
 	public void testMoveHeroIntoToFreeCell() {
 		Game game = new Game(map, true);
+		game.updateMap();
 		assertEquals(new Coordinates(1,1), game.getHero().getCoord());
 		game.processInput(GameCharacter.Direction.DOWN);
 		assertEquals(new Coordinates(1,2), game.getHero().getCoord()); 
@@ -22,6 +28,7 @@ public class TestDungeonGameLogic {
 	@Test
 	public void testMoveHeroIntoToWall() {
 		Game game = new Game(map, true);
+		game.updateMap();
 		assertEquals(new Coordinates(1,1), game.getHero().getCoord());
 		game.processInput(GameCharacter.Direction.UP);
 		assertEquals(new Coordinates(1,1), game.getHero().getCoord()); 
@@ -32,6 +39,7 @@ public class TestDungeonGameLogic {
 	@Test
 	public void testHeroIsCapturedByGuard() {
 		Game game = new Game(map, true);
+		game.updateMap();
 		assertFalse(game.isGameOver());
 		game.processInput(GameCharacter.Direction.RIGHT);
 		assertTrue(game.isGameOver());
@@ -41,6 +49,7 @@ public class TestDungeonGameLogic {
 	@Test
 	public void testMoveHeroIntoToClosedDoors() {
 		Game game = new Game(map, true);
+		game.updateMap();
 		assertEquals(new Coordinates(1,1), game.getHero().getCoord());
 		game.processInput(GameCharacter.Direction.DOWN);
 		game.processInput(GameCharacter.Direction.LEFT);
@@ -52,13 +61,13 @@ public class TestDungeonGameLogic {
 	@Test
 	public void testMoveHeroOpensDoorsAndWins() {
 		Game game = new Game(map, true);
+		game.updateMap();
 		assertEquals(new Coordinates(1,1), game.getHero().getCoord());
 		game.processInput(GameCharacter.Direction.DOWN);
 		assertEquals('I', game.getMap(new Coordinates(0,2)));
 		assertEquals('I', game.getMap(new Coordinates(0,3)));
 		game.processInput(GameCharacter.Direction.DOWN);
 		assertTrue(game.getHeroHasKey());
-		assertNotEquals('X', game.getMap(new Coordinates(0,2)));
 		assertEquals('S', game.getMap(new Coordinates(0,2)));
 		assertEquals('S', game.getMap(new Coordinates(0,3)));
 		game.processInput(GameCharacter.Direction.LEFT);
@@ -66,5 +75,6 @@ public class TestDungeonGameLogic {
 		assertEquals(Game.GameStat.WIN, game.getGameStatus());
  
 	}
+	
 	
 }
