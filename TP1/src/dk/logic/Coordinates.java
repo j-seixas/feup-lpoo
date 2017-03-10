@@ -29,8 +29,9 @@ public class Coordinates {
 		this.y = y;
 	}
 	
-	public boolean equals(Coordinates c){
-		return x == c.x && y == c.y;
+	@Override
+	public boolean equals(Object o){
+		return x == ((Coordinates) o).x && y == ((Coordinates) o).y;
 	}
 	
 }

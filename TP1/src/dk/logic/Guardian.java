@@ -32,14 +32,24 @@ public abstract class Guardian extends GameCharacter {
 	protected int indexPath;
 	protected boolean sleeping = false;
 
-	public Guardian() {
+	public Guardian(){
 		indexPath = 0;
-		coordinates = path[indexPath];
+		this.coordinates = this.path[indexPath];
 	}
 	
+	public Guardian(Coordinates path[]) {
+		indexPath = 0;
+		this.path = path;
+		this.coordinates = this.path[indexPath];
+	}
+		
 	protected abstract boolean moveCharacter(Level level);
 	
 	public boolean IsSleeping(){
 		return sleeping;
+	}
+
+	public void sleep(){
+		sleeping = true;
 	}
 }

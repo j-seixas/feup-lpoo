@@ -19,6 +19,10 @@ public class Game {
 		initLevels();
 	}
 
+	public Game(ArrayList<Level> testLevels){
+		this.levels = testLevels;
+	}
+	
 	private void initLevels() {
 		levels = new ArrayList<Level>();
 		
@@ -115,12 +119,8 @@ public class Game {
 			if (nextCharacter == ' ') {
 				levels.get(level).getHero().moveCharacter(levels.get(level));
 			} else if (nextCharacter == 'S') {
-				if (level != 1) {
-					advanceLevel();
-				} else {
-					levels.get(level).getHero().moveCharacter(levels.get(level));
-					advanceLevel();
-				}
+				levels.get(level).getHero().moveCharacter(levels.get(level));
+				advanceLevel();
 				changeMap = true;
 			} else if (nextCharacter == 'k') {
 				levels.get(level).getHero().moveCharacter(levels.get(level));
@@ -150,4 +150,11 @@ public class Game {
 		return this.game_stat;
 	}
 
+	public boolean isGameOver() {
+		return game_stat.ordinal() == GameStat.LOSE.ordinal();
+	}
+
+	public Level getLastLevel(){
+		return levels.get(level - 1);
+	}
 }
