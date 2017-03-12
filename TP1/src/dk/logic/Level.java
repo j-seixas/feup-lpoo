@@ -23,7 +23,10 @@ public class Level {
 		this.doors = doors;
 		this.initialMap = initialMap;
 		this.won_by_lever = won_by_lever;
-		cloneMap();
+		updateMap();
+		for(Ogre o : ogres){
+			o.getClub().moveCharacter(this);
+		}
 	}
 
 	private void cloneMap() {
@@ -80,7 +83,9 @@ public class Level {
 		}
 		for (Ogre currentOgre : ogres) {
 			currentOgre.moveCharacter(this);
-			currentOgre.setIsStunned(currentOgre.checkColision(hero));
+			currentOgre.setIsStunned(currentOgre.checkColision(hero) && hero.getHasClub());
+			if(!currentOgre.isStunned() && currentOgre.checkColision(hero))
+				collision = true;
 			if (currentOgre.getClub().checkColision(hero))
 				collision = true;
 		}
@@ -123,14 +128,14 @@ public class Level {
 		}
 		for (Ogre currentOgre : ogres) {
 			// Draw Ogre
-			if (currentOgre.getCoord().equals(key))
+			if (currentOgre.getCoord().equals(key) && !hero.getHasKey())
 				setMap(currentOgre.getCoord(), '$');
 			else if (currentOgre.isStunned())
 				setMap(currentOgre.getCoord(), '8');
 			else
 				setMap(currentOgre.getCoord(), 'O');
 			// Draw Club
-			if (currentOgre.getClub().getCoord().equals(key))
+			if (currentOgre.getClub().getCoord().equals(key) && !hero.getHasKey())
 				setMap(currentOgre.getClub().getCoord(), '$');
 			else if (getMap(currentOgre.getClub().getCoord()) != 'O')
 				setMap(currentOgre.getClub().getCoord(), '*');

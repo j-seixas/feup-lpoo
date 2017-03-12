@@ -17,6 +17,7 @@ public class Game {
 
 	public Game() {
 		initLevels();
+		advanceLevel();
 	}
 
 	public Game(ArrayList<Level> testLevels){
@@ -62,7 +63,7 @@ public class Game {
 		hero.setHasKey(false);
 		key = new Coordinates(7, 1);
 		doors.add(new Door(0, 1));
-		//ogres.add(new Ogre(1, 1));
+		ogres.add(new Ogre(1, 1));
 		ogres.add(new Ogre(7,7));
 		map = new char[][]{
 			{ 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', }, 
@@ -75,10 +76,7 @@ public class Game {
 			{ 'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'X', },
 			{ 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', } };
 		levels.add(new Level(new Hero(hero), (ArrayList<Ogre>)ogres.clone(), (ArrayList<Guardian>)guardians.clone(), key, (ArrayList<Door>)doors.clone(), map, false));
-		for(Ogre currentOgre : ogres){
-			currentOgre.getClub().moveCharacter(levels.get(1));
-		}
-
+		
 		guardians.clear();
 		doors.clear();
 		ogres.clear();		
