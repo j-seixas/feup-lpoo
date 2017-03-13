@@ -10,8 +10,6 @@ public class Ogre extends GameCharacter {
 
 	public Ogre(int x, int y) {
 		super(x, y);
-		moves = true;
-		has_club = true;
 		club = new Club(x, y, this);
 	}
 
