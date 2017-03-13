@@ -2,26 +2,26 @@ package dk.logic;
 
 public class RookieG extends Guardian {
 
-	public RookieG(Coordinates[] guard_path) {
-		super(guard_path);
+	public RookieG() {
+		super();
+	}
+	
+	public RookieG(Coordinates path[]){
+		super(path);
 	}
 
-	public RookieG(int x, int y) {
-		super(x, y);
-	}
+	public boolean moveCharacter(Level level) {
+		if (!sleeping) {
+			this.indexPath++;
+			if (this.indexPath >= path.length)
+				this.indexPath = 0;
 
-	public boolean moveCharacter(Game game) {
-		if (hasPath) {
-		this.indexPath++;	
-		if (this.indexPath >= path.length)
-			this.indexPath = 0;
-		
-		Coordinates newCoordinates = path[indexPath];
-		setCoord(newCoordinates);
-		
-		return true;
+			Coordinates newCoordinates = path[indexPath];
+			setCoord(newCoordinates);
+
+			return true;
 		}
 		return false;
-	}
 
+	}
 }

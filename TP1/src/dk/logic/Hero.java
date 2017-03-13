@@ -7,12 +7,16 @@ public class Hero extends GameCharacter {
 	public Hero(int x, int y) {
 		super(x,y);
 	}
-	
+	public Hero(Hero gc){
+		this.coordinates = new Coordinates(gc.getX(), gc.getY());
+		this.hero_has_club = gc.hero_has_club;
+	}
+
 	private Direction direction;
 	private boolean hero_has_key = false;
 	private boolean hero_has_club = false;
 	
-	public boolean moveCharacter(Game game) {
+	public boolean moveCharacter(Level level) {
 
 		if (direction != Direction.NONE) {
 

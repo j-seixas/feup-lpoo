@@ -1,160 +1,190 @@
 package dk.test;
 
 import static org.junit.Assert.*;
+
+import java.util.ArrayList;
+
 import org.junit.Test;
 import dk.logic.*;
 
 public class TestDungeonGameLogic {
-	char map[][] = {{'X','X','X','X','X'},
-			{'X','H',' ','G','X'},
-			{'I',' ',' ',' ','X'},
-			{'I','k',' ',' ','X'},
-			{'X','X','X','X','X'}};
-	char map1[][] = {{'X','X','X','X','X'},
-			{'X','H',' ','O','X'},
-			{'I',' ',' ',' ','X'},
-			{'I','k',' ',' ','X'},
-			{'X','X','X','X','X'}};
-	
+
+	public ArrayList<Level> initTestLevelsGuardian() {
+		// Variables to init levels
+		Hero hero;
+		ArrayList<Ogre> ogres = new ArrayList<Ogre>();
+		ArrayList<Guardian> guardians = new ArrayList<Guardian>();
+		Coordinates key;
+		ArrayList<Door> doors = new ArrayList<Door>();
+		char map[][];
+
+		hero = new Hero(1, 1);
+		guardians.add(new RookieG(new Coordinates[] { new Coordinates(3, 1) }));
+		key = new Coordinates(1, 3);
+		doors.add(new Door(0, 2));
+		doors.add(new Door(0, 3));
+		map = new char[][] { { 'X', 'X', 'X', 'X', 'X' }, { 'X', ' ', ' ', ' ', 'X' }, { 'I', ' ', ' ', ' ', 'X' },
+				{ 'I', ' ', ' ', ' ', 'X' }, { 'X', 'X', 'X', 'X', 'X' } };
+
+		ArrayList<Level> testLevels = new ArrayList<Level>();
+		testLevels.add(new Level(new Hero(hero), (ArrayList<Ogre>) ogres.clone(),
+				(ArrayList<Guardian>) guardians.clone(), key, (ArrayList<Door>) doors.clone(), map, true));
+		return testLevels;
+	}
+
 	@Test
 	public void testMoveHeroIntoToFreeCell() {
-		Game game = new Game(map, true, false, false);
-		game.updateMap();
-		assertEquals(new Coordinates(1,1), game.getHero().getCoord());
+		ArrayList<Level> testLevels = initTestLevelsGuardian();
+		Game game = new Game(testLevels);
+		game.getCurrentLevel().updateMap();
+		assertEquals(new Coordinates(1, 1), game.getCurrentLevel().getHero().getCoord());
 		game.processInput(GameCharacter.Direction.DOWN);
-		assertEquals(new Coordinates(1,2), game.getHero().getCoord()); 
+		game.getCurrentLevel().updateMap();
+		assertEquals(new Coordinates(1, 2), game.getCurrentLevel().getHero().getCoord());
 	}
-	
+
 	@Test
 	public void testMoveHeroIntoToWall() {
-		Game game = new Game(map, true, false, false);
-		game.updateMap();
-		assertEquals(new Coordinates(1,1), game.getHero().getCoord());
+		ArrayList<Level> testLevels = initTestLevelsGuardian();
+		Game game = new Game(testLevels);
+		game.getCurrentLevel().updateMap();
+		assertEquals(new Coordinates(1, 1), game.getCurrentLevel().getHero().getCoord());
 		game.processInput(GameCharacter.Direction.UP);
-		assertEquals(new Coordinates(1,1), game.getHero().getCoord()); 
+		game.getCurrentLevel().updateMap();
+		assertEquals(new Coordinates(1, 1), game.getCurrentLevel().getHero().getCoord());
 		game.processInput(GameCharacter.Direction.LEFT);
-		assertEquals(new Coordinates(1,1), game.getHero().getCoord()); 
+		game.getCurrentLevel().updateMap();
+		assertEquals(new Coordinates(1, 1), game.getCurrentLevel().getHero().getCoord());
 	}
 
 	@Test
 	public void testHeroIsCapturedByGuard() {
-		Game game = new Game(map, true, false, false);
-		game.updateMap();
+		ArrayList<Level> testLevels = initTestLevelsGuardian();
+		Game game = new Game(testLevels);
+		game.getCurrentLevel().updateMap();
 		assertFalse(game.isGameOver());
 		game.processInput(GameCharacter.Direction.RIGHT);
+		game.getCurrentLevel().updateMap();
 		assertTrue(game.isGameOver());
-		assertEquals(Game.GameStat.LOSE, game.getGameStatus()); 
+		assertEquals(Game.GameStat.LOSE, game.getGameStatus());
 	}
-	
+
 	@Test
-	public void testMoveHeroIntoToClosedDoors() {
-		Game game = new Game(map, true, false, false);
-		game.updateMap();
-		assertEquals(new Coordinates(1,1), game.getHero().getCoord());
+	public void testMoveHeroIntoToClosedDoorsGuardian() {
+		ArrayList<Level> testLevels = initTestLevelsGuardian();
+		Game game = new Game(testLevels);
+		game.getCurrentLevel().updateMap();
+		assertEquals(new Coordinates(1, 1), game.getCurrentLevel().getHero().getCoord());
 		game.processInput(GameCharacter.Direction.DOWN);
 		game.processInput(GameCharacter.Direction.LEFT);
-		assertEquals('I', game.getMap(new Coordinates(0,2)));
-		assertEquals(new Coordinates(1,2), game.getHero().getCoord());
+		game.getCurrentLevel().updateMap();
+		assertEquals('I', game.getCurrentLevel().getMap(new Coordinates(0, 2)));
+		assertEquals(new Coordinates(1, 2), game.getCurrentLevel().getHero().getCoord());
 		assertEquals(Game.GameStat.RUNNING, game.getGameStatus());
 	}
-	
+
 	@Test
-	public void testMoveHeroOpensDoorsAndWins() {
-		Game game = new Game(map, true, false, false);
-		game.updateMap();
-		assertEquals(new Coordinates(1,1), game.getHero().getCoord());
+	public void testMoveHeroOpensDoorsAndWinsGuardian() {
+		ArrayList<Level> testLevels = initTestLevelsGuardian();
+		Game game = new Game(testLevels);
+		game.getCurrentLevel().updateMap();
+		assertEquals(new Coordinates(1, 1), game.getCurrentLevel().getHero().getCoord());
 		game.processInput(GameCharacter.Direction.DOWN);
-		assertEquals('I', game.getMap(new Coordinates(0,2)));
-		assertEquals('I', game.getMap(new Coordinates(0,3)));
+		game.getCurrentLevel().updateMap();
+		assertEquals('I', game.getCurrentLevel().getMap(new Coordinates(0, 2)));
+		assertEquals('I', game.getCurrentLevel().getMap(new Coordinates(0, 3)));
 		game.processInput(GameCharacter.Direction.DOWN);
-		assertTrue(game.getHeroHasKey());
-		assertEquals('S', game.getMap(new Coordinates(0,2)));
-		assertEquals('S', game.getMap(new Coordinates(0,3)));
+		game.getCurrentLevel().updateMap();
+		assertTrue(game.getCurrentLevel().getHero().getHasKey());
+		assertEquals('S', game.getCurrentLevel().getMap(new Coordinates(0, 2)));
+		assertEquals('S', game.getCurrentLevel().getMap(new Coordinates(0, 3)));
 		game.processInput(GameCharacter.Direction.LEFT);
-		assertEquals(new Coordinates(0,3), game.getHero().getCoord());
+		game.getLastLevel().updateMap();
+		assertEquals(new Coordinates(0, 3), game.getLastLevel().getHero().getCoord());
 		assertEquals(Game.GameStat.WIN, game.getGameStatus());
- 
 	}
-	
+
+	public ArrayList<Level> initTestLevelsOgreSleeping() {
+		// Variables to init levels
+		Hero hero;
+		ArrayList<Ogre> ogres = new ArrayList<Ogre>();
+		ArrayList<Guardian> guardians = new ArrayList<Guardian>();
+		Coordinates key;
+		ArrayList<Door> doors = new ArrayList<Door>();
+		char map[][];
+
+		hero = new Hero(1, 1);
+		key = new Coordinates(1, 3);
+		ogres.add(new Ogre(3,1,true));
+		doors.add(new Door(0, 2));
+		doors.add(new Door(0, 3));
+		map = new char[][] { { 'X', 'X', 'X', 'X', 'X' }, { 'X', ' ', ' ', ' ', 'X' }, { 'I', ' ', ' ', ' ', 'X' },
+				{ 'I', ' ', ' ', ' ', 'X' }, { 'X', 'X', 'X', 'X', 'X' } };
+
+		ArrayList<Level> testLevels = new ArrayList<Level>();
+		testLevels.add(new Level(new Hero(hero), (ArrayList<Ogre>) ogres.clone(),
+				(ArrayList<Guardian>) guardians.clone(), key, (ArrayList<Door>) doors.clone(), map, false));
+		return testLevels;
+	}
+
 	@Test
 	public void testHeroIsCapturedByOgre() {
-		Game game = new Game(map1, true, false, false);
-		game.updateMap();
+		ArrayList<Level> testLevels = initTestLevelsOgreSleeping();
+		Game game = new Game(testLevels);
+		game.getCurrentLevel().updateMap();
 		assertFalse(game.isGameOver());
 		game.processInput(GameCharacter.Direction.RIGHT);
+		game.getCurrentLevel().updateMap();
 		assertTrue(game.isGameOver());
-		assertEquals(Game.GameStat.LOSE, game.getGameStatus()); 
+		assertEquals(Game.GameStat.LOSE, game.getGameStatus());
 	}
-	
+
 	@Test
-	public void testMoveHeroPicksKeyAndChangesToK() {
-		Game game = new Game(map1, false, false, false);
-		game.updateMap();
-		assertEquals(new Coordinates(1,1), game.getHero().getCoord());
+	public void testHeroGetsKey(){
+		ArrayList<Level> testLevels = initTestLevelsOgreSleeping();
+		Game game = new Game(testLevels);
+		game.getCurrentLevel().updateMap();
 		game.processInput(GameCharacter.Direction.DOWN);
-		assertEquals('I', game.getMap(new Coordinates(0,3)));
+		game.getCurrentLevel().updateMap();
 		game.processInput(GameCharacter.Direction.DOWN);
-		assertEquals(new Coordinates(1,3), game.getHero().getCoord());
-		assertTrue(game.getHeroHasKey());
-		assertEquals('K', game.getMap(game.getHero().getCoord()));
-		assertEquals('I', game.getMap(new Coordinates(0,3)));
- 
-	}
-	
+		game.getCurrentLevel().updateMap();
+		assertTrue(game.getCurrentLevel().getHero().getHasKey());
+		assertEquals('K', game.getCurrentLevel().getMap(game.getCurrentLevel().getHero().getCoord()));
+		}
+
 	@Test
-	public void testMoveHeroIntoToClosedDoors2() {
-		Game game = new Game(map, false, false, false);
-		game.updateMap();
-		assertEquals(new Coordinates(1,1), game.getHero().getCoord());
+	public void testMoveHeroIntoToClosedDoorsOgre() {
+		ArrayList<Level> testLevels = initTestLevelsOgreSleeping();
+		Game game = new Game(testLevels);
+		game.getCurrentLevel().updateMap();
+		assertEquals(new Coordinates(1, 1), game.getCurrentLevel().getHero().getCoord());
 		game.processInput(GameCharacter.Direction.DOWN);
 		game.processInput(GameCharacter.Direction.LEFT);
-		assertEquals('I', game.getMap(new Coordinates(0,2)));
-		assertEquals(new Coordinates(1,2), game.getHero().getCoord());
-		assertEquals(Game.GameStat.RUNNING, game.getGameStatus());
-		game.processInput(GameCharacter.Direction.LEFT);
-		assertEquals('I', game.getMap(new Coordinates(0,2)));
-		assertEquals(new Coordinates(1,2), game.getHero().getCoord());
+		game.getCurrentLevel().updateMap();
+		assertEquals('I', game.getCurrentLevel().getMap(new Coordinates(0, 2)));
+		assertEquals(new Coordinates(1, 2), game.getCurrentLevel().getHero().getCoord());
 		assertEquals(Game.GameStat.RUNNING, game.getGameStatus());
 	}
-	
+
 	@Test
-	public void testMoveHeroOpensDoors() {
-		Game game = new Game(map1, false, false, false);
-		game.updateMap();
-		assertEquals(new Coordinates(1,1), game.getHero().getCoord());
+	public void testMoveHeroOpensDoorsAndWinsOgre() {
+		ArrayList<Level> testLevels = initTestLevelsOgreSleeping();
+		Game game = new Game(testLevels);
+		game.getCurrentLevel().updateMap();
+		assertEquals(new Coordinates(1, 1), game.getCurrentLevel().getHero().getCoord());
 		game.processInput(GameCharacter.Direction.DOWN);
-		assertEquals('I', game.getMap(new Coordinates(0,3)));
+		game.getCurrentLevel().updateMap();
+		assertEquals('I', game.getCurrentLevel().getMap(new Coordinates(0, 2)));
+		assertEquals('I', game.getCurrentLevel().getMap(new Coordinates(0, 3)));
 		game.processInput(GameCharacter.Direction.DOWN);
-		assertEquals(new Coordinates(1,3), game.getHero().getCoord());
-		assertTrue(game.getHeroHasKey());
-		assertEquals('K', game.getMap(game.getHero().getCoord()));
+		game.getCurrentLevel().updateMap();
+		assertTrue(game.getCurrentLevel().getHero().getHasKey());
+		assertEquals('S', game.getCurrentLevel().getMap(new Coordinates(0, 2)));
+		assertEquals('S', game.getCurrentLevel().getMap(new Coordinates(0, 3)));
 		game.processInput(GameCharacter.Direction.LEFT);
-		assertEquals(new Coordinates(1,3), game.getHero().getCoord());
-		assertEquals(Game.GameStat.RUNNING, game.getGameStatus());
-		assertEquals('S', game.getMap(new Coordinates(0,2)));
-		assertEquals('S', game.getMap(new Coordinates(0,3))); 
-	}
-	
-	@Test
-	public void testMoveHeroOpensDoorsAndWins2() {
-		Game game = new Game(map1, false, false, false);
-		game.updateMap();
-		assertEquals(new Coordinates(1,1), game.getHero().getCoord());
-		game.processInput(GameCharacter.Direction.DOWN);
-		assertEquals('I', game.getMap(new Coordinates(0,3)));
-		game.processInput(GameCharacter.Direction.DOWN);
-		assertEquals(new Coordinates(1,3), game.getHero().getCoord());
-		assertTrue(game.getHeroHasKey());
-		assertEquals('K', game.getMap(game.getHero().getCoord()));
-		game.processInput(GameCharacter.Direction.LEFT);
-		assertEquals(new Coordinates(1,3), game.getHero().getCoord());
-		assertEquals(Game.GameStat.RUNNING, game.getGameStatus());
-		assertEquals('S', game.getMap(new Coordinates(0,2)));
-		assertEquals('S', game.getMap(new Coordinates(0,3)));
-		game.processInput(GameCharacter.Direction.LEFT);
-		assertEquals(new Coordinates(0,3), game.getHero().getCoord());
+		game.getLastLevel().updateMap();
+		assertEquals(new Coordinates(0, 3), game.getLastLevel().getHero().getCoord());
 		assertEquals(Game.GameStat.WIN, game.getGameStatus());
- 
 	}
-	
+
 }

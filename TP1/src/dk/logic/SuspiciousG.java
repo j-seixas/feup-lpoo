@@ -6,8 +6,8 @@ public class SuspiciousG extends Guardian {
 	private boolean dir = true;
 	private int wait = 0;
 
-	public SuspiciousG(Coordinates[] guard_path) {
-		super(guard_path);
+	public SuspiciousG() {
+		super();
 	}
 
 	private void directionMove() {
@@ -30,10 +30,9 @@ public class SuspiciousG extends Guardian {
 		}
 	}
 
-	public boolean moveCharacter(Game game) {
+	public boolean moveCharacter(Level level) {
 		directionMove();
 		wait--;
-
 
 		Coordinates newCoordinates = path[indexPath];
 		setCoord(newCoordinates);

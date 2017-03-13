@@ -6,8 +6,7 @@ public class Ogre extends GameCharacter {
 
 	private Club club;
 	private boolean ogre_is_stunned = false;
-	private boolean moves;
-	private boolean has_club;
+	private boolean sleeping = false;
 
 	public Ogre(int x, int y) {
 		super(x, y);
@@ -16,16 +15,14 @@ public class Ogre extends GameCharacter {
 		club = new Club(x, y, this);
 	}
 
-	public Ogre(int x, int y, boolean move, boolean hasclub) {
+	public Ogre(int x, int y, boolean sleeping) {
 		super(x, y);
-		moves = move;
-		has_club = hasclub;
-		if (has_club)
-			club = new Club(x, y, this);
+		this.sleeping = sleeping;
+		club = new Club(x, y, this);
 	}
 
-	public boolean moveCharacter(Game game) {
-		if (moves) {
+	public boolean moveCharacter(Level level) {
+		if (!sleeping) {
 			boolean can_move;
 			int ogreDirection;
 			do {
@@ -38,26 +35,26 @@ public class Ogre extends GameCharacter {
 				case 0:
 					if (getY() > 0) {
 						insideCanvas = true;
-						nextCharacter = game.getMap(getX(), getY() - 1);
+						nextCharacter = level.getMap(getX(), getY() - 1);
 					}
 					break;
 				case 1:
 					if (getY() < 8) {
 						insideCanvas = true;
-						nextCharacter = game.getMap(getX(), getY() + 1);
+						nextCharacter = level.getMap(getX(), getY() + 1);
 					}
 					break;
 				case 2:
 					if (getX() < 8) {
 						insideCanvas = true;
-						nextCharacter = game.getMap(getX() + 1, getY());
+						nextCharacter = level.getMap(getX() + 1, getY());
 
 					}
 					break;
 				case 3:
 					if (getX() > 0) {
 						insideCanvas = true;
-						nextCharacter = game.getMap(getX() - 1, getY());
+						nextCharacter = level.getMap(getX() - 1, getY());
 					}
 					break;
 				}
@@ -68,15 +65,16 @@ public class Ogre extends GameCharacter {
 					can_move = false;
 			} while (!can_move);
 
-			moveOgre(ogreDirection, game);
-		}
-		if(has_club)
-			club.moveCharacter(game);
+			moveOgre(ogreDirection);
 
-		return true;
+			club.moveCharacter(level);
+
+			return true;
+		}
+		return false;
 	}
 
-	private void moveOgre(int direction, Game game) {
+	private void moveOgre(int direction) {
 
 		switch (direction) {
 		case 0:
@@ -107,7 +105,7 @@ public class Ogre extends GameCharacter {
 		return club;
 	}
 
-	public boolean getHasClub() {
-		return has_club;
+	public boolean isSleeping() {
+		return sleeping;
 	}
 }

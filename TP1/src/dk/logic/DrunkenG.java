@@ -6,8 +6,8 @@ public class DrunkenG extends Guardian {
 	private boolean dir = true;
 	private int wait = 0;
 
-	public DrunkenG(Coordinates[] guard_path) {
-		super(guard_path);
+	public DrunkenG() {
+		super();
 	}
 
 	private int directionMove() {
@@ -40,7 +40,7 @@ public class DrunkenG extends Guardian {
 		return 1;
 	}
 
-	public boolean moveCharacter(Game game) {
+	public boolean moveCharacter(Level level) {
 		if (directionMove() == 1) {
 			wait--;
 			return true;
