@@ -139,7 +139,7 @@ public class Window {
 		frame.getContentPane().add(ogreNumberLabel);
 		frame.getContentPane().add(ogreNumber);
 		frame.getContentPane().add(guardSelectorLabel);
-		frame.getContentPane().add(guardSelector);
+		frame.getContentPane().add(guardSelector); 
 		frame.getContentPane().add(mapPane);
 		frame.getContentPane().add(btnNewGame);
 		frame.getContentPane().add(btnUp);
