@@ -87,7 +87,7 @@ public class CLI {
 				System.out.println("Invalid number!");
 				continue;
 			}
-			if (ogreNumber >= 0 && ogreNumber <= Game.MAX_OGRES) {
+			if (ogreNumber > 0 && ogreNumber <= Game.MAX_OGRES) {
 				args[0] = ogreNumber;
 				break;
 			} else {
