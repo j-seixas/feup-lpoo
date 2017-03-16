@@ -173,4 +173,15 @@ public class Game {
 	public Level getLastLevel(){
 		return levels.get(level - 1);
 	}
+	
+	public String getStringMap(){
+		char map[][] = levels.get(level).getMap();
+		String result = new String();
+		for(char i[] : map){
+			for(char j : i)
+				result += j + " ";
+			result += "\n";
+		}
+		return result;
+	}
 }

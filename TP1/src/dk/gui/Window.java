@@ -13,9 +13,11 @@ import javax.swing.JTextField;
 import javax.swing.JTextPane;
 
 import dk.logic.Game;
+import dk.logic.GameCharacter;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.Font;
 
 public class Window {
 
@@ -73,6 +75,7 @@ public class Window {
 
 		// Map Pane
 		mapPane = new JTextPane();
+		mapPane.setFont(new Font("Courier New", Font.BOLD, 20));
 		mapPane.setBounds(20, 80, 255, 255);
 		mapPane.setEditable(false);
 
@@ -109,18 +112,42 @@ public class Window {
 		btnNewGame.setBounds(385, 30, 100, 25);
 
 		btnUp = new JButton("Up");
+		btnUp.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				mapPane.setText(game.getStringMap());
+				game.processInput(GameCharacter.Direction.UP);
+			}
+		});
 		btnUp.setEnabled(false);
 		btnUp.setBounds(395, 130, 80, 25);
 
 		btnDown = new JButton("Down");
+		btnDown.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				mapPane.setText(game.getStringMap());
+				game.processInput(GameCharacter.Direction.DOWN);
+			}
+		});
 		btnDown.setEnabled(false);
 		btnDown.setBounds(395, 220, 80, 25);
 
 		btnRight = new JButton("Right");
+		btnRight.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				mapPane.setText(game.getStringMap());
+				game.processInput(GameCharacter.Direction.RIGHT);
+			}
+		});
 		btnRight.setEnabled(false);
 		btnRight.setBounds(455, 175, 80, 25);
 
 		btnLeft = new JButton("Left");
+		btnLeft.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				mapPane.setText(game.getStringMap());
+				game.processInput(GameCharacter.Direction.LEFT);
+			}
+		});
 		btnLeft.setEnabled(false);
 		btnLeft.setBounds(335, 175, 80, 25);
 
