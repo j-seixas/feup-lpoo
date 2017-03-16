@@ -27,6 +27,7 @@ public class Level {
 		for(Ogre o : ogres){
 			o.getClub().moveCharacter(this);
 		}
+		updateMap();
 	}
 
 	private void cloneMap() {
@@ -91,7 +92,7 @@ public class Level {
 		}
 		return collision;
 	}
-
+	
 	public void updateMap() {
 		cloneMap();
 		char draw_char;

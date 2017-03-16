@@ -11,19 +11,23 @@ public class Game {
 		LOSE, WIN, RUNNING
 	}
 
+	
+	public static final int MAX_OGRES = 5;
+	public static final int GUARDIAN_TYPES = 3;
 	public int level = 0;
 	public ArrayList<Level> levels;
 	private GameStat game_stat = GameStat.RUNNING;
 
-	public Game() {
-		initLevels();
+	public Game(int ogreNumber, int guardianType) {
+		initLevels(ogreNumber, guardianType);
+		advanceLevel();
 	}
 
 	public Game(ArrayList<Level> testLevels){
 		this.levels = testLevels;
 	}
 	
-	private void initLevels() {
+	private void initLevels(int ogreNumber, int guardianType) {
 		levels = new ArrayList<Level>();
 		
 		//Variables to init levels
@@ -36,7 +40,7 @@ public class Game {
 		
 		//Level 1
 		hero = new Hero(1, 1);
-		guardians.add(generateGuardian());
+		guardians.add(generateGuardian(guardianType));
 		key = new Coordinates(7, 8);		
 		doors.add(new Door(0,5));
 		doors.add(new Door(0,6));
@@ -46,8 +50,8 @@ public class Game {
 			{ 'X', 'X', 'X', ' ', 'X', 'X', 'X', ' ', ' ', 'X', },
 			{ 'X', ' ', 'I', ' ', 'I', ' ', 'X', ' ', ' ', 'X', },
 			{ 'X', 'X', 'X', ' ', 'X', 'X', 'X', ' ', ' ', 'X', },
-			{ ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'X', },
-			{ ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'X', },
+			{ 'I', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'X', },
+			{ 'I', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'X', },
 			{ 'X', 'X', 'X', ' ', 'X', 'X', 'X', 'X', ' ', 'X', },
 			{ 'X', ' ', 'I', ' ', 'I', ' ', 'X', ' ', ' ', 'X', },
 			{ 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', } };
@@ -62,11 +66,9 @@ public class Game {
 		hero.setHasKey(false);
 		key = new Coordinates(7, 1);
 		doors.add(new Door(0, 1));
-		ogres.add(new Ogre(1, 1));
-		ogres.add(new Ogre(7,7));
 		map = new char[][]{
 			{ 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', }, 
-			{ ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'X', },
+			{ 'I', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'X', },
 			{ 'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'X', }, 
 			{ 'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'X', },
 			{ 'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'X', }, 
@@ -74,6 +76,9 @@ public class Game {
 			{ 'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'X', }, 
 			{ 'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'X', },
 			{ 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', } };
+		for(int i = 0; i < ogreNumber; i++){
+			ogres.add(generateOgre(hero, map));
+		}
 		levels.add(new Level(new Hero(hero), (ArrayList<Ogre>)ogres.clone(), (ArrayList<Guardian>)guardians.clone(), key, (ArrayList<Door>)doors.clone(), map, false));
 		
 		guardians.clear();
@@ -81,11 +86,8 @@ public class Game {
 		ogres.clear();		
 	}
 	
-	private Guardian generateGuardian() {
-		Random rng = new Random();
-		
-		int result = rng.nextInt(3);
-		switch (result) {
+	private Guardian generateGuardian(int guardianType) {		
+		switch (guardianType) {
 		case 0:
 			return new RookieG();
 		case 1:
@@ -94,6 +96,23 @@ public class Game {
 			return new SuspiciousG();
 		default:
 			return null;
+		}
+	}
+
+	private Ogre generateOgre(Hero hero, char map[][]){
+		int height = map.length;
+		int width = map[0].length;
+		Random rng = new Random();
+		
+		int x;
+		int y;
+		
+		while(true){
+			y = rng.nextInt(height);
+			x = rng.nextInt(width);
+			if(!hero.checkColision(new Ogre(x,y)))
+				if(map[y][x] == ' ' || map[y][x] == 'O' || map[y][x] == '*')
+					return new Ogre(x, y);
 		}
 	}
 
