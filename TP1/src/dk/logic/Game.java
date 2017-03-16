@@ -17,7 +17,6 @@ public class Game {
 
 	public Game() {
 		initLevels();
-		advanceLevel();
 	}
 
 	public Game(ArrayList<Level> testLevels){
