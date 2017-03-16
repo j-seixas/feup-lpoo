@@ -20,7 +20,6 @@ public class Game {
 
 	public Game(int ogreNumber, int guardianType) {
 		initLevels(ogreNumber, guardianType);
-		advanceLevel();
 	}
 
 	public Game(ArrayList<Level> testLevels){
@@ -153,6 +152,10 @@ public class Game {
 			if(!changeMap)
 				if(levels.get(level).handleNPC())
 					game_stat = GameStat.LOSE;
+			
+			if(level < levels.size())
+				levels.get(level).updateMap();
+			else levels.get(level-1).updateMap();;
 		}
 	}
 

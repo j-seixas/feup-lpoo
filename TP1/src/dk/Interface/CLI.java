@@ -39,9 +39,8 @@ public class CLI {
 	}
 
 	public void run(Game game) {
-		game.getCurrentLevel().updateMap();
 		printMap(game.getCurrentLevel().getMap());
-		Game.GameStat currentStatus = Game.GameStat.RUNNING;
+		Game.GameStat currentStatus;
 		while (true) {
 			GameCharacter.Direction currentDirection = this.getInput();
 			if (currentDirection != GameCharacter.Direction.NONE) {
@@ -53,8 +52,7 @@ public class CLI {
 					currentStatus = game.getGameStatus();
 					break;
 				} else {
-					// Update and print the map
-					currentLevel.updateMap();
+					//Print the map
 					printMap(game.getCurrentLevel().getMap());
 				}
 				// Check status

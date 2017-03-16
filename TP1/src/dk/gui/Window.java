@@ -14,6 +14,7 @@ import javax.swing.JTextPane;
 
 import dk.logic.Game;
 import dk.logic.GameCharacter;
+import dk.logic.Level;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -41,6 +42,33 @@ public class Window {
 				}
 			}
 		});
+	}
+
+	public void directionButtonAction(){
+		// Check for final level
+		Level currentLevel = game.getCurrentLevel();
+		if (currentLevel == null) {
+			disableDirectionButtons();
+		} else {
+			//Print the map
+			mapPane.setText(game.getStringMap());
+		}
+		// Check status
+		if (game.getGameStatus() == Game.GameStat.LOSE){
+			disableDirectionButtons();
+			mapPane.setText(mapPane.getText() + "You Lost!");
+		}
+		else if(game.getGameStatus() == Game.GameStat.WIN){
+			disableDirectionButtons();
+			mapPane.setText(mapPane.getText() + "You Won!");
+		}
+	}
+	
+	private void disableDirectionButtons() {
+		btnUp.setEnabled(false);
+		btnDown.setEnabled(false);
+		btnRight.setEnabled(false);
+		btnLeft.setEnabled(false);
 	}
 
 	public Window() {
@@ -107,6 +135,7 @@ public class Window {
 				btnDown.setEnabled(true);
 				btnLeft.setEnabled(true);
 				btnRight.setEnabled(true);
+				mapPane.setText(game.getStringMap());
 			}
 		});
 		btnNewGame.setBounds(385, 30, 100, 25);
@@ -114,8 +143,8 @@ public class Window {
 		btnUp = new JButton("Up");
 		btnUp.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				mapPane.setText(game.getStringMap());
 				game.processInput(GameCharacter.Direction.UP);
+				directionButtonAction();
 			}
 		});
 		btnUp.setEnabled(false);
@@ -124,8 +153,8 @@ public class Window {
 		btnDown = new JButton("Down");
 		btnDown.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				mapPane.setText(game.getStringMap());
 				game.processInput(GameCharacter.Direction.DOWN);
+				directionButtonAction();
 			}
 		});
 		btnDown.setEnabled(false);
@@ -134,8 +163,8 @@ public class Window {
 		btnRight = new JButton("Right");
 		btnRight.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				mapPane.setText(game.getStringMap());
 				game.processInput(GameCharacter.Direction.RIGHT);
+				directionButtonAction();
 			}
 		});
 		btnRight.setEnabled(false);
@@ -144,8 +173,8 @@ public class Window {
 		btnLeft = new JButton("Left");
 		btnLeft.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				mapPane.setText(game.getStringMap());
 				game.processInput(GameCharacter.Direction.LEFT);
+				directionButtonAction();
 			}
 		});
 		btnLeft.setEnabled(false);
