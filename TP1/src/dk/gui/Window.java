@@ -26,7 +26,7 @@ public class Window {
 	private JTextField ogreNumber;
 	private JComboBox<String> guardSelector;
 	private JTextPane mapPane;
-	private JButton btnNewGame;
+	private JButton btnNewGame, btnExit;
 	private JButton btnUp, btnDown, btnLeft, btnRight;
 	private JLabel lblInstructions;
 	private Game game; 
@@ -57,10 +57,12 @@ public class Window {
 		if (game.getGameStatus() == Game.GameStat.LOSE){
 			disableDirectionButtons();
 			mapPane.setText(mapPane.getText() + "You Lost!");
+			lblInstructions.setText("You Lost! Select Ogre Number and Guard Type to Play.");
 		}
 		else if(game.getGameStatus() == Game.GameStat.WIN){
 			disableDirectionButtons();
 			mapPane.setText(mapPane.getText() + "You Won!");
+			lblInstructions.setText("You Won! Select Ogre Number and Guard Type to Play.");
 		}
 	}
 	
@@ -138,8 +140,16 @@ public class Window {
 				mapPane.setText(game.getStringMap());
 			}
 		});
-		btnNewGame.setBounds(385, 30, 100, 25);
-
+		btnNewGame.setBounds(385, 50, 100, 25);
+		
+		btnExit = new JButton("Exit");
+		btnExit.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				System.exit(0);
+			}
+		});
+		btnExit.setBounds(385, 300, 100, 25);
+		
 		btnUp = new JButton("Up");
 		btnUp.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -191,6 +201,7 @@ public class Window {
 		frame.getContentPane().add(guardSelector);
 		frame.getContentPane().add(mapPane);
 		frame.getContentPane().add(btnNewGame);
+		frame.getContentPane().add(btnExit);
 		frame.getContentPane().add(btnUp);
 		frame.getContentPane().add(btnDown);
 		frame.getContentPane().add(btnLeft);
