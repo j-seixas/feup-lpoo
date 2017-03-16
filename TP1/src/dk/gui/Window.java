@@ -24,9 +24,6 @@ public class Window {
 	private JTextField ogreNumber;
 	private JTextPane mapPane;
 
-	/**
-	 * Launch the application.
-	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -40,91 +37,65 @@ public class Window {
 		});
 	}
 
-	/**
-	 * Create the application.
-	 */
 	public Window() {
 		initialize();
 	}
 
-	/**
-	 * Initialize the contents of the frame.
-	 */
 	private void initialize() {
 		//Get Screen Resolution
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		double width = screenSize.getWidth();
 		double height = screenSize.getHeight();
 		
+		//Frame
 		frame = new JFrame();
 		frame.setBounds(0, 0, 600, 400);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
+		//Labels
+		JLabel ogreNumberLabel = new JLabel("Number of Ogres");
+		ogreNumberLabel.setBounds(20, 15, 100, 15);
 		JLabel guardSelectorLabel = new JLabel("Guard personality");
-		guardSelectorLabel.setBounds(12, 41, 100, 16);
+		guardSelectorLabel.setBounds(20, 45, 100, 15);		
 		
+		//Selector
 		JComboBox guardSelector = new JComboBox();
-		guardSelector.setBounds(133, 38, 93, 22);
+		guardSelector.setBounds(135, 45, 100, 20);
 		guardSelector.setModel(new DefaultComboBoxModel(new String[] {"Rookie", "Drunken", "Suspicious"}));
 		
-		
-		//GET THE GUARD OPTION
-		//String x = guardSelector.getSelectedItem().toString();
-
-		
-		JLabel ogreNumberLabel = new JLabel("Number of Ogres:");
-		ogreNumberLabel.setBounds(12, 16, 103, 16);
-		
+		//Ogre Number
 		ogreNumber = new JTextField();
-		ogreNumber.setBounds(133, 13, 31, 22);
-		ogreNumber.setColumns(10);
-		
+		ogreNumber.setBounds(135, 15, 30, 20);
+
+		//Map Pane
 		mapPane = new JTextPane();
-		mapPane.setBounds(12, 84, 324, 256);
+		mapPane.setBounds(20, 80, 255, 255);
 		mapPane.setEditable(false);
 		
-		//mapPane.setText(x);
-		
+		//Buttons
 		JButton btnNewGame = new JButton("New Game");
-		btnNewGame.setBounds(412, 37, 95, 25);
-		btnNewGame.setHorizontalTextPosition(SwingConstants.CENTER);
+		btnNewGame.setBounds(385, 30, 100, 25);
 		
 		JButton btnUp = new JButton("Up");
-		btnUp.setBounds(427, 140, 65, 25);
-		btnUp.setMargin(new Insets(0, 0, 0, 0));
-		btnUp.setHorizontalTextPosition(SwingConstants.CENTER);
-		btnUp.setMinimumSize(new Dimension(80, 25));
-		btnUp.setPreferredSize(new Dimension(80, 25));
-		btnUp.setMaximumSize(new Dimension(80, 25));
+		btnUp.setBounds(395, 130, 80, 25);
 		
 		JButton btnDown = new JButton("Down");
-		btnDown.setPreferredSize(new Dimension(80, 25));
-		btnDown.setBounds(427, 221, 65, 25);
-		btnDown.setMinimumSize(new Dimension(80, 25));
-		btnDown.setMaximumSize(new Dimension(80, 25));
+		btnDown.setBounds(395, 220, 80, 25);
 		
 		JButton btnRight = new JButton("Right");
-		btnRight.setBounds(493, 178, 65, 25);
-		btnRight.setHorizontalTextPosition(SwingConstants.CENTER);
-		btnRight.setMinimumSize(new Dimension(80, 25));
-		btnRight.setPreferredSize(new Dimension(80, 25));
-		btnRight.setMaximumSize(new Dimension(80, 25));
-		btnRight.setActionCommand("Right");
+		btnRight.setBounds(455, 175, 80, 25);
 		
 		JButton btnLeft = new JButton("Left");
-		btnLeft.setBounds(369, 178, 65, 25);
-		btnLeft.setHorizontalTextPosition(SwingConstants.CENTER);
-		btnLeft.setMinimumSize(new Dimension(80, 25));
-		btnLeft.setPreferredSize(new Dimension(80, 25));
-		btnLeft.setMaximumSize(new Dimension(80, 25));
-		btnLeft.setActionCommand("Left");
+		btnLeft.setBounds(335, 175, 80, 25);
+		
+		//Add elements to the frame
 		frame.getContentPane().setLayout(null);
 		frame.getContentPane().add(ogreNumberLabel);
-		frame.getContentPane().add(guardSelectorLabel);
 		frame.getContentPane().add(ogreNumber);
+		frame.getContentPane().add(guardSelectorLabel);
 		frame.getContentPane().add(guardSelector);
-		frame.getContentPane().add(btnNewGame);
 		frame.getContentPane().add(mapPane);
+		frame.getContentPane().add(btnNewGame);
 		frame.getContentPane().add(btnUp);
 		frame.getContentPane().add(btnDown);
 		frame.getContentPane().add(btnLeft);
