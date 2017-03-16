@@ -26,7 +26,7 @@ public class Window {
 	private JButton btnNewGame;
 	private JButton btnUp, btnDown, btnLeft, btnRight;
 	private JLabel lblInstructions;
-	private Game game;
+	private Game game; 
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
