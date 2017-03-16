@@ -7,8 +7,6 @@ import java.util.ArrayList;
 import org.junit.Test;
 import dk.logic.*;
 
-import dk.Interface.*;
-
 public class TestRandomMovement {
 
 	public ArrayList<Level> initTestLevelsOgreAwake() {
