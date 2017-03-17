@@ -1,4 +1,4 @@
-package dk.Interface;
+package dk.cli;
 
 import java.util.Scanner;
 import dk.logic.Game;

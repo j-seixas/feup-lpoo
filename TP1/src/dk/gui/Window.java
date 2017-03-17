@@ -25,7 +25,8 @@ public class Window {
 	private JFrame frame;
 	private JTextField ogreNumber;
 	private JComboBox<String> guardSelector;
-	private JTextPane mapPane;
+	//private JTextPane mapPane;
+	private GPanel graphics;
 	private JButton btnNewGame, btnExit;
 	private JButton btnUp, btnDown, btnLeft, btnRight;
 	private JLabel lblInstructions;
@@ -51,17 +52,20 @@ public class Window {
 			disableDirectionButtons();
 		} else {
 			//Print the map
-			mapPane.setText(game.getStringMap());
+			//mapPane.setText(game.getStringMap());
+			graphics.setMap(game.getMap());
+			graphics.repaint();
+			graphics.revalidate();
 		}
 		// Check status
 		if (game.getGameStatus() == Game.GameStat.LOSE){
 			disableDirectionButtons();
-			mapPane.setText(mapPane.getText() + "You Lost!");
+			//mapPane.setText(mapPane.getText() + "You Lost!");
 			lblInstructions.setText("You Lost! Select Ogre Number and Guard Type to Play.");
 		}
 		else if(game.getGameStatus() == Game.GameStat.WIN){
 			disableDirectionButtons();
-			mapPane.setText(mapPane.getText() + "You Won!");
+			//mapPane.setText(mapPane.getText() + "You Won!");
 			lblInstructions.setText("You Won! Select Ogre Number and Guard Type to Play.");
 		}
 	}
@@ -80,8 +84,8 @@ public class Window {
 	private void initialize() {
 		// Get Screen Resolution
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-		double width = screenSize.getWidth();
-		double height = screenSize.getHeight();
+		double screenWidth = screenSize.getWidth();
+		double screenHeight = screenSize.getHeight();
 
 		// Frame
 		frame = new JFrame();
@@ -90,24 +94,27 @@ public class Window {
 
 		// Labels
 		JLabel ogreNumberLabel = new JLabel("Number of Ogres");
-		ogreNumberLabel.setBounds(20, 15, 100, 15);
+		ogreNumberLabel.setBounds(20, 15, 115, 15);
 		JLabel guardSelectorLabel = new JLabel("Guard Personality");
-		guardSelectorLabel.setBounds(20, 45, 100, 15);
+		guardSelectorLabel.setBounds(20, 45, 115, 15);
 
 		// Selector
 		guardSelector = new JComboBox<String>();
-		guardSelector.setBounds(135, 45, 100, 20);
+		guardSelector.setBounds(150, 45, 100, 20);
 		guardSelector.setModel(new DefaultComboBoxModel<String>(new String[] { "Rookie", "Drunken", "Suspicious" }));
 
 		// Ogre Number
 		ogreNumber = new JTextField(2);
-		ogreNumber.setBounds(135, 15, 30, 20);
+		ogreNumber.setBounds(150, 15, 30, 20);
 
+		//Graphics Pane
+		graphics = new GPanel(20, 80, 250, 250);
+		
 		// Map Pane
-		mapPane = new JTextPane();
-		mapPane.setFont(new Font("Courier New", Font.BOLD, 20));
-		mapPane.setBounds(20, 80, 255, 255);
-		mapPane.setEditable(false);
+		//mapPane = new JTextPane();
+		//mapPane.setFont(new Font("Courier New", Font.BOLD, 20));
+		//mapPane.setBounds(20, 80, 255, 255);
+		//mapPane.setEditable(false);
 
 		// Buttons
 		btnNewGame = new JButton("New Game");
@@ -137,7 +144,10 @@ public class Window {
 				btnDown.setEnabled(true);
 				btnLeft.setEnabled(true);
 				btnRight.setEnabled(true);
-				mapPane.setText(game.getStringMap());
+				graphics.setMap(game.getMap());
+				graphics.repaint();
+				graphics.revalidate();
+				//mapPane.setText(game.getStringMap());
 			}
 		});
 		btnNewGame.setBounds(385, 50, 100, 25);
@@ -199,7 +209,8 @@ public class Window {
 		frame.getContentPane().add(ogreNumber);
 		frame.getContentPane().add(guardSelectorLabel);
 		frame.getContentPane().add(guardSelector);
-		frame.getContentPane().add(mapPane);
+		frame.getContentPane().add(graphics);
+		//frame.getContentPane().add(mapPane);
 		frame.getContentPane().add(btnNewGame);
 		frame.getContentPane().add(btnExit);
 		frame.getContentPane().add(btnUp);

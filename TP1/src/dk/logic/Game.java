@@ -177,6 +177,13 @@ public class Game {
 		return levels.get(level - 1);
 	}
 	
+	public char[][] getMap(){
+		if(getCurrentLevel() != null){
+			return getCurrentLevel().getMap();
+		}
+		else return getLastLevel().getMap();
+	}
+	
 	public String getStringMap(){
 		char map[][] = levels.get(level).getMap();
 		String result = new String();
