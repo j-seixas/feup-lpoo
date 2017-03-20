@@ -122,7 +122,8 @@ public class GPanel extends JPanel {
 			for (int j = 0; j < map[i].length; j++) {
 				if (map[i][j] == 'G' || map[i][j] == 'g' || map[i][j] == 'X'|| map[i][j] == 'O' || map[i][j] == 'H') {
 					image = getImage(map[i][j]);
-					g.drawImage(image, j * pixelWidth, i * pixelHeight, pixelWidth, pixelHeight, null);
+					if(image != null)
+						g.drawImage(image, j * pixelWidth, i * pixelHeight, pixelWidth, pixelHeight, null);
 				} else {
 					g.setColor(getColor(map[i][j]));
 					g.fillRect(j * pixelWidth, i * pixelHeight, pixelWidth, pixelHeight);

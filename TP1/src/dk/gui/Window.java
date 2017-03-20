@@ -10,13 +10,15 @@ import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
-import javax.swing.JTextPane;
+//import javax.swing.JTextPane;
 
 import dk.logic.Game;
 import dk.logic.GameCharacter;
 import dk.logic.Level;
 
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.ActionEvent;
 import java.awt.Font;
 
@@ -27,6 +29,7 @@ public class Window {
 	private JComboBox<String> guardSelector;
 	//private JTextPane mapPane;
 	private GPanel graphics;
+	private KeyListener keyListener;
 	private JButton btnNewGame, btnExit;
 	private JButton btnUp, btnDown, btnLeft, btnRight;
 	private JLabel lblInstructions;
@@ -46,6 +49,7 @@ public class Window {
 	}
 
 	public void directionButtonAction(){
+		graphics.requestFocusInWindow();		
 		// Check for final level
 		Level currentLevel = game.getCurrentLevel();
 		if (currentLevel == null) {
@@ -75,6 +79,7 @@ public class Window {
 		btnDown.setEnabled(false);
 		btnRight.setEnabled(false);
 		btnLeft.setEnabled(false);
+		graphics.removeKeyListener(keyListener);
 	}
 
 	public Window() {
@@ -109,6 +114,36 @@ public class Window {
 
 		//Graphics Pane
 		graphics = new GPanel(20, 80, 250, 250);
+		graphics.setFocusable(true);
+		keyListener = new KeyListener() {
+		    public void keyPressed(KeyEvent e) { 
+		    	switch(e.getKeyCode()){
+		    	case KeyEvent.VK_UP:
+		    	case KeyEvent.VK_W:
+			    	game.processInput(GameCharacter.Direction.UP);
+			    	break;
+		    	case KeyEvent.VK_DOWN:
+		    	case KeyEvent.VK_S:
+			    	game.processInput(GameCharacter.Direction.DOWN);
+			    	break;
+		    	case KeyEvent.VK_RIGHT:
+		    	case KeyEvent.VK_D:
+			    	game.processInput(GameCharacter.Direction.RIGHT);
+			    	break;
+		    	case KeyEvent.VK_LEFT:
+		    	case KeyEvent.VK_A:
+			    	game.processInput(GameCharacter.Direction.LEFT);
+			    	break; 		    	
+		    	default:
+		    			return;
+		    	}
+		    	directionButtonAction();		    	
+		    }
+
+		    public void keyReleased(KeyEvent e) {  }
+
+		    public void keyTyped(KeyEvent e) {  }
+		};
 		
 		// Map Pane
 		//mapPane = new JTextPane();
@@ -147,6 +182,8 @@ public class Window {
 				graphics.setMap(game.getMap());
 				graphics.repaint();
 				graphics.revalidate();
+				graphics.requestFocusInWindow();	
+				graphics.addKeyListener(keyListener);
 				//mapPane.setText(game.getStringMap());
 			}
 		});
@@ -204,6 +241,7 @@ public class Window {
 		lblInstructions.setBounds(20, 350, 400, 15);
 
 		// Add elements to the frame
+		frame.setResizable(false);
 		frame.getContentPane().setLayout(null);
 		frame.getContentPane().add(ogreNumberLabel);
 		frame.getContentPane().add(ogreNumber);
