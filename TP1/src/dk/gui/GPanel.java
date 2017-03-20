@@ -23,8 +23,20 @@ public class GPanel extends JPanel {
 		this.map = map;
 		pixelHeight = this.getHeight() / map.length;
 		pixelWidth = this.getWidth() / map[0].length;
+		this.setBounds(getX(), getY(), pixelWidth * map[0].length, pixelHeight * map.length);
 	}
 
+	private BufferedImage getBackgroundImage(){
+		BufferedImage image = null;
+		try {
+			image = ImageIO.read(new File("imgs/floor 1.png"));
+
+		} catch (IOException e) {
+			return null;
+		}
+		return image;
+	}
+	
 	private Color getColor(char c) {
 		switch (c) {
 		case 'X':
@@ -66,7 +78,43 @@ public class GPanel extends JPanel {
 		switch (c) {
 		case 'X':
 			try {
-				image = ImageIO.read(new File("imgs/block_02.png"));
+				image = ImageIO.read(new File("imgs/wall 2.png"));
+
+			} catch (IOException e) {
+				return null;
+			}
+			return image;
+		
+		case 'I':
+			try {
+				image = ImageIO.read(new File("imgs/door_closed.png"));
+
+			} catch (IOException e) {
+				return null;
+			}
+			return image;
+			
+		case 'S':
+			try {
+				image = ImageIO.read(new File("imgs/door_open.png"));
+
+			} catch (IOException e) {
+				return null;
+			}
+			return image;
+			
+		case '*':
+			try {
+				image = ImageIO.read(new File("imgs/club.png"));
+
+			} catch (IOException e) {
+				return null;
+			}
+			return image;
+			
+		case 'k':
+			try {
+				image = ImageIO.read(new File("imgs/key.png"));
 
 			} catch (IOException e) {
 				return null;
@@ -92,7 +140,7 @@ public class GPanel extends JPanel {
 			return image;
 		case 'g':
 			try {
-				image = ImageIO.read(new File("imgs/sleepingguardian.png"));
+				image = ImageIO.read(new File("imgs/guardian_sleeping.png"));
 
 			} catch (IOException e) {
 				return null;
@@ -116,14 +164,15 @@ public class GPanel extends JPanel {
 	@Override
 	public void paintComponent(Graphics g) {
 		BufferedImage image = null;
+		BufferedImage background = getBackgroundImage();
 		if (map == null)
 			return;
 		for (int i = 0; i < map.length; i++) {
 			for (int j = 0; j < map[i].length; j++) {
-				if (map[i][j] == 'G' || map[i][j] == 'g' || map[i][j] == 'X'|| map[i][j] == 'O' || map[i][j] == 'H') {
-					image = getImage(map[i][j]);
-					if(image != null)
-						g.drawImage(image, j * pixelWidth, i * pixelHeight, pixelWidth, pixelHeight, null);
+				image = getImage(map[i][j]);
+				g.drawImage(background, j * pixelWidth, i * pixelHeight, pixelWidth, pixelHeight, null);
+				if(image != null || map[i][j] == ' '){
+					g.drawImage(image, j * pixelWidth, i * pixelHeight, pixelWidth, pixelHeight, null);
 				} else {
 					g.setColor(getColor(map[i][j]));
 					g.fillRect(j * pixelWidth, i * pixelHeight, pixelWidth, pixelHeight);
