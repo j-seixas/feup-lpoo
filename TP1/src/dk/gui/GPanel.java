@@ -52,13 +52,13 @@ public class GPanel extends JPanel {
 		try{
 			switch (c) {
 			case 'X':
-				image = ImageIO.read(new File("imgs/wall 2.png"));
+				image = ImageIO.read(new File("imgs/rock_wall.png"));
 				return image;
 			case 'I':
-				image = ImageIO.read(new File("imgs/door_closed.png"));
+				image = ImageIO.read(new File("imgs/door.png"));
 				return image;
 			case 'S':
-				image = ImageIO.read(new File("imgs/door_open.png"));
+				image = ImageIO.read(new File("imgs/stairs.png"));
 				return image;
 			case '*':
 				image = ImageIO.read(new File("imgs/club.png"));
@@ -67,9 +67,13 @@ public class GPanel extends JPanel {
 				image = ImageIO.read(new File("imgs/key.png"));
 				return image;
 			case 'H':
-			case 'A': //TODO
-			case 'K': //TODO
-				image = ImageIO.read(new File("imgs/hero.png"));
+				image = ImageIO.read(new File("imgs/captainamerica.png"));
+				return image;
+			case 'A': 
+				image = ImageIO.read(new File("imgs/captainamerica_shield.png"));
+				return image;
+			case 'K': 
+				image = ImageIO.read(new File("imgs/captainamerica_shield_key.png"));
 				return image;
 			case 'G':
 				image = ImageIO.read(new File("imgs/guardian.png"));
