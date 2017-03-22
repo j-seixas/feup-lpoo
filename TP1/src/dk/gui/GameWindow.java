@@ -1,8 +1,9 @@
 package dk.gui;
 
-import java.awt.Dimension;
-import java.awt.EventQueue;
-import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
@@ -10,71 +11,50 @@ import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
-//import javax.swing.JTextPane;
 
 import dk.logic.Game;
 import dk.logic.GameCharacter;
 import dk.logic.Level;
 
-import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.awt.event.ActionEvent;
-//import java.awt.Font;
+public class GameWindow {
 
-public class Window {
-
-	private JFrame frame;
+	private JFrame gameFrame;
 	private JTextField ogreNumber;
 	private JComboBox<String> guardSelector;
-	//private JTextPane mapPane;
 	private GPanel graphics;
 	private KeyListener keyListener;
 	private JButton btnNewGame, btnExit;
 	private JButton btnUp, btnDown, btnLeft, btnRight;
 	private JLabel lblInstructions;
-	private Game game; 
+	private Game game;
 
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Window window = new Window();
-					window.frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
+	public GameWindow() {
+		init();
 	}
-
-	public void directionButtonAction(){
-		graphics.requestFocusInWindow();		
+	
+	public void directionButtonAction() {
+		graphics.requestFocusInWindow();
 		// Check for final level
 		Level currentLevel = game.getCurrentLevel();
 		if (currentLevel == null) {
 			disableDirectionButtons();
 		} else {
-			//Print the map
-			//mapPane.setText(game.getStringMap());
+			// Print the map
 			graphics.setMap(game.getMap());
 			graphics.repaint();
 			graphics.revalidate();
 		}
 		// Check status
-		if (game.getGameStatus() == Game.GameStat.LOSE){
+		if (game.getGameStatus() == Game.GameStat.LOSE) {
 			disableDirectionButtons();
-			//mapPane.setText(mapPane.getText() + "You Lost!");
 			lblInstructions.setText("You Lost! Select Ogre Number and Guard Type to Play.");
-		}
-		else if(game.getGameStatus() == Game.GameStat.WIN){
+		} else if (game.getGameStatus() == Game.GameStat.WIN) {
 			disableDirectionButtons();
-			//mapPane.setText(mapPane.getText() + "You Won!");
 			lblInstructions.setText("You Won! Select Ogre Number and Guard Type to Play.");
 		}
 	}
-	
-	private void disableDirectionButtons() {
+
+	public void disableDirectionButtons() {
 		btnUp.setEnabled(false);
 		btnDown.setEnabled(false);
 		btnRight.setEnabled(false);
@@ -82,20 +62,11 @@ public class Window {
 		graphics.removeKeyListener(keyListener);
 	}
 
-	public Window() {
-		initialize();
-	}
-
-	private void initialize() {
-		// Get Screen Resolution
-		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-		double screenWidth = screenSize.getWidth();
-		double screenHeight = screenSize.getHeight();
-
+	private void init() {
 		// Frame
-		frame = new JFrame();
-		frame.setBounds(0, 0, 600, 425);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		gameFrame = new JFrame();
+		gameFrame.setBounds(0, 0, 600, 425);
+		gameFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		// Labels
 		JLabel ogreNumberLabel = new JLabel("Number of Ogres");
@@ -112,44 +83,40 @@ public class Window {
 		ogreNumber = new JTextField(2);
 		ogreNumber.setBounds(150, 15, 30, 20);
 
-		//Graphics Pane
+		// Graphics Pane
 		graphics = new GPanel(20, 80, 250, 250);
 		graphics.setFocusable(true);
 		keyListener = new KeyListener() {
-		    public void keyPressed(KeyEvent e) { 
-		    	switch(e.getKeyCode()){
-		    	case KeyEvent.VK_UP:
-		    	case KeyEvent.VK_W:
-			    	game.processInput(GameCharacter.Direction.UP);
-			    	break;
-		    	case KeyEvent.VK_DOWN:
-		    	case KeyEvent.VK_S:
-			    	game.processInput(GameCharacter.Direction.DOWN);
-			    	break;
-		    	case KeyEvent.VK_RIGHT:
-		    	case KeyEvent.VK_D:
-			    	game.processInput(GameCharacter.Direction.RIGHT);
-			    	break;
-		    	case KeyEvent.VK_LEFT:
-		    	case KeyEvent.VK_A:
-			    	game.processInput(GameCharacter.Direction.LEFT);
-			    	break; 		    	
-		    	default:
-		    			return;
-		    	}
-		    	directionButtonAction();		    	
-		    }
+			public void keyPressed(KeyEvent e) {
+				switch (e.getKeyCode()) {
+				case KeyEvent.VK_UP:
+				case KeyEvent.VK_W:
+					game.processInput(GameCharacter.Direction.UP);
+					break;
+				case KeyEvent.VK_DOWN:
+				case KeyEvent.VK_S:
+					game.processInput(GameCharacter.Direction.DOWN);
+					break;
+				case KeyEvent.VK_RIGHT:
+				case KeyEvent.VK_D:
+					game.processInput(GameCharacter.Direction.RIGHT);
+					break;
+				case KeyEvent.VK_LEFT:
+				case KeyEvent.VK_A:
+					game.processInput(GameCharacter.Direction.LEFT);
+					break;
+				default:
+					return;
+				}
+				directionButtonAction();
+			}
 
-		    public void keyReleased(KeyEvent e) {  }
+			public void keyReleased(KeyEvent e) {
+			}
 
-		    public void keyTyped(KeyEvent e) {  }
+			public void keyTyped(KeyEvent e) {
+			}
 		};
-		
-		// Map Pane
-		//mapPane = new JTextPane();
-		//mapPane.setFont(new Font("Courier New", Font.BOLD, 20));
-		//mapPane.setBounds(20, 80, 255, 255);
-		//mapPane.setEditable(false);
 
 		// Buttons
 		btnNewGame = new JButton("New Game");
@@ -182,13 +149,12 @@ public class Window {
 				graphics.setMap(game.getMap());
 				graphics.repaint();
 				graphics.revalidate();
-				graphics.requestFocusInWindow();	
+				graphics.requestFocusInWindow();
 				graphics.addKeyListener(keyListener);
-				//mapPane.setText(game.getStringMap());
 			}
 		});
 		btnNewGame.setBounds(385, 50, 100, 25);
-		
+
 		btnExit = new JButton("Exit");
 		btnExit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -196,7 +162,7 @@ public class Window {
 			}
 		});
 		btnExit.setBounds(385, 300, 100, 25);
-		
+
 		btnUp = new JButton("Up");
 		btnUp.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -241,20 +207,27 @@ public class Window {
 		lblInstructions.setBounds(20, 350, 400, 15);
 
 		// Add elements to the frame
-		frame.setResizable(false);
-		frame.getContentPane().setLayout(null);
-		frame.getContentPane().add(ogreNumberLabel);
-		frame.getContentPane().add(ogreNumber);
-		frame.getContentPane().add(guardSelectorLabel);
-		frame.getContentPane().add(guardSelector);
-		frame.getContentPane().add(graphics);
-		//frame.getContentPane().add(mapPane);
-		frame.getContentPane().add(btnNewGame);
-		frame.getContentPane().add(btnExit);
-		frame.getContentPane().add(btnUp);
-		frame.getContentPane().add(btnDown);
-		frame.getContentPane().add(btnLeft);
-		frame.getContentPane().add(btnRight);
-		frame.getContentPane().add(lblInstructions);
+		gameFrame.setResizable(false);
+		gameFrame.getContentPane().setLayout(null);
+		gameFrame.getContentPane().add(ogreNumberLabel);
+		gameFrame.getContentPane().add(ogreNumber);
+		gameFrame.getContentPane().add(guardSelectorLabel);
+		gameFrame.getContentPane().add(guardSelector);
+		gameFrame.getContentPane().add(graphics);
+		gameFrame.getContentPane().add(btnNewGame);
+		gameFrame.getContentPane().add(btnExit);
+		gameFrame.getContentPane().add(btnUp);
+		gameFrame.getContentPane().add(btnDown);
+		gameFrame.getContentPane().add(btnLeft);
+		gameFrame.getContentPane().add(btnRight);
+		gameFrame.getContentPane().add(lblInstructions);
+	}
+
+	public void enable(){
+		gameFrame.setVisible(true);
+	}
+
+	public void disable(){
+		gameFrame.setVisible(false);
 	}
 }
