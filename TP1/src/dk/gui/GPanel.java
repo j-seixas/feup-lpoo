@@ -24,6 +24,15 @@ public class GPanel extends JPanel {
 		pixelWidth = this.getWidth() / map[0].length;
 		this.setBounds(getX(), getY(), pixelWidth * map[0].length, pixelHeight * map.length);
 	}
+	
+	public void setDefaultMap(int x, int y){
+		this.map = new char[y][x];
+		for(char[] line : this.map){
+			for(char c : line){
+				c = ' ';
+			}
+		}
+	}
 
 	private BufferedImage getBackgroundImage(){
 		BufferedImage image = null;
