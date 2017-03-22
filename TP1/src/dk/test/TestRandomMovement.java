@@ -77,5 +77,33 @@ public class TestRandomMovement {
 		else fail("Ogre is in incorrect position");	
 	}
 
-
+	@Test
+	public void testLevelsOfIterationsDrunken(){
+		Game game = new Game(1, 1);
+		game.getCurrentLevel().updateMap();
+		Coordinates coord1 = new Coordinates(8,1);
+		Coordinates coord2 = new Coordinates(7,1);
+		Coordinates init = new Coordinates(8,1);
+		assertEquals('G', game.getCurrentLevel().getMap(init));
+		assertEquals(new Coordinates(1, 1), game.getCurrentLevel().getHero().getCoord());
+		game.processInput(GameCharacter.Direction.RIGHT);
+		game.getCurrentLevel().updateMap();
+		assertEquals(new Coordinates(2, 1), game.getCurrentLevel().getHero().getCoord());
+		assertTrue('g'== game.getCurrentLevel().getMap(coord1) || 'G' == game.getCurrentLevel().getMap(coord2));
+	}
+	
+	@Test
+	public void testLevelsOfIterationsSuspicious(){
+		Game game = new Game(1, 2);
+		game.getCurrentLevel().updateMap();
+		Coordinates coord1 = new Coordinates(7,1);
+		Coordinates coord2 = new Coordinates(8,2);
+		Coordinates init = new Coordinates(8,1);
+		assertEquals('G', game.getCurrentLevel().getMap(init));
+		assertEquals(new Coordinates(1, 1), game.getCurrentLevel().getHero().getCoord());
+		game.processInput(GameCharacter.Direction.RIGHT);
+		game.getCurrentLevel().updateMap();
+		assertEquals(new Coordinates(2, 1), game.getCurrentLevel().getHero().getCoord());
+		assertTrue('G'== game.getCurrentLevel().getMap(coord1) || 'G' == game.getCurrentLevel().getMap(coord2));
+	}
 }
