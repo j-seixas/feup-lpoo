@@ -3,7 +3,7 @@ package dk.logic;
 public class Door {
 	private Coordinates coordinates;
 	private boolean door_is_open = false;
-	
+	 
 	public Door(int x, int y) {
 		coordinates = new Coordinates(x,y);
 	}
@@ -21,5 +21,12 @@ public class Door {
 	public boolean isOpen(){
 		return door_is_open;
 	}
+
+	public int getX() {
+		return coordinates.getX();
+	}
 	
+	public int getY() {
+		return coordinates.getY();
+	}
 }
