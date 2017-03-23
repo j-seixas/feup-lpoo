@@ -153,39 +153,43 @@ public class Game {
 				if(levels.get(level).handleNPC())
 					game_stat = GameStat.LOSE;
 			
-			if(level < levels.size())
-				levels.get(level).updateMap();
-			else levels.get(level-1).updateMap();;
+			updateMap();
 		}
 	}
 
-	public Level getCurrentLevel(){
-		if(level < levels.size())
-			return levels.get(level);
-		else return null;
-	}
+	
 
+	//Wrappers / Getters / Setters
+	
+	public boolean isOver(){
+		return game_stat != GameStat.RUNNING || getCurrentLevel() == null;
+	}
+	
 	public GameStat getGameStatus() {
 		return this.game_stat;
 	}
 
-	public boolean isGameOver() {
-		return game_stat.ordinal() == GameStat.LOSE.ordinal();
-	}
-
-	public Level getLastLevel(){
-		return levels.get(level - 1);
+	public char[][] getCurrentMap(){
+		Level currentLevel = getCurrentLevel();
+		if(currentLevel != null)
+			return currentLevel.getMap();
+		else return null;
 	}
 	
-	public char[][] getMap(){
-		if(getCurrentLevel() != null){
-			return getCurrentLevel().getMap();
-		}
-		else return getLastLevel().getMap();
+	public char getCurrentMap(Coordinates c){
+		return getCurrentMap()[c.getY()][c.getX()];
+	}
+	
+ 	public Level getCurrentLevel(){
+		if(level < levels.size())
+			return levels.get(level);
+		else if(level - 1 < levels.size())
+			return levels.get(level - 1);	
+		else return null;
 	}
 	
 	public String getStringMap(){
-		char map[][] = levels.get(level).getMap();
+		char map[][] = getCurrentMap();
 		String result = new String();
 		for(char i[] : map){
 			for(char j : i)
@@ -193,5 +197,18 @@ public class Game {
 			result += "\n";
 		}
 		return result;
+	}
+
+	public void updateMap(){
+		Level currentLevel = getCurrentLevel();
+		if(currentLevel != null)
+			currentLevel.updateMap();
+	}
+
+	public Hero getCurrentHero(){
+		Level currentLevel = getCurrentLevel();
+		if(currentLevel != null)
+			return currentLevel.getHero();
+		else return null;
 	}
 }
