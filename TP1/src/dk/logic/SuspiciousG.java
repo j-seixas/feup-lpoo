@@ -9,6 +9,10 @@ public class SuspiciousG extends Guardian {
 	public SuspiciousG() {
 		super();
 	}
+	
+	public SuspiciousG(int x, int y) {
+		super(x, y);
+	}
 
 	private void directionMove() {
 		if (wait <= 0) {

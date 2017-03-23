@@ -12,7 +12,7 @@ public class Level {
 	private ArrayList<Door> doors;
 	private char initialMap[][];
 	private char currentMap[][];
-	private boolean won_by_lever; 
+	private boolean won_by_lever;
 
 	public Level(Hero hero, ArrayList<Ogre> ogres, ArrayList<Guardian> guardians, Coordinates key,
 			ArrayList<Door> doors, char[][] initialMap, boolean won_by_lever) {
@@ -31,6 +31,9 @@ public class Level {
 	}
 
 	public Level() {
+		hero = null;
+		key = null;
+		won_by_lever = true;
 		ogres = new ArrayList<Ogre>();
 		guardians = new ArrayList<Guardian>();
 		doors = new ArrayList<Door>();
@@ -125,7 +128,10 @@ public class Level {
 		}
 
 		// Draw key
-		if ((hero != null && !hero.getHasKey()) || won_by_lever)
+		if (hero != null) {
+			if ((!hero.getHasKey() || won_by_lever) && key != null)
+				setMap(key, 'k');
+		} else if (key != null)
 			setMap(key, 'k');
 
 		// Draw hero
@@ -149,16 +155,24 @@ public class Level {
 		}
 		for (Ogre currentOgre : ogres) {
 			// Draw Ogre
-			if (currentOgre.getCoord().equals(key) && hero != null && !hero.getHasKey())
-				setMap(currentOgre.getCoord(), '$');
-			else if (currentOgre.isStunned())
+			if (key != null && hero != null){
+				if (currentOgre.getCoord().equals(key) && !hero.getHasKey())
+					setMap(currentOgre.getCoord(), '$');
+				else if (currentOgre.isStunned())
+					setMap(currentOgre.getCoord(), '8');
+				else
+					setMap(currentOgre.getCoord(), 'O');
+			} else if (currentOgre.isStunned())
 				setMap(currentOgre.getCoord(), '8');
 			else
 				setMap(currentOgre.getCoord(), 'O');
 			// Draw Club
-			if (currentOgre.getClub().getCoord().equals(key) && hero != null && !hero.getHasKey())
-				setMap(currentOgre.getClub().getCoord(), '$');
-			else if (getMap(currentOgre.getClub().getCoord()) != 'O')
+			if (key != null && hero != null){
+				if (currentOgre.getClub().getCoord().equals(key) && !hero.getHasKey())
+					setMap(currentOgre.getClub().getCoord(), '$');
+				else if (getMap(currentOgre.getClub().getCoord()) != 'O')
+					setMap(currentOgre.getClub().getCoord(), '*');
+			} else if (getMap(currentOgre.getClub().getCoord()) != 'O')
 				setMap(currentOgre.getClub().getCoord(), '*');
 
 		}
@@ -201,6 +215,8 @@ public class Level {
 
 	public void addOgre(Ogre ogre) {
 		ogres.add(ogre);
+		updateMap();
+		ogre.getClub().moveCharacter(this);
 	}
 
 	public void addGuardian(Guardian guardian) {
@@ -211,10 +227,10 @@ public class Level {
 		doors.add(door);
 	}
 
-	public void addElement(char c, int x, int y){
+	public void addElement(char c, int x, int y) {
 		initialMap[y][x] = c;
 	}
-	
+
 	public void setKey(Coordinates key) {
 		this.key = key;
 	}
@@ -224,7 +240,7 @@ public class Level {
 	}
 
 	public boolean canAdd(Ogre ogre) {
-		if (ogres.size() < Game.MAX_OGRES)
+		if (ogres.size() >= Game.MAX_OGRES)
 			return false;
 		if (getMap(ogre.getCoord()) != ' ' && getMap(ogre.getCoord()) != 'G' && getMap(ogre.getCoord()) != 'O'
 				&& getMap(ogre.getCoord()) != '*')
@@ -279,17 +295,15 @@ public class Level {
 			}
 	}
 
-	public void removeElement(int x, int y){
+	public void removeElement(int x, int y) {
 		initialMap[y][x] = ' ';
 	}
 
-	public void removeKey(){
+	public void removeKey() {
 		key = null;
 	}
 
-	public boolean isValid(){
-		return !doors.isEmpty()
-			&& hero != null
-			&& key != null;
+	public boolean isValid() {
+		return !doors.isEmpty() && hero != null && key != null;
 	}
 }

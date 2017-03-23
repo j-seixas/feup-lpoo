@@ -9,6 +9,10 @@ public class RookieG extends Guardian {
 	public RookieG(Coordinates path[]){
 		super(path);
 	}
+	
+	public RookieG(int x, int y){
+		super(x, y);
+	}
 
 	public boolean moveCharacter(Level level) {
 		if (!sleeping) {

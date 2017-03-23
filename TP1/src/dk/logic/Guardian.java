@@ -37,6 +37,12 @@ public abstract class Guardian extends GameCharacter {
 		this.coordinates = this.path[indexPath];
 	}
 	
+	public Guardian(int x, int y){
+		indexPath = 0;
+		this.path = new Coordinates[] { new Coordinates(x, y) };
+		this.coordinates = this.path[indexPath];
+	}
+	
 	public Guardian(Coordinates path[]) {
 		indexPath = 0;
 		this.path = path;

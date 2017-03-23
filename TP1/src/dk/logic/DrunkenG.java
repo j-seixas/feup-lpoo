@@ -10,6 +10,10 @@ public class DrunkenG extends Guardian {
 		super();
 	}
 
+	public DrunkenG(int x, int y){
+		super(x, y);
+	}
+	
 	private int directionMove() {
 		if (wait == 0) {
 			Random rand = new Random();
