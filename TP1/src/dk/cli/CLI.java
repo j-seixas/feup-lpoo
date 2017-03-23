@@ -3,10 +3,9 @@ package dk.cli;
 import java.util.Scanner;
 import dk.logic.Game;
 import dk.logic.GameCharacter;
-import dk.logic.Level;
 
 public class CLI {
-
+ 
 	private Scanner keyboard_scanner = new Scanner(System.in);
 	
 	private GameCharacter.Direction getInput() {
@@ -46,22 +45,15 @@ public class CLI {
 			if (currentDirection != GameCharacter.Direction.NONE) {
 				// Process input
 				game.processInput(currentDirection);
-				// Check for final level
-				Level currentLevel = game.getCurrentLevel();
-				if (currentLevel == null) {
+				//Print the map
+				printMap(game.getCurrentMap());
+				// Check for game over
+				if(game.isOver()) {
 					currentStatus = game.getGameStatus();
 					break;
-				} else {
-					//Print the map
-					printMap(game.getCurrentLevel().getMap());
 				}
-				// Check status
-				currentStatus = game.getGameStatus();
-				if (currentStatus != Game.GameStat.RUNNING)
-					break;
 			}
 		}
-
 		keyboard_scanner.close();
 		if (currentStatus == Game.GameStat.LOSE) {
 			System.out.println("You lost!");
