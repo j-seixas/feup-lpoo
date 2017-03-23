@@ -8,7 +8,7 @@ import org.junit.Test;
 import dk.logic.*;
 
 public class TestDungeonGameLogic {
-
+ 
 	public ArrayList<Level> initTestLevelsGuardian() {
 		// Variables to init levels
 		Hero hero;
@@ -36,36 +36,29 @@ public class TestDungeonGameLogic {
 	public void testMoveHeroIntoToFreeCell() {
 		ArrayList<Level> testLevels = initTestLevelsGuardian();
 		Game game = new Game(testLevels);
-		game.getCurrentLevel().updateMap();
-		assertEquals(new Coordinates(1, 1), game.getCurrentLevel().getHero().getCoord());
+		assertEquals(new Coordinates(1, 1), game.getCurrentHero().getCoord());
 		game.processInput(GameCharacter.Direction.DOWN);
-		game.getCurrentLevel().updateMap();
-		assertEquals(new Coordinates(1, 2), game.getCurrentLevel().getHero().getCoord());
+		assertEquals(new Coordinates(1, 2), game.getCurrentHero().getCoord());
 	}
 
 	@Test
 	public void testMoveHeroIntoToWall() {
 		ArrayList<Level> testLevels = initTestLevelsGuardian();
 		Game game = new Game(testLevels);
-		game.getCurrentLevel().updateMap();
-		assertEquals(new Coordinates(1, 1), game.getCurrentLevel().getHero().getCoord());
+		assertEquals(new Coordinates(1, 1), game.getCurrentHero().getCoord());
 		game.processInput(GameCharacter.Direction.UP);
-		game.getCurrentLevel().updateMap();
-		assertEquals(new Coordinates(1, 1), game.getCurrentLevel().getHero().getCoord());
+		assertEquals(new Coordinates(1, 1), game.getCurrentHero().getCoord());
 		game.processInput(GameCharacter.Direction.LEFT);
-		game.getCurrentLevel().updateMap();
-		assertEquals(new Coordinates(1, 1), game.getCurrentLevel().getHero().getCoord());
+		assertEquals(new Coordinates(1, 1), game.getCurrentHero().getCoord());
 	}
 
 	@Test
 	public void testHeroIsCapturedByGuard() {
 		ArrayList<Level> testLevels = initTestLevelsGuardian();
 		Game game = new Game(testLevels);
-		game.getCurrentLevel().updateMap();
-		assertFalse(game.isGameOver());
+		assertFalse(game.isOver());
 		game.processInput(GameCharacter.Direction.RIGHT);
-		game.getCurrentLevel().updateMap();
-		assertTrue(game.isGameOver());
+		assertTrue(game.isOver());
 		assertEquals(Game.GameStat.LOSE, game.getGameStatus());
 	}
 
@@ -73,13 +66,11 @@ public class TestDungeonGameLogic {
 	public void testMoveHeroIntoToClosedDoorsGuardian() {
 		ArrayList<Level> testLevels = initTestLevelsGuardian();
 		Game game = new Game(testLevels);
-		game.getCurrentLevel().updateMap();
-		assertEquals(new Coordinates(1, 1), game.getCurrentLevel().getHero().getCoord());
+		assertEquals(new Coordinates(1, 1), game.getCurrentHero().getCoord());
 		game.processInput(GameCharacter.Direction.DOWN);
 		game.processInput(GameCharacter.Direction.LEFT);
-		game.getCurrentLevel().updateMap();
-		assertEquals('I', game.getCurrentLevel().getMap(new Coordinates(0, 2)));
-		assertEquals(new Coordinates(1, 2), game.getCurrentLevel().getHero().getCoord());
+		assertEquals('I', game.getCurrentMap(new Coordinates(0, 2)));
+		assertEquals(new Coordinates(1, 2), game.getCurrentHero().getCoord());
 		assertEquals(Game.GameStat.RUNNING, game.getGameStatus());
 	}
 
@@ -87,20 +78,16 @@ public class TestDungeonGameLogic {
 	public void testMoveHeroOpensDoorsAndWinsGuardian() {
 		ArrayList<Level> testLevels = initTestLevelsGuardian();
 		Game game = new Game(testLevels);
-		game.getCurrentLevel().updateMap();
-		assertEquals(new Coordinates(1, 1), game.getCurrentLevel().getHero().getCoord());
+		assertEquals(new Coordinates(1, 1), game.getCurrentHero().getCoord());
 		game.processInput(GameCharacter.Direction.DOWN);
-		game.getCurrentLevel().updateMap();
-		assertEquals('I', game.getCurrentLevel().getMap(new Coordinates(0, 2)));
-		assertEquals('I', game.getCurrentLevel().getMap(new Coordinates(0, 3)));
+		assertEquals('I', game.getCurrentMap(new Coordinates(0, 2)));
+		assertEquals('I', game.getCurrentMap(new Coordinates(0, 3)));
 		game.processInput(GameCharacter.Direction.DOWN);
-		game.getCurrentLevel().updateMap();
-		assertTrue(game.getCurrentLevel().getHero().getHasKey());
-		assertEquals('S', game.getCurrentLevel().getMap(new Coordinates(0, 2)));
-		assertEquals('S', game.getCurrentLevel().getMap(new Coordinates(0, 3)));
+		assertTrue(game.getCurrentHero().getHasKey());
+		assertEquals('S', game.getCurrentMap(new Coordinates(0, 2)));
+		assertEquals('S', game.getCurrentMap(new Coordinates(0, 3)));
 		game.processInput(GameCharacter.Direction.LEFT);
-		game.getLastLevel().updateMap();
-		assertEquals(new Coordinates(0, 3), game.getLastLevel().getHero().getCoord());
+		assertEquals(new Coordinates(0, 3), game.getCurrentHero().getCoord());
 		assertEquals(Game.GameStat.WIN, game.getGameStatus());
 	}
 
@@ -131,11 +118,9 @@ public class TestDungeonGameLogic {
 	public void testHeroIsCapturedByOgre() {
 		ArrayList<Level> testLevels = initTestLevelsOgreSleeping();
 		Game game = new Game(testLevels);
-		game.getCurrentLevel().updateMap();
-		assertFalse(game.isGameOver());
+		assertFalse(game.isOver());
 		game.processInput(GameCharacter.Direction.RIGHT);
-		game.getCurrentLevel().updateMap();
-		assertTrue(game.isGameOver());
+		assertTrue(game.isOver());
 		assertEquals(Game.GameStat.LOSE, game.getGameStatus());
 	}
 
@@ -143,26 +128,21 @@ public class TestDungeonGameLogic {
 	public void testHeroGetsKey(){
 		ArrayList<Level> testLevels = initTestLevelsOgreSleeping();
 		Game game = new Game(testLevels);
-		game.getCurrentLevel().updateMap();
 		game.processInput(GameCharacter.Direction.DOWN);
-		game.getCurrentLevel().updateMap();
 		game.processInput(GameCharacter.Direction.DOWN);
-		game.getCurrentLevel().updateMap();
-		assertTrue(game.getCurrentLevel().getHero().getHasKey());
-		assertEquals('K', game.getCurrentLevel().getMap(game.getCurrentLevel().getHero().getCoord()));
+		assertTrue(game.getCurrentHero().getHasKey());
+		assertEquals('K', game.getCurrentMap(game.getCurrentHero().getCoord()));
 		}
 
 	@Test
 	public void testMoveHeroIntoToClosedDoorsOgre() {
 		ArrayList<Level> testLevels = initTestLevelsOgreSleeping();
 		Game game = new Game(testLevels);
-		game.getCurrentLevel().updateMap();
-		assertEquals(new Coordinates(1, 1), game.getCurrentLevel().getHero().getCoord());
+		assertEquals(new Coordinates(1, 1), game.getCurrentHero().getCoord());
 		game.processInput(GameCharacter.Direction.DOWN);
 		game.processInput(GameCharacter.Direction.LEFT);
-		game.getCurrentLevel().updateMap();
-		assertEquals('I', game.getCurrentLevel().getMap(new Coordinates(0, 2)));
-		assertEquals(new Coordinates(1, 2), game.getCurrentLevel().getHero().getCoord());
+		assertEquals('I', game.getCurrentMap(new Coordinates(0, 2)));
+		assertEquals(new Coordinates(1, 2), game.getCurrentHero().getCoord());
 		assertEquals(Game.GameStat.RUNNING, game.getGameStatus());
 	}
 
@@ -170,20 +150,16 @@ public class TestDungeonGameLogic {
 	public void testMoveHeroOpensDoorsAndWinsOgre() {
 		ArrayList<Level> testLevels = initTestLevelsOgreSleeping();
 		Game game = new Game(testLevels);
-		game.getCurrentLevel().updateMap();
-		assertEquals(new Coordinates(1, 1), game.getCurrentLevel().getHero().getCoord());
+		assertEquals(new Coordinates(1, 1), game.getCurrentHero().getCoord());
 		game.processInput(GameCharacter.Direction.DOWN);
-		game.getCurrentLevel().updateMap();
-		assertEquals('I', game.getCurrentLevel().getMap(new Coordinates(0, 2)));
-		assertEquals('I', game.getCurrentLevel().getMap(new Coordinates(0, 3)));
+		assertEquals('I', game.getCurrentMap(new Coordinates(0, 2)));
+		assertEquals('I', game.getCurrentMap(new Coordinates(0, 3)));
 		game.processInput(GameCharacter.Direction.DOWN);
-		game.getCurrentLevel().updateMap();
-		assertTrue(game.getCurrentLevel().getHero().getHasKey());
-		assertEquals('S', game.getCurrentLevel().getMap(new Coordinates(0, 2)));
-		assertEquals('S', game.getCurrentLevel().getMap(new Coordinates(0, 3)));
+		assertTrue(game.getCurrentHero().getHasKey());
+		assertEquals('S', game.getCurrentMap(new Coordinates(0, 2)));
+		assertEquals('S', game.getCurrentMap(new Coordinates(0, 3)));
 		game.processInput(GameCharacter.Direction.LEFT);
-		game.getLastLevel().updateMap();
-		assertEquals(new Coordinates(0, 3), game.getLastLevel().getHero().getCoord());
+		assertEquals(new Coordinates(0, 3), game.getCurrentHero().getCoord());
 		assertEquals(Game.GameStat.WIN, game.getGameStatus());
 	}
 

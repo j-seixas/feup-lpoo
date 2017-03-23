@@ -5,7 +5,17 @@ import static org.junit.Assert.*;
 import java.util.ArrayList;
 
 import org.junit.Test;
-import dk.logic.*;
+
+import dk.logic.Level;
+import dk.logic.Coordinates;
+import dk.logic.Game;
+import dk.logic.GameCharacter;
+import dk.logic.Hero;
+import dk.logic.Guardian;
+import dk.logic.Ogre;
+import dk.logic.Door;
+ 
+
 
 public class TestRandomMovement {
 
@@ -40,14 +50,12 @@ public class TestRandomMovement {
 	public void testOgre(){
 		ArrayList<Level> testLevels = initTestLevelsOgreAwake();
 		Game game = new Game(testLevels);
-		game.getCurrentLevel().updateMap();
 		Coordinates coord1 = new Coordinates(3,2);
 		Coordinates coord2 = new Coordinates(2,1);
 		Coordinates init = new Coordinates(3,1);
-		assertEquals('O', game.getCurrentLevel().getMap(init));
+		assertEquals('O', game.getCurrentMap(init));
 		game.processInput(GameCharacter.Direction.UP);
-		game.getCurrentLevel().updateMap();
-		assertTrue('O'== game.getCurrentLevel().getMap(coord1) || 'O' == game.getCurrentLevel().getMap(coord2));
+		assertTrue('O'== game.getCurrentMap(coord1) || 'O' == game.getCurrentMap(coord2));
 	}
 	
 	@Test
@@ -57,22 +65,21 @@ public class TestRandomMovement {
 		Coordinates ogre_pos_1 = new Coordinates(3,2);
 		Coordinates ogre_pos_2 = new Coordinates(2,1);
 		game.processInput(GameCharacter.Direction.UP);
-		game.getCurrentLevel().updateMap();
-		if('O'== game.getCurrentLevel().getMap(ogre_pos_1)){ //Down
+		if('O'== game.getCurrentMap(ogre_pos_1)){ //Down
 			Coordinates club_pos_1 = new Coordinates(3, 1); //Up
 			Coordinates club_pos_2 = new Coordinates(2, 2); //Left
 			Coordinates club_pos_3 = new Coordinates(3, 3); //Down
-			assertTrue('*' == game.getCurrentLevel().getMap(club_pos_1)
-					|| '*' == game.getCurrentLevel().getMap(club_pos_2)
-					|| '*' == game.getCurrentLevel().getMap(club_pos_3));			
+			assertTrue('*' == game.getCurrentMap(club_pos_1)
+					|| '*' == game.getCurrentMap(club_pos_2)
+					|| '*' == game.getCurrentMap(club_pos_3));			
 		}
-		else if('O' == game.getCurrentLevel().getMap(ogre_pos_2)){ //Left
+		else if('O' == game.getCurrentMap(ogre_pos_2)){ //Left
 			Coordinates club_pos_1 = new Coordinates(1, 1); //Left
 			Coordinates club_pos_2 = new Coordinates(3, 1); //Right
 			Coordinates club_pos_3 = new Coordinates(2, 2); //Down
-			assertTrue('*' == game.getCurrentLevel().getMap(club_pos_1)
-					|| '*' == game.getCurrentLevel().getMap(club_pos_2)
-					|| '*' == game.getCurrentLevel().getMap(club_pos_3));	
+			assertTrue('*' == game.getCurrentMap(club_pos_1)
+					|| '*' == game.getCurrentMap(club_pos_2)
+					|| '*' == game.getCurrentMap(club_pos_3));	
 		}
 		else fail("Ogre is in incorrect position");	
 	}
@@ -80,30 +87,27 @@ public class TestRandomMovement {
 	@Test
 	public void testLevelsOfIterationsDrunken(){
 		Game game = new Game(1, 1);
-		game.getCurrentLevel().updateMap();
 		Coordinates coord1 = new Coordinates(8,1);
 		Coordinates coord2 = new Coordinates(7,1);
 		Coordinates init = new Coordinates(8,1);
-		assertEquals('G', game.getCurrentLevel().getMap(init));
-		assertEquals(new Coordinates(1, 1), game.getCurrentLevel().getHero().getCoord());
+		assertEquals('G', game.getCurrentMap(init));
+		assertEquals(new Coordinates(1, 1), game.getCurrentHero().getCoord());
 		game.processInput(GameCharacter.Direction.RIGHT);
-		game.getCurrentLevel().updateMap();
-		assertEquals(new Coordinates(2, 1), game.getCurrentLevel().getHero().getCoord());
-		assertTrue('g'== game.getCurrentLevel().getMap(coord1) || 'G' == game.getCurrentLevel().getMap(coord2));
+		assertEquals(new Coordinates(2, 1), game.getCurrentHero().getCoord());
+		assertTrue('g'== game.getCurrentMap(coord1) || 'G' == game.getCurrentMap(coord2));
 	}
 	
 	@Test
 	public void testLevelsOfIterationsSuspicious(){
 		Game game = new Game(1, 2);
-		game.getCurrentLevel().updateMap();
 		Coordinates coord1 = new Coordinates(7,1);
 		Coordinates coord2 = new Coordinates(8,2);
 		Coordinates init = new Coordinates(8,1);
-		assertEquals('G', game.getCurrentLevel().getMap(init));
-		assertEquals(new Coordinates(1, 1), game.getCurrentLevel().getHero().getCoord());
+		assertEquals('G', game.getCurrentMap(init));
+		assertEquals(new Coordinates(1, 1), game.getCurrentHero().getCoord());
 		game.processInput(GameCharacter.Direction.RIGHT);
-		game.getCurrentLevel().updateMap();
-		assertEquals(new Coordinates(2, 1), game.getCurrentLevel().getHero().getCoord());
-		assertTrue('G'== game.getCurrentLevel().getMap(coord1) || 'G' == game.getCurrentLevel().getMap(coord2));
+		assertEquals(new Coordinates(2, 1), game.getCurrentHero().getCoord());
+		assertTrue('G'== game.getCurrentMap(coord1) || 'G' == game.getCurrentMap(coord2));
 	}
+
 }
