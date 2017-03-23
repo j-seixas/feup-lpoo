@@ -4,6 +4,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
@@ -16,7 +21,7 @@ import dk.logic.Game;
 import dk.logic.GameCharacter;
 import java.awt.Font;
 
-public class GameWindow {
+public class GameWindow implements java.io.Serializable {
 
 	private JFrame gameFrame;
 	private JTextField ogreNumber;
@@ -25,15 +30,16 @@ public class GameWindow {
 	private KeyListener keyListener;
 	private JButton btnNewGame, btnExit;
 	private JButton btnUp, btnDown, btnLeft, btnRight;
+	private JButton btnSave, btnLoad;
 	private JLabel lblInstructions;
 	private Game game;
-	
+
 	public GameWindow() {
 		init();
 	}
-	
+
 	public void directionButtonAction() {
-		//Print map
+		// Print map
 		graphics.requestFocusInWindow();
 		graphics.setMap(game.getCurrentMap());
 		graphics.repaint();
@@ -46,7 +52,7 @@ public class GameWindow {
 			} else if (game.getGameStatus() == Game.GameStat.WIN) {
 				lblInstructions.setText("You Won! Select Ogre Number and Guard Type to Play.");
 			}
-		}	
+		}
 	}
 
 	public void disableDirectionButtons() {
@@ -199,10 +205,57 @@ public class GameWindow {
 		btnLeft.setEnabled(false);
 		btnLeft.setBounds(685, 300, 80, 25);
 
+		btnSave = new JButton("Save");
+		btnSave.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					FileOutputStream fileOut = new FileOutputStream("save/savedgame.ser");
+					ObjectOutputStream out = new ObjectOutputStream(fileOut);
+					out.writeObject(game);
+					out.close();
+					fileOut.close();
+					// System.out.printf("Serialized data is saved in
+					// /tmp/employee.ser");
+				} catch (IOException i) {
+					i.printStackTrace();
+				}
+				directionButtonAction();
+			}
+		});
+		btnSave.setBounds(685, 500, 80, 25);
+
+		btnLoad = new JButton("Load");
+		btnLoad.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					FileInputStream fileIn = new FileInputStream("save/savedgame.ser");
+					ObjectInputStream in = new ObjectInputStream(fileIn);
+					game = (Game) in.readObject();
+					in.close();
+					fileIn.close();
+				} catch (IOException i) {
+					i.printStackTrace();
+					return;
+				} catch (ClassNotFoundException c) {
+					System.out.println("Game class not found");
+					c.printStackTrace();
+					return;
+				}
+				lblInstructions.setText("Use the Buttons to Move the Hero.");
+				btnUp.setEnabled(true);
+				btnDown.setEnabled(true);
+				btnLeft.setEnabled(true);
+				btnRight.setEnabled(true);
+				graphics.removeKeyListener(keyListener);
+				graphics.addKeyListener(keyListener);
+				directionButtonAction();
+			}
+		});
+		btnLoad.setBounds(805, 500, 80, 25);
+
 		lblInstructions = new JLabel("Select Ogre Number and Guard Type to Play.");
 		lblInstructions.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		lblInstructions.setBounds(20, 600, 700, 30);
-		
 
 		// Add elements to the frame
 		gameFrame.setResizable(false);
@@ -218,14 +271,16 @@ public class GameWindow {
 		gameFrame.getContentPane().add(btnDown);
 		gameFrame.getContentPane().add(btnLeft);
 		gameFrame.getContentPane().add(btnRight);
+		gameFrame.getContentPane().add(btnLoad);
+		gameFrame.getContentPane().add(btnSave);
 		gameFrame.getContentPane().add(lblInstructions);
 	}
 
-	public void enable(){
+	public void enable() {
 		gameFrame.setVisible(true);
 	}
 
-	public void disable(){
+	public void disable() {
 		gameFrame.setVisible(false);
 	}
 }

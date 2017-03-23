@@ -95,6 +95,7 @@ public class TestRandomMovement {
 		game.processInput(GameCharacter.Direction.RIGHT);
 		assertEquals(new Coordinates(2, 1), game.getCurrentHero().getCoord());
 		assertTrue('g'== game.getCurrentMap(coord1) || 'G' == game.getCurrentMap(coord2));
+		assertTrue('k' == game.getCurrentMap(new Coordinates(7,8)));
 	}
 	
 	@Test

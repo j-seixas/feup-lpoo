@@ -1,6 +1,6 @@
 package dk.logic;
 
-public class Door {
+public class Door implements java.io.Serializable {
 	private Coordinates coordinates;
 	private boolean door_is_open = false;
 	 

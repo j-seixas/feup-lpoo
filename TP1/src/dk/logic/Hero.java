@@ -2,7 +2,7 @@ package dk.logic;
 
 import dk.logic.GameCharacter;
 
-public class Hero extends GameCharacter {
+public class Hero extends GameCharacter{
 
 	public Hero(int x, int y) {
 		super(x,y);

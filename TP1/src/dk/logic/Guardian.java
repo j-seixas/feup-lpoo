@@ -1,6 +1,6 @@
 package dk.logic;
 
-public abstract class Guardian extends GameCharacter {
+public abstract class Guardian extends GameCharacter{
 	
 	protected Coordinates path[] = {
 			new Coordinates(8,1),
