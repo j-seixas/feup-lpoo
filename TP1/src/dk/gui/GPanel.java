@@ -10,7 +10,7 @@ import javax.swing.JPanel;
 
 public class GPanel extends JPanel {
 
-	private int pixelHeight, pixelWidth;
+	private int pixelHeight, pixelWidth; 
 	private char map[][];
 
 	public GPanel(int x, int y, int width, int height) {
@@ -25,15 +25,17 @@ public class GPanel extends JPanel {
 		this.setBounds(getX(), getY(), pixelWidth * map[0].length, pixelHeight * map.length);
 	}
 	
-	public void setDefaultMap(int x, int y){
+	public char[][] setDefaultMap(int x, int y){
 		this.map = new char[y][x];
-		for(char[] line : this.map){
-			for(char c : line){
-				c = ' ';
+		for(int i = 0; i < map.length; i++){
+			for(int j = 0; j < map[i].length; j++){
+				map[i][j] = ' ';
 			}
 		}
+		setMap(map);
+		return map;
 	}
-
+	
 	private BufferedImage getBackgroundImage(){
 		BufferedImage image = null;
 		try {
@@ -52,13 +54,13 @@ public class GPanel extends JPanel {
 		try{
 			switch (c) {
 			case 'X':
-				image = ImageIO.read(new File("imgs/rock_wall.png"));
+				image = ImageIO.read(new File("imgs/wall 2.png"));
 				return image;
 			case 'I':
-				image = ImageIO.read(new File("imgs/door.png"));
+				image = ImageIO.read(new File("imgs/door_closed.png"));
 				return image;
 			case 'S':
-				image = ImageIO.read(new File("imgs/stairs.png"));
+				image = ImageIO.read(new File("imgs/door_open.png"));
 				return image;
 			case '*':
 				image = ImageIO.read(new File("imgs/club.png"));
@@ -67,13 +69,9 @@ public class GPanel extends JPanel {
 				image = ImageIO.read(new File("imgs/key.png"));
 				return image;
 			case 'H':
-				image = ImageIO.read(new File("imgs/captainamerica.png"));
-				return image;
-			case 'A': 
-				image = ImageIO.read(new File("imgs/captainamerica_shield.png"));
-				return image;
-			case 'K': 
-				image = ImageIO.read(new File("imgs/captainamerica_shield_key.png"));
+			case 'A': //TODO
+			case 'K': //TODO
+				image = ImageIO.read(new File("imgs/hero.png"));
 				return image;
 			case 'G':
 				image = ImageIO.read(new File("imgs/guardian.png"));
@@ -93,6 +91,14 @@ public class GPanel extends JPanel {
 		}
 	}
 
+	public int getCellX(int mouseX){
+		return mouseX / pixelWidth;
+	}
+	
+	public int getCellY(int mouseY){
+		return mouseY / pixelWidth;
+	}
+	
 	@Override
 	public void paintComponent(Graphics g) {
 		BufferedImage image = null;

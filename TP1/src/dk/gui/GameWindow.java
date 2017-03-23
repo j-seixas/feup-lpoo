@@ -14,7 +14,6 @@ import javax.swing.JTextField;
 
 import dk.logic.Game;
 import dk.logic.GameCharacter;
-import dk.logic.Level;
 
 public class GameWindow {
 
@@ -27,31 +26,26 @@ public class GameWindow {
 	private JButton btnUp, btnDown, btnLeft, btnRight;
 	private JLabel lblInstructions;
 	private Game game;
-
+	
 	public GameWindow() {
 		init();
 	}
 	
 	public void directionButtonAction() {
+		//Print map
 		graphics.requestFocusInWindow();
-		// Check for final level
-		Level currentLevel = game.getCurrentLevel();
-		if (currentLevel == null) {
+		graphics.setMap(game.getCurrentMap());
+		graphics.repaint();
+		graphics.revalidate();
+		// Check for game over
+		if (game.isOver()) {
 			disableDirectionButtons();
-		} else {
-			// Print the map
-			graphics.setMap(game.getMap());
-			graphics.repaint();
-			graphics.revalidate();
-		}
-		// Check status
-		if (game.getGameStatus() == Game.GameStat.LOSE) {
-			disableDirectionButtons();
-			lblInstructions.setText("You Lost! Select Ogre Number and Guard Type to Play.");
-		} else if (game.getGameStatus() == Game.GameStat.WIN) {
-			disableDirectionButtons();
-			lblInstructions.setText("You Won! Select Ogre Number and Guard Type to Play.");
-		}
+			if (game.getGameStatus() == Game.GameStat.LOSE) {
+				lblInstructions.setText("You Lost! Select Ogre Number and Guard Type to Play.");
+			} else if (game.getGameStatus() == Game.GameStat.WIN) {
+				lblInstructions.setText("You Won! Select Ogre Number and Guard Type to Play.");
+			}
+		}	
 	}
 
 	public void disableDirectionButtons() {
@@ -146,10 +140,11 @@ public class GameWindow {
 				btnDown.setEnabled(true);
 				btnLeft.setEnabled(true);
 				btnRight.setEnabled(true);
-				graphics.setMap(game.getMap());
+				graphics.setMap(game.getCurrentMap());
 				graphics.repaint();
 				graphics.revalidate();
 				graphics.requestFocusInWindow();
+				graphics.removeKeyListener(keyListener);
 				graphics.addKeyListener(keyListener);
 			}
 		});
