@@ -14,6 +14,7 @@ import javax.swing.JTextField;
 
 import dk.logic.Game;
 import dk.logic.GameCharacter;
+import java.awt.Font;
 
 public class GameWindow {
 
@@ -59,7 +60,7 @@ public class GameWindow {
 	private void init() {
 		// Frame
 		gameFrame = new JFrame();
-		gameFrame.setBounds(0, 0, 600, 425);
+		gameFrame.setBounds(0, 0, 1000, 700);
 		gameFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		// Labels
@@ -78,7 +79,7 @@ public class GameWindow {
 		ogreNumber.setBounds(150, 15, 30, 20);
 
 		// Graphics Pane
-		graphics = new GPanel(20, 80, 250, 250);
+		graphics = new GPanel(20, 80, 500, 500);
 		graphics.setFocusable(true);
 		keyListener = new KeyListener() {
 			public void keyPressed(KeyEvent e) {
@@ -148,7 +149,7 @@ public class GameWindow {
 				graphics.addKeyListener(keyListener);
 			}
 		});
-		btnNewGame.setBounds(385, 50, 100, 25);
+		btnNewGame.setBounds(735, 50, 100, 25);
 
 		btnExit = new JButton("Exit");
 		btnExit.addActionListener(new ActionListener() {
@@ -156,7 +157,7 @@ public class GameWindow {
 				System.exit(0);
 			}
 		});
-		btnExit.setBounds(385, 300, 100, 25);
+		btnExit.setBounds(735, 550, 100, 25);
 
 		btnUp = new JButton("Up");
 		btnUp.addActionListener(new ActionListener() {
@@ -166,7 +167,7 @@ public class GameWindow {
 			}
 		});
 		btnUp.setEnabled(false);
-		btnUp.setBounds(395, 130, 80, 25);
+		btnUp.setBounds(745, 255, 80, 25);
 
 		btnDown = new JButton("Down");
 		btnDown.addActionListener(new ActionListener() {
@@ -176,7 +177,7 @@ public class GameWindow {
 			}
 		});
 		btnDown.setEnabled(false);
-		btnDown.setBounds(395, 220, 80, 25);
+		btnDown.setBounds(745, 345, 80, 25);
 
 		btnRight = new JButton("Right");
 		btnRight.addActionListener(new ActionListener() {
@@ -186,7 +187,7 @@ public class GameWindow {
 			}
 		});
 		btnRight.setEnabled(false);
-		btnRight.setBounds(455, 175, 80, 25);
+		btnRight.setBounds(805, 300, 80, 25);
 
 		btnLeft = new JButton("Left");
 		btnLeft.addActionListener(new ActionListener() {
@@ -196,10 +197,12 @@ public class GameWindow {
 			}
 		});
 		btnLeft.setEnabled(false);
-		btnLeft.setBounds(335, 175, 80, 25);
+		btnLeft.setBounds(685, 300, 80, 25);
 
 		lblInstructions = new JLabel("Select Ogre Number and Guard Type to Play.");
-		lblInstructions.setBounds(20, 350, 400, 15);
+		lblInstructions.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		lblInstructions.setBounds(20, 600, 700, 30);
+		
 
 		// Add elements to the frame
 		gameFrame.setResizable(false);
