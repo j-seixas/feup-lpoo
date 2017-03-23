@@ -12,8 +12,8 @@ public class GUI {
 			public void run() {
 				try {
 					GUI window = new GUI();
-					//window.gameWindow.enable();
-					window.devWindow.enable();
+					window.gameWindow.enable();
+					//window.devWindow.enable();
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
