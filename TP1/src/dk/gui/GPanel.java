@@ -39,7 +39,7 @@ public class GPanel extends JPanel {
 	private BufferedImage getBackgroundImage(){
 		BufferedImage image = null;
 		try {
-			image = ImageIO.read(new File("imgs/floor 1.png"));
+			image = ImageIO.read(new File("imgs/floor.png"));
 
 		} catch (IOException e) {
 			return null;
