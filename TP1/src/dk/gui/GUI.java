@@ -4,16 +4,17 @@ import java.awt.EventQueue;
 
 public class GUI {
  
+	public enum Window { PlayDefault, PlayCustom, Developer, Main }	
+	
 	private GameWindow gameWindow;
 	private DevWindow devWindow;
+	private MainWindow mainWindow;
 	
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					GUI window = new GUI();
-					window.gameWindow.enable();
-					//window.devWindow.enable();
+					GUI gui = new GUI();
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -22,7 +23,18 @@ public class GUI {
 	}
 
 	public GUI() {
-		gameWindow = new GameWindow();
-		devWindow = new DevWindow();
+		gameWindow = new GameWindow(this);
+		devWindow = new DevWindow(this);
+		mainWindow = new MainWindow(this);
+		mainWindow.enable();
+	}
+
+	public void run(Window button){
+		switch(button){
+			case PlayDefault: gameWindow.enable(); return;
+			case PlayCustom: return;
+			case Developer: devWindow.enable(); return;
+			case Main: mainWindow.enable(); return;
+		}
 	}
 }

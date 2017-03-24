@@ -23,6 +23,7 @@ import java.awt.Font;
 
 public class GameWindow implements java.io.Serializable {
 
+	private GUI gui;
 	private JFrame gameFrame;
 	private JTextField ogreNumber;
 	private JComboBox<String> guardSelector;
@@ -34,7 +35,8 @@ public class GameWindow implements java.io.Serializable {
 	private JLabel ogreNumberLabel, guardSelectorLabel, lblInstructions;
 	private Game game;
 
-	public GameWindow() {
+	public GameWindow(GUI gui) {
+		this.gui = gui;
 		init();
 	}
 
@@ -312,5 +314,6 @@ public class GameWindow implements java.io.Serializable {
 
 	public void disable() {
 		gameFrame.setVisible(false);
+		gui.run(GUI.Window.Main);
 	}
 }

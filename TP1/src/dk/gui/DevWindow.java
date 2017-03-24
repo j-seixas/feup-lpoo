@@ -21,6 +21,7 @@ import dk.logic.SuspiciousG;
 
 public class DevWindow {
 
+	private GUI gui;
 	private JFrame devFrame;
 	private GPanel graphics;
 	private JTextField mapX, mapY;
@@ -38,7 +39,8 @@ public class DevWindow {
 	private String element;
 	private MouseListener mouseListener;
 
-	public DevWindow() {
+	public DevWindow(GUI gui) {
+		this.gui = gui;
 		init();
 	}
 
@@ -334,5 +336,6 @@ public class DevWindow {
 
 	public void disable() {
 		devFrame.setVisible(false);
+		gui.run(GUI.Window.Main);
 	}
 }
