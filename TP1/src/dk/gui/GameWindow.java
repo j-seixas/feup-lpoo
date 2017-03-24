@@ -31,7 +31,7 @@ public class GameWindow implements java.io.Serializable {
 	private JButton btnNewGame, btnExit;
 	private JButton btnUp, btnDown, btnLeft, btnRight;
 	private JButton btnSave, btnLoad;
-	private JLabel lblInstructions;
+	private JLabel ogreNumberLabel, guardSelectorLabel, lblInstructions;
 	private Game game;
 
 	public GameWindow() {
@@ -46,7 +46,7 @@ public class GameWindow implements java.io.Serializable {
 		graphics.revalidate();
 		// Check for game over
 		if (game.isOver()) {
-			disableDirectionButtons();
+			setDirectionButtons(false);
 			if (game.getGameStatus() == Game.GameStat.LOSE) {
 				lblInstructions.setText("You Lost! Select Ogre Number and Guard Type to Play.");
 			} else if (game.getGameStatus() == Game.GameStat.WIN) {
@@ -55,35 +55,27 @@ public class GameWindow implements java.io.Serializable {
 		}
 	}
 
-	public void disableDirectionButtons() {
-		btnUp.setEnabled(false);
-		btnDown.setEnabled(false);
-		btnRight.setEnabled(false);
-		btnLeft.setEnabled(false);
+	public void setDirectionButtons(boolean b) {
+		btnUp.setEnabled(b);
+		btnDown.setEnabled(b);
+		btnRight.setEnabled(b);
+		btnLeft.setEnabled(b);
 		graphics.removeKeyListener(keyListener);
 	}
 
-	private void init() {
-		// Frame
-		gameFrame = new JFrame();
-		gameFrame.setBounds(0, 0, 1000, 700);
-		gameFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-		// Labels
-		JLabel ogreNumberLabel = new JLabel("Number of Ogres");
+	private void labelsInit() {
+		ogreNumberLabel = new JLabel("Number of Ogres");
 		ogreNumberLabel.setBounds(20, 15, 115, 15);
-		JLabel guardSelectorLabel = new JLabel("Guard Personality");
+
+		guardSelectorLabel = new JLabel("Guard Personality");
 		guardSelectorLabel.setBounds(20, 45, 115, 15);
 
-		// Selector
-		guardSelector = new JComboBox<String>();
-		guardSelector.setBounds(150, 45, 100, 20);
-		guardSelector.setModel(new DefaultComboBoxModel<String>(new String[] { "Rookie", "Drunken", "Suspicious" }));
+		lblInstructions = new JLabel("Select Ogre Number and Guard Type to Play.");
+		lblInstructions.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		lblInstructions.setBounds(20, 600, 700, 30);
+	}
 
-		// Ogre Number
-		ogreNumber = new JTextField(2);
-		ogreNumber.setBounds(150, 15, 30, 20);
-
+	private void graphicsPaneInit() {
 		// Graphics Pane
 		graphics = new GPanel(20, 80, 500, 500);
 		graphics.setFocusable(true);
@@ -118,8 +110,20 @@ public class GameWindow implements java.io.Serializable {
 			public void keyTyped(KeyEvent e) {
 			}
 		};
+	}
 
-		// Buttons
+	private void selectorsInit() {
+		// Selector
+		guardSelector = new JComboBox<String>();
+		guardSelector.setBounds(150, 45, 100, 20);
+		guardSelector.setModel(new DefaultComboBoxModel<String>(new String[] { "Rookie", "Drunken", "Suspicious" }));
+
+		// Ogre Number
+		ogreNumber = new JTextField(2);
+		ogreNumber.setBounds(150, 15, 30, 20);
+	}
+
+	private void newGameButtonInit() {
 		btnNewGame = new JButton("New Game");
 		btnNewGame.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent event) {
@@ -143,20 +147,18 @@ public class GameWindow implements java.io.Serializable {
 				else if (guard == "Suspicious")
 					game = new Game(numOgres, 2);
 				lblInstructions.setText("Use the Buttons to Move the Hero.");
-				btnUp.setEnabled(true);
-				btnDown.setEnabled(true);
-				btnLeft.setEnabled(true);
-				btnRight.setEnabled(true);
+				setDirectionButtons(true);
 				graphics.setMap(game.getCurrentMap());
 				graphics.repaint();
 				graphics.revalidate();
 				graphics.requestFocusInWindow();
-				graphics.removeKeyListener(keyListener);
 				graphics.addKeyListener(keyListener);
 			}
 		});
 		btnNewGame.setBounds(735, 50, 100, 25);
+	}
 
+	private void exitButtonInit() {
 		btnExit = new JButton("Exit");
 		btnExit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -164,7 +166,9 @@ public class GameWindow implements java.io.Serializable {
 			}
 		});
 		btnExit.setBounds(735, 550, 100, 25);
+	}
 
+	private void upButtonInit() {
 		btnUp = new JButton("Up");
 		btnUp.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -174,7 +178,9 @@ public class GameWindow implements java.io.Serializable {
 		});
 		btnUp.setEnabled(false);
 		btnUp.setBounds(745, 255, 80, 25);
+	}
 
+	private void downButtonInit() {
 		btnDown = new JButton("Down");
 		btnDown.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -184,17 +190,9 @@ public class GameWindow implements java.io.Serializable {
 		});
 		btnDown.setEnabled(false);
 		btnDown.setBounds(745, 345, 80, 25);
+	}
 
-		btnRight = new JButton("Right");
-		btnRight.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				game.processInput(GameCharacter.Direction.RIGHT);
-				directionButtonAction();
-			}
-		});
-		btnRight.setEnabled(false);
-		btnRight.setBounds(805, 300, 80, 25);
-
+	private void leftButtonInit() {
 		btnLeft = new JButton("Left");
 		btnLeft.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -204,7 +202,21 @@ public class GameWindow implements java.io.Serializable {
 		});
 		btnLeft.setEnabled(false);
 		btnLeft.setBounds(685, 300, 80, 25);
+	}
 
+	private void rightButtonInit() {
+		btnRight = new JButton("Right");
+		btnRight.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				game.processInput(GameCharacter.Direction.RIGHT);
+				directionButtonAction();
+			}
+		});
+		btnRight.setEnabled(false);
+		btnRight.setBounds(805, 300, 80, 25);
+	}
+
+	private void saveButtonInit() {
 		btnSave = new JButton("Save");
 		btnSave.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -214,8 +226,6 @@ public class GameWindow implements java.io.Serializable {
 					out.writeObject(game);
 					out.close();
 					fileOut.close();
-					// System.out.printf("Serialized data is saved in
-					// /tmp/employee.ser");
 				} catch (IOException i) {
 					i.printStackTrace();
 				}
@@ -223,7 +233,9 @@ public class GameWindow implements java.io.Serializable {
 			}
 		});
 		btnSave.setBounds(685, 500, 80, 25);
+	}
 
+	private void loadButtonInit() {
 		btnLoad = new JButton("Load");
 		btnLoad.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -242,22 +254,26 @@ public class GameWindow implements java.io.Serializable {
 					return;
 				}
 				lblInstructions.setText("Use the Buttons to Move the Hero.");
-				btnUp.setEnabled(true);
-				btnDown.setEnabled(true);
-				btnLeft.setEnabled(true);
-				btnRight.setEnabled(true);
-				graphics.removeKeyListener(keyListener);
+				setDirectionButtons(true);
 				graphics.addKeyListener(keyListener);
 				directionButtonAction();
 			}
 		});
 		btnLoad.setBounds(805, 500, 80, 25);
+	}
 
-		lblInstructions = new JLabel("Select Ogre Number and Guard Type to Play.");
-		lblInstructions.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		lblInstructions.setBounds(20, 600, 700, 30);
+	private void buttonsInit() {
+		newGameButtonInit();
+		upButtonInit();
+		downButtonInit();
+		leftButtonInit();
+		rightButtonInit();
+		exitButtonInit();
+		saveButtonInit();
+		loadButtonInit();
+	}
 
-		// Add elements to the frame
+	private void addAllElements() {
 		gameFrame.setResizable(false);
 		gameFrame.getContentPane().setLayout(null);
 		gameFrame.getContentPane().add(ogreNumberLabel);
@@ -274,6 +290,20 @@ public class GameWindow implements java.io.Serializable {
 		gameFrame.getContentPane().add(btnLoad);
 		gameFrame.getContentPane().add(btnSave);
 		gameFrame.getContentPane().add(lblInstructions);
+	}
+
+	private void init() {
+		// Frame
+		gameFrame = new JFrame();
+		gameFrame.setBounds(0, 0, 1000, 700);
+		gameFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+		labelsInit();
+		graphicsPaneInit();
+		selectorsInit();
+		buttonsInit();
+		addAllElements();
+
 	}
 
 	public void enable() {
