@@ -8,7 +8,7 @@ import org.junit.Test;
 import dk.logic.*;
 
 public class TestDungeonGameLogic {
- 
+
 	public ArrayList<Level> initTestLevelsGuardian() {
 		// Variables to init levels
 		Hero hero;
@@ -102,7 +102,7 @@ public class TestDungeonGameLogic {
 
 		hero = new Hero(1, 1);
 		key = new Coordinates(1, 3);
-		ogres.add(new Ogre(3,1,true));
+		ogres.add(new Ogre(3, 1, true));
 		doors.add(new Door(0, 2));
 		doors.add(new Door(0, 3));
 		map = new char[][] { { 'X', 'X', 'X', 'X', 'X' }, { 'X', ' ', ' ', ' ', 'X' }, { 'I', ' ', ' ', ' ', 'X' },
@@ -125,14 +125,14 @@ public class TestDungeonGameLogic {
 	}
 
 	@Test
-	public void testHeroGetsKey(){
+	public void testHeroGetsKey() {
 		ArrayList<Level> testLevels = initTestLevelsOgreSleeping();
 		Game game = new Game(testLevels);
 		game.processInput(GameCharacter.Direction.DOWN);
 		game.processInput(GameCharacter.Direction.DOWN);
 		assertTrue(game.getCurrentHero().getHasKey());
 		assertEquals('K', game.getCurrentMap(game.getCurrentHero().getCoord()));
-		}
+	}
 
 	@Test
 	public void testMoveHeroIntoToClosedDoorsOgre() {
@@ -163,4 +163,177 @@ public class TestDungeonGameLogic {
 		assertEquals(Game.GameStat.WIN, game.getGameStatus());
 	}
 
+	@Test
+	public void testLevelsOfIterationsAllPosRookie() {
+		Game game = new Game(1, 0);
+		assertEquals('G', game.getCurrentMap(new Coordinates(8, 1)));
+		assertEquals(new Coordinates(1, 1), game.getCurrentHero().getCoord());
+
+		game.processInput(GameCharacter.Direction.RIGHT);
+		assertEquals(new Coordinates(2, 1), game.getCurrentHero().getCoord());
+		assertTrue('G' == game.getCurrentMap(new Coordinates(7, 1)));
+		assertTrue('k' == game.getCurrentMap(new Coordinates(7, 8)));
+
+		game.processInput(GameCharacter.Direction.RIGHT);
+		assertEquals(new Coordinates(3, 1), game.getCurrentHero().getCoord());
+		assertTrue('G' == game.getCurrentMap(new Coordinates(7, 2)));
+
+		game.processInput(GameCharacter.Direction.LEFT);
+		assertEquals(new Coordinates(2, 1), game.getCurrentHero().getCoord());
+		assertTrue('G' == game.getCurrentMap(new Coordinates(7, 3)));
+
+		game.processInput(GameCharacter.Direction.LEFT);
+		assertEquals(new Coordinates(1, 1), game.getCurrentHero().getCoord());
+		assertTrue('G' == game.getCurrentMap(new Coordinates(7, 4)));
+
+		game.processInput(GameCharacter.Direction.RIGHT);
+		assertEquals(new Coordinates(2, 1), game.getCurrentHero().getCoord());
+		assertTrue('G' == game.getCurrentMap(new Coordinates(7, 5)));
+
+		game.processInput(GameCharacter.Direction.RIGHT);
+		assertEquals(new Coordinates(3, 1), game.getCurrentHero().getCoord());
+		assertTrue('G' == game.getCurrentMap(new Coordinates(6, 5)));
+
+		game.processInput(GameCharacter.Direction.LEFT);
+		assertEquals(new Coordinates(2, 1), game.getCurrentHero().getCoord());
+		assertTrue('G' == game.getCurrentMap(new Coordinates(5, 5)));
+
+		game.processInput(GameCharacter.Direction.LEFT);
+		assertEquals(new Coordinates(1, 1), game.getCurrentHero().getCoord());
+		assertTrue('G' == game.getCurrentMap(new Coordinates(4, 5)));
+
+		game.processInput(GameCharacter.Direction.RIGHT);
+		assertEquals(new Coordinates(2, 1), game.getCurrentHero().getCoord());
+		assertTrue('G' == game.getCurrentMap(new Coordinates(3, 5)));
+
+		game.processInput(GameCharacter.Direction.RIGHT);
+		assertEquals(new Coordinates(3, 1), game.getCurrentHero().getCoord());
+		assertTrue('G' == game.getCurrentMap(new Coordinates(2, 5)));
+
+		game.processInput(GameCharacter.Direction.LEFT);
+		assertEquals(new Coordinates(2, 1), game.getCurrentHero().getCoord());
+		assertTrue('G' == game.getCurrentMap(new Coordinates(1, 5)));
+
+		game.processInput(GameCharacter.Direction.LEFT);
+		assertEquals(new Coordinates(1, 1), game.getCurrentHero().getCoord());
+		assertTrue('G' == game.getCurrentMap(new Coordinates(1, 6)));
+
+		game.processInput(GameCharacter.Direction.RIGHT);
+		assertEquals(new Coordinates(2, 1), game.getCurrentHero().getCoord());
+		assertTrue('G' == game.getCurrentMap(new Coordinates(2, 6)));
+
+		game.processInput(GameCharacter.Direction.RIGHT);
+		assertEquals(new Coordinates(3, 1), game.getCurrentHero().getCoord());
+		assertTrue('G' == game.getCurrentMap(new Coordinates(3, 6)));
+
+		game.processInput(GameCharacter.Direction.LEFT);
+		assertEquals(new Coordinates(2, 1), game.getCurrentHero().getCoord());
+		assertTrue('G' == game.getCurrentMap(new Coordinates(4, 6)));
+
+		game.processInput(GameCharacter.Direction.LEFT);
+		assertEquals(new Coordinates(1, 1), game.getCurrentHero().getCoord());
+		assertTrue('G' == game.getCurrentMap(new Coordinates(5, 6)));
+
+		game.processInput(GameCharacter.Direction.RIGHT);
+		assertEquals(new Coordinates(2, 1), game.getCurrentHero().getCoord());
+		assertTrue('G' == game.getCurrentMap(new Coordinates(6, 6)));
+
+		game.processInput(GameCharacter.Direction.RIGHT);
+		assertEquals(new Coordinates(3, 1), game.getCurrentHero().getCoord());
+		assertTrue('G' == game.getCurrentMap(new Coordinates(7, 6)));
+
+		game.processInput(GameCharacter.Direction.LEFT);
+		assertEquals(new Coordinates(2, 1), game.getCurrentHero().getCoord());
+		assertTrue('G' == game.getCurrentMap(new Coordinates(8, 6)));
+
+		game.processInput(GameCharacter.Direction.LEFT);
+		assertEquals(new Coordinates(1, 1), game.getCurrentHero().getCoord());
+		assertTrue('G' == game.getCurrentMap(new Coordinates(8, 5)));
+
+		game.processInput(GameCharacter.Direction.RIGHT);
+		assertEquals(new Coordinates(2, 1), game.getCurrentHero().getCoord());
+		assertTrue('G' == game.getCurrentMap(new Coordinates(8, 4)));
+
+		game.processInput(GameCharacter.Direction.RIGHT);
+		assertEquals(new Coordinates(3, 1), game.getCurrentHero().getCoord());
+		assertTrue('G' == game.getCurrentMap(new Coordinates(8, 3)));
+
+		game.processInput(GameCharacter.Direction.LEFT);
+		assertEquals(new Coordinates(2, 1), game.getCurrentHero().getCoord());
+		assertTrue('G' == game.getCurrentMap(new Coordinates(8, 2)));
+
+		game.processInput(GameCharacter.Direction.LEFT);
+		assertEquals(new Coordinates(1, 1), game.getCurrentHero().getCoord());
+		assertTrue('G' == game.getCurrentMap(new Coordinates(8, 1)));
+	}
+
+	@Test
+	public void testCreatingLevel() {
+		Level level = new Level();
+		char map1[][] = new char[][] { { 'X', 'X', 'X', 'X', 'X' }, { 'X', ' ', ' ', ' ', 'X' },
+				{ ' ', ' ', ' ', ' ', 'X' }, { ' ', ' ', ' ', ' ', 'X' }, { 'X', 'X', 'X', 'X', 'X' } };
+		char map2[][] = new char[][] { { 'X', 'X', 'X', 'X', 'X' }, { 'X', 'H', ' ', 'G', 'X' },
+				{ 'I', 'k', ' ', ' ', 'X' }, { 'X', ' ', ' ', 'O', 'X' }, { 'X', 'X', 'X', 'X', 'X' } };
+		level.setMap(map1);
+		for (int i = 0; i < map1.length; i++) {
+			for (int j = 0; j < map1[i].length; j++)
+				assertEquals(map1[i][j], level.getMap()[i][j]);
+		}
+
+		level.setWonByLever(true);
+		Hero hero = new Hero(1, 1);
+		assertTrue(level.canAdd(hero));
+		level.setHero(hero);
+
+		Ogre ogre = new Ogre(3, 3, true);
+		assertTrue(level.canAdd(ogre));
+		level.addOgre(ogre);
+
+		Guardian guard = new DrunkenG(1, 1);
+		assertFalse(level.canAdd(guard));
+		Guardian guard1 = new SuspiciousG(3, 1);
+		assertTrue(level.canAdd(guard1));
+		level.addGuardian(guard1);
+
+		assertFalse(level.isValid());
+
+		assertTrue(level.canAddElement(0, 2));
+		Door door = new Door(0, 2);
+		level.addDoor(door);
+		level.updateMap();
+		assertFalse(level.canAddElement(0, 2));
+
+		assertTrue(level.canAddElement(0, 3));
+		level.addElement('X', 0, 3);
+		level.updateMap();
+		assertFalse(level.canAddElement(0, 3));
+		
+		assertTrue(level.canAddElement(1, 2));
+		level.setKey(new Coordinates(1, 2));
+		level.updateMap();
+		
+		assertTrue(level.isValid());
+		
+		for (int i = 0; i < map2.length; i++) {
+			for (int j = 0; j < map2[i].length; j++)
+				assertEquals(map2[i][j], level.getMap()[i][j]);	
+		}
+		
+		level.removeHero();
+		level.removeDoor(door);
+		level.removeGuardian(guard1);
+		level.removeElement(0, 3);
+		level.removeKey();
+		level.removeOgre(ogre);
+		level.updateMap();
+		
+		assertFalse(level.isValid());
+		
+		for (int i = 0; i < map1.length; i++) {
+			for (int j = 0; j < map1[i].length; j++){
+				assertEquals(map1[i][j], level.getMap()[i][j]);
+			}
+		}
+		
+	}
 }
