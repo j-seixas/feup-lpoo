@@ -9,6 +9,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.ArrayList;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
@@ -19,6 +20,8 @@ import javax.swing.JTextField;
 
 import dk.logic.Game;
 import dk.logic.GameCharacter;
+import dk.logic.Level;
+
 import java.awt.Font;
 
 public class GameWindow implements java.io.Serializable {
@@ -34,6 +37,7 @@ public class GameWindow implements java.io.Serializable {
 	private JButton btnSave, btnLoad;
 	private JLabel ogreNumberLabel, guardSelectorLabel, lblInstructions;
 	private Game game;
+	private ArrayList<Level> customLevels;
 
 	public GameWindow(GUI gui) {
 		this.gui = gui;
@@ -125,36 +129,53 @@ public class GameWindow implements java.io.Serializable {
 		ogreNumber.setBounds(150, 15, 30, 20);
 	}
 
+	private void newDefaultGame(){
+		int numOgres;
+		try {
+			numOgres = Integer.parseInt(ogreNumber.getText());
+		} catch (NumberFormatException e) {
+			lblInstructions.setText("Invalid Number of Ogres. Select Ogre Number and Guard Type to Play.");
+			return;
+		}
+		if (numOgres > Game.MAX_OGRES || numOgres <= 0) {
+			lblInstructions.setText("Invalid Number of Ogres. Select Ogre Number and Guard Type to Play.");
+			return;
+		}
+
+		String guard = (String) guardSelector.getSelectedItem();
+		if (guard == "Rookie")
+			game = new Game(numOgres, 0);
+		else if (guard == "Drunken")
+			game = new Game(numOgres, 1);
+		else if (guard == "Suspicious")
+			game = new Game(numOgres, 2);
+	}
+	
+	private void newCustomGame(){
+		game = new Game(customLevels);
+	}
+	
+	private void newGame(){
+		lblInstructions.setText("Use the Buttons to Move the Hero.");
+		setDirectionButtons(true);
+		if(game == null)
+			System.out.println("GAME NULL");
+		graphics.setMap(game.getCurrentMap());
+		graphics.repaint();
+		graphics.revalidate();
+		graphics.requestFocusInWindow();
+		graphics.addKeyListener(keyListener);
+	}
+	
+	
 	private void newGameButtonInit() {
 		btnNewGame = new JButton("New Game");
 		btnNewGame.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent event) {
-				int numOgres;
-				try {
-					numOgres = Integer.parseInt(ogreNumber.getText());
-				} catch (NumberFormatException e) {
-					lblInstructions.setText("Invalid Number of Ogres. Select Ogre Number and Guard Type to Play.");
-					return;
-				}
-				if (numOgres > 5 || numOgres <= 0) {
-					lblInstructions.setText("Invalid Number of Ogres. Select Ogre Number and Guard Type to Play.");
-					return;
-				}
-
-				String guard = (String) guardSelector.getSelectedItem();
-				if (guard == "Rookie")
-					game = new Game(numOgres, 0);
-				else if (guard == "Drunken")
-					game = new Game(numOgres, 1);
-				else if (guard == "Suspicious")
-					game = new Game(numOgres, 2);
-				lblInstructions.setText("Use the Buttons to Move the Hero.");
-				setDirectionButtons(true);
-				graphics.setMap(game.getCurrentMap());
-				graphics.repaint();
-				graphics.revalidate();
-				graphics.requestFocusInWindow();
-				graphics.addKeyListener(keyListener);
+				if(customLevels == null)
+					newDefaultGame();
+				else newCustomGame();
+				newGame();
 			}
 		});
 		btnNewGame.setBounds(735, 50, 100, 25);
@@ -315,5 +336,15 @@ public class GameWindow implements java.io.Serializable {
 	public void disable() {
 		gameFrame.setVisible(false);
 		gui.run(GUI.Window.Main);
+	}
+	
+	public void setDefault(){
+		customLevels = null;
+	}
+	
+	public void setCustom(ArrayList<Level> custom){
+		if(custom != null)
+			if(!custom.isEmpty())
+				customLevels = custom;
 	}
 }

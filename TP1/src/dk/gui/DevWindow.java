@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -35,12 +36,16 @@ public class DevWindow {
 	private JButton btnWall;
 	private JButton btnRock;
 	private JButton btnKey;
+	private JButton btnFinished;
+	private JButton btnBack;
 	private Level level;
+	private ArrayList<Level> levels;
 	private String element;
 	private MouseListener mouseListener;
 
 	public DevWindow(GUI gui) {
 		this.gui = gui;
+		levels = new ArrayList<Level>();
 		init();
 	}
 
@@ -216,11 +221,12 @@ public class DevWindow {
 		startDev.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent event) {
 				level = new Level();
-				//TODO ADD TRY BLOCK
-				int mapHeight = Integer.parseInt(mapY.getText());
-				int mapWidth = Integer.parseInt(mapX.getText());
-				char defaultMap[][] = graphics.setDefaultMap(mapWidth, mapHeight);
-				level.setMap(defaultMap);
+				try{
+					int mapHeight = Integer.parseInt(mapY.getText());
+					int mapWidth = Integer.parseInt(mapX.getText());
+					char defaultMap[][] = graphics.setDefaultMap(mapWidth, mapHeight);
+					level.setMap(defaultMap);
+				} catch(NumberFormatException e) { return; }
 				graphics.repaint();
 				graphics.revalidate();
 				graphics.removeMouseListener(mouseListener);
@@ -311,6 +317,28 @@ public class DevWindow {
 		});
 		btnKey.setBounds(385, 250, 100, 25);
 
+		btnFinished = new JButton("Finished Editting");
+		btnFinished.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(level.isValid()){
+					levels.add(level);
+					level = new Level();
+				}
+				graphics.requestFocusInWindow();
+			}
+		});
+		btnFinished.setBounds(385, 275, 100, 25);
+
+		
+		btnBack = new JButton("Back");
+		btnBack.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				disable();
+			}
+		});
+		btnBack.setBounds(385, 300, 100, 25);
+		
+		
 		// Add elements to frame
 		devFrame.setResizable(false);
 		devFrame.getContentPane().setLayout(null);
@@ -327,7 +355,8 @@ public class DevWindow {
 		devFrame.getContentPane().add(btnRookieG);
 		devFrame.getContentPane().add(btnSuspiciousG);
 		devFrame.getContentPane().add(btnWall);
-
+		devFrame.getContentPane().add(btnFinished);
+		devFrame.getContentPane().add(btnBack);
 	}
 
 	public void enable() {
@@ -337,5 +366,9 @@ public class DevWindow {
 	public void disable() {
 		devFrame.setVisible(false);
 		gui.run(GUI.Window.Main);
+	}
+	
+	public ArrayList<Level> getLevels(){
+		return levels;
 	}
 }
