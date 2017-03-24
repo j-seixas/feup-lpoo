@@ -75,17 +75,13 @@ public class Ogre extends GameCharacter {
 	private void moveOgre(int direction) {
 		switch (direction) {
 		case 0:
-			setY(getY() - 1);
-			break;
+			setY(getY() - 1); break;
 		case 1:
-			setY(getY() + 1);
-			break;
+			setY(getY() + 1); break;
 		case 2:
-			setX(getX() + 1);
-			break;
+			setX(getX() + 1); break;
 		case 3:
-			setX(getX() - 1);
-			break;
+			setX(getX() - 1); break;
 		}
 	}
 

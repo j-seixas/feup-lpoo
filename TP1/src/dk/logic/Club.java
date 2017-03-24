@@ -75,5 +75,4 @@ public class Club extends GameCharacter {
 			break;
 		}
 	}
-
 }

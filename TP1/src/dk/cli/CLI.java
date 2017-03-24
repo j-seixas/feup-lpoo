@@ -10,19 +10,13 @@ public class CLI {
 	
 	private GameCharacter.Direction getInput() {
 		System.out.print("Move: ");
-		
 		String input = keyboard_scanner.nextLine();
 		switch (input) {
-		case "w":
-			return GameCharacter.Direction.UP;
-		case "a":
-			return GameCharacter.Direction.LEFT;
-		case "s":
-			return GameCharacter.Direction.DOWN;
-		case "d":
-			return GameCharacter.Direction.RIGHT;
-		default:
-			return GameCharacter.Direction.NONE;
+		case "w": return GameCharacter.Direction.UP;
+		case "a": return GameCharacter.Direction.LEFT;
+		case "s": return GameCharacter.Direction.DOWN;
+		case "d": return GameCharacter.Direction.RIGHT;
+		default: return GameCharacter.Direction.NONE;
 		}
 	}
 
