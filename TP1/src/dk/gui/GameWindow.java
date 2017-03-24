@@ -32,7 +32,7 @@ public class GameWindow implements java.io.Serializable {
 	private JComboBox<String> guardSelector;
 	private GPanel graphics;
 	private KeyListener keyListener;
-	private JButton btnNewGame, btnExit;
+	private JButton btnNewGame, btnExit, btnBack;
 	private JButton btnUp, btnDown, btnLeft, btnRight;
 	private JButton btnSave, btnLoad;
 	private JLabel ogreNumberLabel, guardSelectorLabel, lblInstructions;
@@ -290,6 +290,17 @@ public class GameWindow implements java.io.Serializable {
 		btnLoad.setBounds(805, 500, 80, 25);
 	}
 
+	
+	public void backButtonInit(){
+		btnBack = new JButton("Back");
+		btnBack.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				disable();
+			}
+		});
+		btnBack.setBounds(735, 450, 100, 25);
+	}
+	
 	private void buttonsInit() {
 		newGameButtonInit();
 		upButtonInit();
@@ -299,6 +310,7 @@ public class GameWindow implements java.io.Serializable {
 		exitButtonInit();
 		saveButtonInit();
 		loadButtonInit();
+		backButtonInit();
 	}
 
 	private void addAllElements() {
@@ -317,6 +329,7 @@ public class GameWindow implements java.io.Serializable {
 		gameFrame.getContentPane().add(btnRight);
 		gameFrame.getContentPane().add(btnLoad);
 		gameFrame.getContentPane().add(btnSave);
+		gameFrame.getContentPane().add(btnBack);
 		gameFrame.getContentPane().add(lblInstructions);
 	}
 
