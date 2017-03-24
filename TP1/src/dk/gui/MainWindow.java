@@ -10,9 +10,7 @@ public class MainWindow {
 	
 	private GUI gui;
 	private JFrame mainFrame;
-	private JButton btnPlayDK;
-	private JButton btnPlayCustom;
-	private JButton btnDev;
+	private JButton btnPlayDK, btnPlayCustom, btnDev;
 	private GUI.Window buttonClicked;
 	
 	public MainWindow(GUI gui){
@@ -41,31 +39,19 @@ public class MainWindow {
 		gui.run(buttonClicked);
 	}
 	
-	private void init(){		
-		//Frame
+	private void initFrame(){
 		mainFrame = new JFrame();
 		mainFrame.setBounds(0, 0, 1000, 700);
 		mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		
-		//Buttons
-		btnPlayDK = new JButton("Play Dungeon Keep");
-		btnPlayDK.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				buttonClicked = GUI.Window.PlayDefault;
-				disable();
-			}
-		});
-		btnPlayDK.setBounds(0, 0, 100, 25);
-		
-		btnPlayCustom = new JButton("Play Custom Levels");
-		btnPlayCustom.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				buttonClicked = GUI.Window.PlayCustom;
-				disable();
-			}
-		});
-		btnPlayCustom.setBounds(0, 50, 100, 25);
-		
+	}
+	
+	private void initButtons(){
+		initPlayDefaultButton();
+		initPlayCustomButton();
+		initDevButton();
+	}
+	
+	private void initDevButton() {
 		btnDev = new JButton("Develop a new Level");
 		btnDev.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -73,13 +59,43 @@ public class MainWindow {
 				disable();
 			}
 		});
-		btnDev.setBounds(0, 100, 100, 25);
-		
-		//Add to frame
+		btnDev.setBounds(0, 100, 100, 25);		
+	}
+
+	private void initPlayCustomButton() {
+		btnPlayCustom = new JButton("Play Custom Levels");
+		btnPlayCustom.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				buttonClicked = GUI.Window.PlayCustom;
+				disable();
+			}
+		});
+		btnPlayCustom.setBounds(0, 50, 100, 25);		
+	}
+
+	private void initPlayDefaultButton() {
+		btnPlayDK = new JButton("Play Dungeon Keep");
+		btnPlayDK.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				buttonClicked = GUI.Window.PlayDefault;
+				disable();
+			}
+		});
+		btnPlayDK.setBounds(0, 0, 100, 25);		
+	}
+
+	private void init(){		
+		//TODO SETBOUNDS
+		initFrame();
+		initButtons();
+		addToFrame();	
+	}
+
+	private void addToFrame() {
 		mainFrame.setResizable(false);
 		mainFrame.getContentPane().setLayout(null);
 		mainFrame.getContentPane().add(btnDev);	
 		mainFrame.getContentPane().add(btnPlayCustom);	
-		mainFrame.getContentPane().add(btnPlayDK);	
+		mainFrame.getContentPane().add(btnPlayDK);		
 	}
 }
