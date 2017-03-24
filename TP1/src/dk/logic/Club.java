@@ -65,21 +65,13 @@ public class Club extends GameCharacter {
 
 	public void moveClub(int clubDirection) {
 		switch (clubDirection) {
-		case 0:
-			setY(character.getY() - 1);
-			setX(character.getX());
+		case 0: setY(character.getY() - 1); setX(character.getX());
 			break;
-		case 1:
-			setY(character.getY() + 1);
-			setX(character.getX());
+		case 1: setY(character.getY() + 1); setX(character.getX());
 			break;
-		case 2:
-			setY(character.getY());
-			setX(character.getX() + 1);
+		case 2: setY(character.getY()); setX(character.getX() + 1);
 			break;
-		case 3:
-			setY(character.getY());
-			setX(character.getX() - 1);
+		case 3: setY(character.getY()); setX(character.getX() - 1);
 			break;
 		}
 	}

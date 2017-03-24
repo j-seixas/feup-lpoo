@@ -73,7 +73,6 @@ public class Ogre extends GameCharacter {
 	}
 
 	private void moveOgre(int direction) {
-
 		switch (direction) {
 		case 0:
 			setY(getY() - 1);
@@ -88,7 +87,6 @@ public class Ogre extends GameCharacter {
 			setX(getX() - 1);
 			break;
 		}
-
 	}
 
 	public void setIsStunned(boolean stun) {

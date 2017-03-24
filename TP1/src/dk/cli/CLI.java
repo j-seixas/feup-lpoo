@@ -12,7 +12,6 @@ public class CLI {
 		System.out.print("Move: ");
 		
 		String input = keyboard_scanner.nextLine();
-
 		switch (input) {
 		case "w":
 			return GameCharacter.Direction.UP;
