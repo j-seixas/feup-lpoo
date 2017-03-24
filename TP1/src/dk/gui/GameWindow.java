@@ -151,7 +151,6 @@ public class GameWindow implements java.io.Serializable {
 	}
 	
 	private void newCustomGame(){
-		setCustom(customLevels);
 		game = new Game(customLevels);
 	}
 	
@@ -163,6 +162,7 @@ public class GameWindow implements java.io.Serializable {
 	}
 	
 	private void newGame(){
+		graphics.setVisible(true);
 		lblInstructions.setText("Use the Buttons to Move the Hero.");
 		setDirectionButtons(true);
 		graphics.setMap(game.getCurrentMap());
@@ -366,6 +366,10 @@ public class GameWindow implements java.io.Serializable {
 				customLevels = custom;
 				setSelectorsVisible(false);
 			}
-		} else 	setSelectorsVisible(true);
+		} else {
+			customLevels = null;
+			setSelectorsVisible(true);
+		}
+		graphics.setVisible(false);
 	}
 }
