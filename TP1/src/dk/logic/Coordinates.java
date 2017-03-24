@@ -14,6 +14,12 @@ public class Coordinates implements java.io.Serializable {
 		this.y = 0;
 	}
 	
+	public Coordinates(Coordinates c) {
+		x = c.x;
+		y = c.y;
+	}
+	
+	
 	//Gets
 	public int getX() {
 		return x;

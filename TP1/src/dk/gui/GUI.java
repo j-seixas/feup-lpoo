@@ -31,7 +31,7 @@ public class GUI {
 
 	public void run(Window button){
 		switch(button){
-			case PlayDefault: gameWindow.enable(); return;
+			case PlayDefault: gameWindow.enable(); gameWindow.setCustom(null); return;
 			case PlayCustom: gameWindow.enable(); gameWindow.setCustom(devWindow.getLevels()); return;
 			case Developer: devWindow.enable(); return;
 			case Main: mainWindow.enable(); return;

@@ -29,7 +29,7 @@ public class Level implements java.io.Serializable {
 		}
 		updateMap();
 	}
-
+	
 	public Level() {
 		hero = null;
 		key = null;
@@ -37,6 +37,23 @@ public class Level implements java.io.Serializable {
 		ogres = new ArrayList<Ogre>();
 		guardians = new ArrayList<Guardian>();
 		doors = new ArrayList<Door>();
+	}
+	
+	public Level(Level level){
+		this();
+		hero = new Hero(level.hero);
+		won_by_lever = level.won_by_lever;
+		initialMap = level.initialMap;
+		cloneMap();
+		for(Ogre i : level.ogres)
+			ogres.add(new Ogre(i));
+		for(Guardian i : level.guardians){
+			guardians.add(new RookieG(i));
+		}
+		for(Door i : level.doors)
+			doors.add(new Door(i));
+		key = new Coordinates(level.key);
+		updateMap();
 	}
 
 	private void cloneMap() {
@@ -92,13 +109,13 @@ public class Level implements java.io.Serializable {
 	public boolean checkCollisions(GameCharacter character) {
 		boolean collision = false;
 		for (Guardian currentGuardian : guardians) {
-			if (currentGuardian.checkColision(hero) && !currentGuardian.IsSleeping())
+			if (currentGuardian.checkColision(character) && !currentGuardian.IsSleeping())
 				collision = true;
 		}
 		for (Ogre currentOgre : ogres) {
-			if (!currentOgre.isStunned() && currentOgre.checkColision(hero))
+			if (!currentOgre.isStunned() && currentOgre.checkColision(character))
 				collision = true;
-			if (currentOgre.getClub().checkColision(hero))
+			if (currentOgre.getClub().checkColision(character))
 				collision = true;
 		}
 		return collision;

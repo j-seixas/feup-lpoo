@@ -9,6 +9,12 @@ public class Door implements java.io.Serializable {
 	}
 
 	
+	public Door(Door i) {
+		door_is_open = i.door_is_open;
+		coordinates = new Coordinates(i.coordinates);
+	}
+
+
 	public Coordinates getCoordinates() {
 		return coordinates;
 	}

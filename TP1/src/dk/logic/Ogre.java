@@ -19,6 +19,13 @@ public class Ogre extends GameCharacter {
 		club = new Club(x, y, this);
 	}
 
+	public Ogre(Ogre ogre) {
+		coordinates = new Coordinates(ogre.coordinates);
+		ogre_is_stunned = ogre.ogre_is_stunned;
+		sleeping = ogre.sleeping;
+		club = new Club(ogre.club, this);
+	}
+
 	public boolean moveCharacter(Level level) {
 		if (!sleeping) {
 			boolean can_move;
@@ -37,13 +44,13 @@ public class Ogre extends GameCharacter {
 					}
 					break;
 				case 1:
-					if (getY() < 8) {
+					if (getY() < level.getMap().length - 1) {
 						insideCanvas = true;
 						nextCharacter = level.getMap(getX(), getY() + 1);
 					}
 					break;
 				case 2:
-					if (getX() < 8) {
+					if (getX() < level.getMap()[0].length - 1) {
 						insideCanvas = true;
 						nextCharacter = level.getMap(getX() + 1, getY());
 

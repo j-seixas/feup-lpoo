@@ -12,13 +12,11 @@ import javax.swing.JTextField;
 
 import dk.logic.Coordinates;
 import dk.logic.Door;
-import dk.logic.DrunkenG;
 import dk.logic.Guardian;
 import dk.logic.Hero;
 import dk.logic.Level;
 import dk.logic.Ogre;
 import dk.logic.RookieG;
-import dk.logic.SuspiciousG;
 
 public class DevWindow {
 
@@ -30,9 +28,7 @@ public class DevWindow {
 	private JButton btnHero;
 	private JButton btnDoor;
 	private JButton btnOgre;
-	private JButton btnDrunkG;
-	private JButton btnSuspiciousG;
-	private JButton btnRookieG;
+	private JButton btnGuardian;
 	private JButton btnWall;
 	private JButton btnRock;
 	private JButton btnKey;
@@ -65,22 +61,10 @@ public class DevWindow {
 				level.addOgre(ogre);
 			break;
 		}
-		case "Drunk Guardian": {
-			Guardian drunkG = new DrunkenG(cellX, cellY);
-			if (level.canAdd(drunkG))
-				level.addGuardian(drunkG);
-			break;
-		}
-		case "Rookie Guardian": {
+		case "Guardian": {
 			Guardian rookieG = new RookieG(cellX, cellY);
 			if (level.canAdd(rookieG))
 				level.addGuardian(rookieG);
-			break;
-		}
-		case "Suspicious Guardian": {
-			Guardian suspiciousG = new SuspiciousG(cellX, cellY);
-			if (level.canAdd(suspiciousG))
-				level.addGuardian(suspiciousG);
 			break;
 		}
 		case "Door": {
@@ -123,19 +107,9 @@ public class DevWindow {
 			level.removeOgre(ogre);
 			break;
 		}
-		case "Drunk Guardian": {
-			Guardian drunkG = new DrunkenG(cellX, cellY);
-			level.removeGuardian(drunkG);
-			break;
-		}
-		case "Rookie Guardian": {
+		case "Guardian": {
 			Guardian rookieG = new RookieG(cellX, cellY);
 			level.removeGuardian(rookieG);
-			break;
-		}
-		case "Suspicious Guardian": {
-			Guardian suspiciousG = new SuspiciousG(cellX, cellY);
-			level.removeGuardian(suspiciousG);
 			break;
 		}
 		case "Door": {
@@ -157,6 +131,21 @@ public class DevWindow {
 		}
 	}
 
+	private void resetLevel(){
+		level = new Level();
+		try{
+			int mapHeight = Integer.parseInt(mapY.getText());
+			int mapWidth = Integer.parseInt(mapX.getText());
+			char defaultMap[][] = graphics.setDefaultMap(mapWidth, mapHeight);
+			level.setMap(defaultMap);
+		} catch(NumberFormatException e) { return; }
+		graphics.repaint();
+		graphics.revalidate();
+		graphics.removeMouseListener(mouseListener);
+		graphics.addMouseListener(mouseListener);
+		graphics.requestFocusInWindow();
+	}
+	
 	private void init() {
 		// TODO SETBOUNDS
 		// TODO LABELS
@@ -220,18 +209,7 @@ public class DevWindow {
 		startDev = new JButton("New Level");
 		startDev.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent event) {
-				level = new Level();
-				try{
-					int mapHeight = Integer.parseInt(mapY.getText());
-					int mapWidth = Integer.parseInt(mapX.getText());
-					char defaultMap[][] = graphics.setDefaultMap(mapWidth, mapHeight);
-					level.setMap(defaultMap);
-				} catch(NumberFormatException e) { return; }
-				graphics.repaint();
-				graphics.revalidate();
-				graphics.removeMouseListener(mouseListener);
-				graphics.addMouseListener(mouseListener);
-				graphics.requestFocusInWindow();
+				resetLevel();
 			}
 		});
 		startDev.setBounds(385, 25, 100, 25);
@@ -263,32 +241,14 @@ public class DevWindow {
 		});
 		btnOgre.setBounds(385, 100, 100, 25);
 
-		btnDrunkG = new JButton("Drunk Guardian");
-		btnDrunkG.addActionListener(new ActionListener() {
+		btnGuardian = new JButton("Guardian");
+		btnGuardian.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent event) {
-				element = new String(btnDrunkG.getText());
+				element = new String(btnGuardian.getText());
 				graphics.requestFocusInWindow();
 			}
 		});
-		btnDrunkG.setBounds(385, 125, 100, 25);
-
-		btnSuspiciousG = new JButton("Suspicious Guardian");
-		btnSuspiciousG.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent event) {
-				element = new String(btnSuspiciousG.getText());
-				graphics.requestFocusInWindow();
-			}
-		});
-		btnSuspiciousG.setBounds(385, 150, 100, 25);
-
-		btnRookieG = new JButton("Rookie Guardian");
-		btnRookieG.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent event) {
-				element = new String(btnRookieG.getText());
-				graphics.requestFocusInWindow();
-			}
-		});
-		btnRookieG.setBounds(385, 175, 100, 25);
+		btnGuardian.setBounds(385, 175, 100, 25);
 
 		btnWall = new JButton("Wall");
 		btnWall.addActionListener(new ActionListener() {
@@ -322,9 +282,8 @@ public class DevWindow {
 			public void actionPerformed(ActionEvent e) {
 				if(level.isValid()){
 					levels.add(level);
-					level = new Level();
+					resetLevel();
 				}
-				graphics.requestFocusInWindow();
 			}
 		});
 		btnFinished.setBounds(385, 275, 100, 25);
@@ -347,13 +306,11 @@ public class DevWindow {
 		devFrame.getContentPane().add(graphics);
 		devFrame.getContentPane().add(startDev);
 		devFrame.getContentPane().add(btnDoor);
-		devFrame.getContentPane().add(btnDrunkG);
 		devFrame.getContentPane().add(btnHero);
 		devFrame.getContentPane().add(btnKey);
 		devFrame.getContentPane().add(btnOgre);
 		devFrame.getContentPane().add(btnRock);
-		devFrame.getContentPane().add(btnRookieG);
-		devFrame.getContentPane().add(btnSuspiciousG);
+		devFrame.getContentPane().add(btnGuardian);
 		devFrame.getContentPane().add(btnWall);
 		devFrame.getContentPane().add(btnFinished);
 		devFrame.getContentPane().add(btnBack);

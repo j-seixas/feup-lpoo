@@ -141,7 +141,6 @@ public class GameWindow implements java.io.Serializable {
 			lblInstructions.setText("Invalid Number of Ogres. Select Ogre Number and Guard Type to Play.");
 			return;
 		}
-
 		String guard = (String) guardSelector.getSelectedItem();
 		if (guard == "Rookie")
 			game = new Game(numOgres, 0);
@@ -152,14 +151,20 @@ public class GameWindow implements java.io.Serializable {
 	}
 	
 	private void newCustomGame(){
+		setCustom(customLevels);
 		game = new Game(customLevels);
+	}
+	
+	private void setSelectorsVisible(boolean b){
+		this.guardSelectorLabel.setVisible(b);
+		this.ogreNumberLabel.setVisible(b);
+		this.guardSelector.setVisible(b);
+		this.ogreNumber.setVisible(b);
 	}
 	
 	private void newGame(){
 		lblInstructions.setText("Use the Buttons to Move the Hero.");
 		setDirectionButtons(true);
-		if(game == null)
-			System.out.println("GAME NULL");
 		graphics.setMap(game.getCurrentMap());
 		graphics.repaint();
 		graphics.revalidate();
@@ -343,8 +348,11 @@ public class GameWindow implements java.io.Serializable {
 	}
 	
 	public void setCustom(ArrayList<Level> custom){
-		if(custom != null)
-			if(!custom.isEmpty())
+		if(custom != null){
+			if(!custom.isEmpty()){
 				customLevels = custom;
+				setSelectorsVisible(false);
+			}
+		} else 	setSelectorsVisible(true);
 	}
 }

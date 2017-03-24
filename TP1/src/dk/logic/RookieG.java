@@ -14,6 +14,10 @@ public class RookieG extends Guardian {
 		super(x, y);
 	}
 
+	public RookieG(Guardian i) {
+		super(i.getX(), i.getY());
+	}
+
 	public boolean moveCharacter(Level level) {
 		if (!sleeping) {
 			this.indexPath++;

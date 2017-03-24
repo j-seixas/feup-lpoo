@@ -22,8 +22,10 @@ public class Game implements java.io.Serializable{
 		initLevels(ogreNumber, guardianType);
 	}
 
-	public Game(ArrayList<Level> testLevels){
-		this.levels = testLevels;
+	public Game(ArrayList<Level> customLevels){
+		this.levels = new ArrayList<Level>();
+		for(Level current : customLevels)
+			levels.add(new Level(current));
 	}
 	
 	private void initLevels(int ogreNumber, int guardianType) {
