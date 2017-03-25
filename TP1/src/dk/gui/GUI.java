@@ -31,10 +31,25 @@ public class GUI {
 
 	public void run(Window button){
 		switch(button){
-			case PlayDefault: gameWindow.enable(); gameWindow.setCustom(null); return;
-			case PlayCustom: gameWindow.enable(); gameWindow.setCustom(devWindow.getLevels()); return;
-			case Developer: devWindow.enable(); return;
-			case Main: mainWindow.enable(); return;
+			case PlayDefault: 
+				gameWindow.enable(); 
+				gameWindow.setCustom(null); 
+				return;
+			case PlayCustom:
+				if(devWindow.getLevels() == null || devWindow.getLevels().isEmpty()){
+					mainWindow.enable();
+					mainWindow.setInfoLabel("There are no custom levels!");
+					return;
+				}
+				gameWindow.enable(); 
+				gameWindow.setCustom(devWindow.getLevels()); 
+				return;
+			case Developer: 
+				devWindow.enable(); 
+				return;
+			case Main: 
+				mainWindow.enable(); 
+				return;
 		}
 	}
 }

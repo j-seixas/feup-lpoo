@@ -1,5 +1,6 @@
 package dk.gui;
 
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
@@ -8,6 +9,7 @@ import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JTextField;
 
 import dk.logic.Coordinates;
@@ -26,6 +28,8 @@ public class DevWindow {
 	private JTextField mapX, mapY;
 	private JButton startDev, btnFinished, btnBack;
 	private JButton btnHero, btnDoor, btnOgre, btnGuardian, btnWall, btnRock, btnKey;
+	private JLabel widthLabel, heightLabel;
+	private JLabel informationLabel;
 	private Level level;
 	private ArrayList<Level> levels;
 	private String element;
@@ -153,8 +157,10 @@ public class DevWindow {
 			char defaultMap[][] = graphics.setDefaultMap(mapWidth, mapHeight);
 			level.setMap(defaultMap);
 		} catch (NumberFormatException e) {
+			informationLabel.setText("Invalid dimensions! Please enter valid map dimensions to start a new level.");
 			return;
 		}
+		informationLabel.setText("Click on a button to select an item. Left click to add or right click to remove.");
 		graphics.repaint();
 		graphics.revalidate();
 		graphics.removeMouseListener(mouseListener);
@@ -164,12 +170,13 @@ public class DevWindow {
 
 	private void initFrame() {
 		devFrame = new JFrame();
-		devFrame.setBounds(0, 0, 600, 425);
+		devFrame.setBounds(0, 0, 1000, 700);
 		devFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 
 	private void initGraphics() {
-		graphics = new GPanel(20, 80, 250, 250);
+		graphics = new GPanel(20, 80, 500, 500);
+		graphics.setLocation(35, 80);
 		graphics.setFocusable(true);
 		mouseListener = new MouseListener() {
 			@Override
@@ -200,11 +207,22 @@ public class DevWindow {
 
 	public void initDimensions(){
 			mapX = new JTextField(2);
-			mapX.setBounds(0, 0, 30, 20);
+			mapX.setBounds(180, 25, 50, 20);
 			mapY = new JTextField(2);
-			mapY.setBounds(60, 0, 30, 20);
+			mapY.setBounds(380, 25, 50, 20);
 	}
 	
+	public void initLabels(){
+		widthLabel = new JLabel("Width");
+		widthLabel.setBounds(125, 30, 50, 15);
+		
+		heightLabel = new JLabel("Height");
+		heightLabel.setBounds(325, 30, 50, 15);
+		
+		informationLabel = new JLabel("Choose the dimensions for your map and click New Level to start!");
+		informationLabel.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		informationLabel.setBounds(30, 600, 700, 30);
+	}
 	
 	private void initButtons(){
 		initDevButton();
@@ -226,7 +244,7 @@ public class DevWindow {
 				disable();
 			}
 		});
-		btnBack.setBounds(385, 300, 100, 25);		
+		btnBack.setBounds(715, 590, 130, 30);
 	}
 
 	private void initFinishedButton() {
@@ -234,12 +252,15 @@ public class DevWindow {
 		btnFinished.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (level.isValid()) {
+					informationLabel.setText("Level added!");
 					levels.add(level);
 					resetLevel();
 				}
+				else 
+					informationLabel.setText("The level is not valid! A level requires a hero, a key and, at least, a door.");
 			}
 		});
-		btnFinished.setBounds(385, 275, 100, 25);		
+		btnFinished.setBounds(715, 540, 130, 30);
 	}
 
 	private void initKeyButton() {
@@ -250,7 +271,7 @@ public class DevWindow {
 				graphics.requestFocusInWindow();
 			}
 		});
-		btnKey.setBounds(385, 250, 100, 25);		
+		btnKey.setBounds(715, 240, 130, 30);
 	}
 
 	private void initRockButton() {
@@ -261,7 +282,7 @@ public class DevWindow {
 				graphics.requestFocusInWindow();
 			}
 		});
-		btnRock.setBounds(385, 225, 100, 25);		
+		btnRock.setBounds(715, 440, 130, 30);
 	}
 
 	private void initWallButton() {
@@ -272,7 +293,7 @@ public class DevWindow {
 				graphics.requestFocusInWindow();
 			}
 		});
-		btnWall.setBounds(385, 200, 100, 25);		
+		btnWall.setBounds(715, 390, 130, 30);
 	}
 
 	private void initGuardianButton() {
@@ -283,7 +304,7 @@ public class DevWindow {
 				graphics.requestFocusInWindow();
 			}
 		});
-		btnGuardian.setBounds(385, 175, 100, 25);		
+		btnGuardian.setBounds(715, 340, 130, 30);
 	}
 
 	private void initOgreButton() {
@@ -294,7 +315,7 @@ public class DevWindow {
 				graphics.requestFocusInWindow();
 			}
 		});
-		btnOgre.setBounds(385, 100, 100, 25);		
+		btnOgre.setBounds(715, 290, 130, 30);
 	}
 
 	private void initDoorButton() {
@@ -305,7 +326,7 @@ public class DevWindow {
 				graphics.requestFocusInWindow();
 			}
 		});
-		btnDoor.setBounds(385, 75, 100, 25);		
+		btnDoor.setBounds(715, 190, 130, 30);
 	}
 
 	private void initHeroButton() {
@@ -316,7 +337,7 @@ public class DevWindow {
 				graphics.requestFocusInWindow();
 			}
 		});
-		btnHero.setBounds(385, 50, 100, 25);		
+		btnHero.setBounds(715, 140, 130, 30);
 	}
 
 	private void initDevButton() {
@@ -326,12 +347,11 @@ public class DevWindow {
 				resetLevel();
 			}
 		});
-		startDev.setBounds(385, 25, 100, 25);
+		startDev.setBounds(715, 40, 130, 30);
 	}
 
 	private void init() {
-		// TODO SETBOUNDS
-		// TODO LABELS
+		initLabels();
 		initFrame();
 		initGraphics();
 		initDimensions();
@@ -355,6 +375,9 @@ public class DevWindow {
 		devFrame.getContentPane().add(btnWall);
 		devFrame.getContentPane().add(btnFinished);
 		devFrame.getContentPane().add(btnBack);
+		devFrame.getContentPane().add(heightLabel);
+		devFrame.getContentPane().add(widthLabel);		
+		devFrame.getContentPane().add(informationLabel);		
 	}
 	
 	public void enable() {

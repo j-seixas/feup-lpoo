@@ -342,18 +342,20 @@ public class GameWindow implements java.io.Serializable {
 		gameFrame.getContentPane().add(lblInstructions);
 	}
 
-	private void init() {
+	private void initFrame(){
 		// Frame
 		gameFrame = new JFrame();
 		gameFrame.setBounds(0, 0, 1000, 700);
 		gameFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
+	}
+	
+	private void init() {
+		initFrame();
 		labelsInit();
 		graphicsPaneInit();
 		selectorsInit();
 		buttonsInit();
 		addAllElements();
-
 	}
 
 	public void enable() {
