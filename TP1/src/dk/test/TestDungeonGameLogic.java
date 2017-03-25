@@ -192,92 +192,92 @@ public class TestDungeonGameLogic {
 		assertEquals(new Coordinates(3, 1), game.getCurrentHero().getCoord());
 		assertTrue('G' == game.getCurrentMap(new Coordinates(7, 2)));
 
-		game.processInput(GameCharacter.Direction.LEFT);
-		assertEquals(new Coordinates(2, 1), game.getCurrentHero().getCoord());
+		game.processInput(GameCharacter.Direction.DOWN);
+		assertEquals(new Coordinates(3, 2), game.getCurrentHero().getCoord());
 		assertTrue('G' == game.getCurrentMap(new Coordinates(7, 3)));
 
-		game.processInput(GameCharacter.Direction.LEFT);
-		assertEquals(new Coordinates(1, 1), game.getCurrentHero().getCoord());
+		game.processInput(GameCharacter.Direction.UP);
+		assertEquals(new Coordinates(3, 1), game.getCurrentHero().getCoord());
 		assertTrue('G' == game.getCurrentMap(new Coordinates(7, 4)));
 
-		game.processInput(GameCharacter.Direction.RIGHT);
+		game.processInput(GameCharacter.Direction.LEFT);
 		assertEquals(new Coordinates(2, 1), game.getCurrentHero().getCoord());
 		assertTrue('G' == game.getCurrentMap(new Coordinates(7, 5)));
 
-		game.processInput(GameCharacter.Direction.RIGHT);
-		assertEquals(new Coordinates(3, 1), game.getCurrentHero().getCoord());
+		game.processInput(GameCharacter.Direction.LEFT);
+		assertEquals(new Coordinates(1, 1), game.getCurrentHero().getCoord());
 		assertTrue('G' == game.getCurrentMap(new Coordinates(6, 5)));
 
-		game.processInput(GameCharacter.Direction.LEFT);
+		game.processInput(GameCharacter.Direction.RIGHT);
 		assertEquals(new Coordinates(2, 1), game.getCurrentHero().getCoord());
 		assertTrue('G' == game.getCurrentMap(new Coordinates(5, 5)));
 
-		game.processInput(GameCharacter.Direction.LEFT);
-		assertEquals(new Coordinates(1, 1), game.getCurrentHero().getCoord());
+		game.processInput(GameCharacter.Direction.RIGHT);
+		assertEquals(new Coordinates(3, 1), game.getCurrentHero().getCoord());
 		assertTrue('G' == game.getCurrentMap(new Coordinates(4, 5)));
 
-		game.processInput(GameCharacter.Direction.RIGHT);
+		game.processInput(GameCharacter.Direction.LEFT);
 		assertEquals(new Coordinates(2, 1), game.getCurrentHero().getCoord());
 		assertTrue('G' == game.getCurrentMap(new Coordinates(3, 5)));
 
-		game.processInput(GameCharacter.Direction.RIGHT);
-		assertEquals(new Coordinates(3, 1), game.getCurrentHero().getCoord());
+		game.processInput(GameCharacter.Direction.LEFT);
+		assertEquals(new Coordinates(1, 1), game.getCurrentHero().getCoord());
 		assertTrue('G' == game.getCurrentMap(new Coordinates(2, 5)));
 
-		game.processInput(GameCharacter.Direction.LEFT);
+		game.processInput(GameCharacter.Direction.RIGHT);
 		assertEquals(new Coordinates(2, 1), game.getCurrentHero().getCoord());
 		assertTrue('G' == game.getCurrentMap(new Coordinates(1, 5)));
 
-		game.processInput(GameCharacter.Direction.LEFT);
-		assertEquals(new Coordinates(1, 1), game.getCurrentHero().getCoord());
+		game.processInput(GameCharacter.Direction.RIGHT);
+		assertEquals(new Coordinates(3, 1), game.getCurrentHero().getCoord());
 		assertTrue('G' == game.getCurrentMap(new Coordinates(1, 6)));
 
-		game.processInput(GameCharacter.Direction.RIGHT);
+		game.processInput(GameCharacter.Direction.LEFT);
 		assertEquals(new Coordinates(2, 1), game.getCurrentHero().getCoord());
 		assertTrue('G' == game.getCurrentMap(new Coordinates(2, 6)));
 
-		game.processInput(GameCharacter.Direction.RIGHT);
-		assertEquals(new Coordinates(3, 1), game.getCurrentHero().getCoord());
+		game.processInput(GameCharacter.Direction.LEFT);
+		assertEquals(new Coordinates(1, 1), game.getCurrentHero().getCoord());
 		assertTrue('G' == game.getCurrentMap(new Coordinates(3, 6)));
 
-		game.processInput(GameCharacter.Direction.LEFT);
+		game.processInput(GameCharacter.Direction.RIGHT);
 		assertEquals(new Coordinates(2, 1), game.getCurrentHero().getCoord());
 		assertTrue('G' == game.getCurrentMap(new Coordinates(4, 6)));
 
-		game.processInput(GameCharacter.Direction.LEFT);
-		assertEquals(new Coordinates(1, 1), game.getCurrentHero().getCoord());
+		game.processInput(GameCharacter.Direction.RIGHT);
+		assertEquals(new Coordinates(3, 1), game.getCurrentHero().getCoord());
 		assertTrue('G' == game.getCurrentMap(new Coordinates(5, 6)));
 
-		game.processInput(GameCharacter.Direction.RIGHT);
+		game.processInput(GameCharacter.Direction.LEFT);
 		assertEquals(new Coordinates(2, 1), game.getCurrentHero().getCoord());
 		assertTrue('G' == game.getCurrentMap(new Coordinates(6, 6)));
 
-		game.processInput(GameCharacter.Direction.RIGHT);
-		assertEquals(new Coordinates(3, 1), game.getCurrentHero().getCoord());
+		game.processInput(GameCharacter.Direction.LEFT);
+		assertEquals(new Coordinates(1, 1), game.getCurrentHero().getCoord());
 		assertTrue('G' == game.getCurrentMap(new Coordinates(7, 6)));
 
-		game.processInput(GameCharacter.Direction.LEFT);
+		game.processInput(GameCharacter.Direction.RIGHT);
 		assertEquals(new Coordinates(2, 1), game.getCurrentHero().getCoord());
 		assertTrue('G' == game.getCurrentMap(new Coordinates(8, 6)));
 
-		game.processInput(GameCharacter.Direction.LEFT);
-		assertEquals(new Coordinates(1, 1), game.getCurrentHero().getCoord());
+		game.processInput(GameCharacter.Direction.RIGHT);
+		assertEquals(new Coordinates(3, 1), game.getCurrentHero().getCoord());
 		assertTrue('G' == game.getCurrentMap(new Coordinates(8, 5)));
 
-		game.processInput(GameCharacter.Direction.RIGHT);
+		game.processInput(GameCharacter.Direction.LEFT);
 		assertEquals(new Coordinates(2, 1), game.getCurrentHero().getCoord());
 		assertTrue('G' == game.getCurrentMap(new Coordinates(8, 4)));
 
-		game.processInput(GameCharacter.Direction.RIGHT);
-		assertEquals(new Coordinates(3, 1), game.getCurrentHero().getCoord());
+		game.processInput(GameCharacter.Direction.LEFT);
+		assertEquals(new Coordinates(1, 1), game.getCurrentHero().getCoord());
 		assertTrue('G' == game.getCurrentMap(new Coordinates(8, 3)));
 
-		game.processInput(GameCharacter.Direction.LEFT);
+		game.processInput(GameCharacter.Direction.RIGHT);
 		assertEquals(new Coordinates(2, 1), game.getCurrentHero().getCoord());
 		assertTrue('G' == game.getCurrentMap(new Coordinates(8, 2)));
 
-		game.processInput(GameCharacter.Direction.LEFT);
-		assertEquals(new Coordinates(1, 1), game.getCurrentHero().getCoord());
+		game.processInput(GameCharacter.Direction.RIGHT);
+		assertEquals(new Coordinates(3, 1), game.getCurrentHero().getCoord());
 		assertTrue('G' == game.getCurrentMap(new Coordinates(8, 1)));
 	}
 
