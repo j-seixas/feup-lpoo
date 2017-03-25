@@ -36,43 +36,78 @@ public class DevWindow {
 		levels = new ArrayList<Level>();
 		init();
 	}
+	
+	private boolean addHero(int cellX, int cellY){
+		Hero hero = new Hero(cellX, cellY);
+		boolean result = level.canAdd(hero);
+		if(result)
+			level.setHero(hero);
+		return result;
+	}
+	
+	private boolean addOgre(int cellX, int cellY){
+		Ogre ogre = new Ogre(cellX, cellY);
+		boolean result = level.canAdd(ogre);
+		if(result)
+			level.addOgre(ogre);
+		return result;
+	}
+	
+	private boolean addGuardian(int cellX, int cellY){
+		Guardian rookieG = new RookieG(cellX, cellY);
+		boolean result = level.canAdd(rookieG);
+		if(result)
+			level.addGuardian(rookieG);
+		return result;
+	}
+	
+	private boolean addDoor(int cellX, int cellY){
+		Door door = new Door(cellX, cellY);
+		boolean result = level.canAddElement(cellX, cellY);
+		if(result)
+			level.addDoor(door);
+		return result;
+	}
 
+	private boolean addKey(int cellX, int cellY){
+		Coordinates key = new Coordinates(cellX, cellY);
+		boolean result = level.canAddElement(cellX, cellY);
+		if(result)
+			level.setKey(key);
+		return result;
+	}
+	
+	private boolean addElement(int cellX, int cellY, char c){
+		boolean result = level.canAddElement(cellX, cellY);
+		if(result)
+			level.addElement(c, cellX, cellY);
+		return result;
+	}
+	
 	private void handleAddition(int cellX, int cellY) {
 		if (element == null)
 			return;
 		switch (element) {
 		case "Hero":
-			Hero hero = new Hero(cellX, cellY);
-			if (level.canAdd(hero))
-				level.setHero(hero);
+			addHero(cellX, cellY);
 			break;
 		case "Ogre":
-			Ogre ogre = new Ogre(cellX, cellY);
-			if (level.canAdd(ogre))
-				level.addOgre(ogre);
+			addOgre(cellX, cellY);
 			break;
 		case "Guardian":
-			Guardian rookieG = new RookieG(cellX, cellY);
-			if (level.canAdd(rookieG))
-				level.addGuardian(rookieG);
+			addGuardian(cellX, cellY);
 			break;
 		case "Door":
-			Door door = new Door(cellX, cellY);
-			if (level.canAddElement(cellX, cellY))
-				level.addDoor(door);
+			addDoor(cellX, cellY);
 			break;
 		case "Key":
-			Coordinates key = new Coordinates(cellX, cellY);
-			if (level.canAddElement(cellX, cellY))
-				level.setKey(key);
+			addKey(cellX, cellY);
 			break;
 		case "Wall":
-			if (level.canAddElement(cellX, cellY))
-				level.addElement('X', cellX, cellY);
+			addElement(cellX, cellY, 'X');
 			break;
 		case "Rock":
-			if (level.canAddElement(cellX, cellY))
-				level.addElement('I', cellX, cellY);
+			addElement(cellX, cellY, 'I');
 			break;
 		default:
 			return;
