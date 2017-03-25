@@ -55,9 +55,7 @@ public class CLI {
 		}
 	}
 
-	private int[] getArguments() {
-		int args[] = new int[2];
-
+	private int getNumberOfOgres(){
 		// Read Ogre Number
 		while (true) {
 			System.out.print("Number of Ogres: ");
@@ -71,19 +69,20 @@ public class CLI {
 				continue;
 			}
 			if (ogreNumber > 0 && ogreNumber <= Game.MAX_OGRES) {
-				args[0] = ogreNumber;
-				break;
+				return ogreNumber;
 			} else {
 				System.out.println("Invalid number!");
 			}
 		}
+	}
+	
+	private int getGuardianType(){
 		// Read Guard Type
 		while (true) {
 			System.out.print("Select a guardian Type:\n"
 					     	+ " 1. Rookie\n"
 							+ " 2. Drunk\n"
 					     	+ " 3. Suspicious\n");
-			
 			String guardStr = keyboard_scanner.nextLine();
 			int guardNumber;
 			try {
@@ -93,13 +92,17 @@ public class CLI {
 				continue;
 			}
 			if (guardNumber >= 1 && guardNumber <= Game.GUARDIAN_TYPES) {
-				args[1] = guardNumber - 1;				
-				break;
+				return (guardNumber - 1);
 			} else {
 				System.out.println("Invalid type!");
 			}
 		}
-
+	}
+	
+	private int[] getArguments() {
+		int args[] = new int[2];
+		args[0] = getNumberOfOgres();
+		args[1] = getGuardianType();
 		return args;
 	}
 
