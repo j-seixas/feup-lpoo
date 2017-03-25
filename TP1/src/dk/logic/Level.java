@@ -170,7 +170,7 @@ public class Level implements java.io.Serializable {
 			// Draw Ogre
 			if (key != null && hero != null){
 				if (currentOgre.getCoord().equals(key) && !hero.getHasKey())
-					setMap(currentOgre.getCoord(), '$');
+					setMap(currentOgre.getCoord(), '&');
 				else if (currentOgre.isStunned())
 					setMap(currentOgre.getCoord(), '8');
 				else

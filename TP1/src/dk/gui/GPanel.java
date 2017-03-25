@@ -25,7 +25,7 @@ public class GPanel extends JPanel {
 		images = new TreeMap<Character, BufferedImage>();
 				
 		try{
-				images.put('X', ImageIO.read(new File("imgs/wall.png")));
+				images.put('X', ImageIO.read(new File("imgs/wall1.png")));
 				images.put('I', ImageIO.read(new File("imgs/door.png")));
 				images.put('S', ImageIO.read(new File("imgs/stairs.png")));
 				images.put('*', ImageIO.read(new File("imgs/club.png")));
@@ -37,6 +37,8 @@ public class GPanel extends JPanel {
 				images.put('g', ImageIO.read(new File("imgs/guardian_sleeping.png")));
 				images.put('O', ImageIO.read(new File("imgs/ogre.png")));
 				images.put('8', ImageIO.read(new File("imgs/ogre_stunned.png")));
+				images.put('&', ImageIO.read(new File("imgs/ogre_key.png")));
+				images.put('$', ImageIO.read(new File("imgs/club_key.png")));
 				images.put(' ', ImageIO.read(new File("imgs/floor.png")));
 		} catch (IOException e){
 			return;
