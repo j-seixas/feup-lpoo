@@ -115,8 +115,7 @@ public class Level implements java.io.Serializable {
 		}
 	}
 
-	public void updateMap() {
-		cloneMap();
+	public void updateDoors(){
 		char draw_char;
 
 		// Draw doors
@@ -127,14 +126,20 @@ public class Level implements java.io.Serializable {
 				draw_char = 'I';
 			setMap(currentDoor.getCoordinates(), draw_char);
 		}
-
+	}
+	
+	public void updateKey(){
 		// Draw key
 		if (hero != null) {
 			if ((!hero.getHasKey() || won_by_lever) && key != null)
 				setMap(key, 'k');
 		} else if (key != null)
-			setMap(key, 'k');
-
+		setMap(key, 'k');
+	}
+	
+	public void updateHero(){
+		char draw_char;
+		
 		// Draw hero
 		if (hero != null) {
 			if (hero.getHasKey() && !won_by_lever)
@@ -145,7 +150,11 @@ public class Level implements java.io.Serializable {
 				draw_char = 'H';
 			setMap(hero.getCoord(), draw_char);
 		}
-
+	}
+	
+	public void updateGuardians(){
+		char draw_char;
+		
 		// Draw Guardian
 		for (Guardian currentGuardian : guardians) {
 			if (currentGuardian.IsSleeping())
@@ -154,6 +163,9 @@ public class Level implements java.io.Serializable {
 				draw_char = 'G';
 			setMap(currentGuardian.getCoord(), draw_char);
 		}
+	}
+	
+	public void updateOgres(){
 		for (Ogre currentOgre : ogres) {
 			// Draw Ogre
 			if (key != null && hero != null){
@@ -177,6 +189,16 @@ public class Level implements java.io.Serializable {
 				setMap(currentOgre.getClub().getCoord(), '*');
 
 		}
+	}
+	
+	public void updateMap() {
+		cloneMap();
+	
+		updateDoors();
+		updateKey();
+		updateHero();
+		updateGuardians();
+		updateOgres();
 	}
 
 	// Wrappers / Getters / Setters
