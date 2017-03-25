@@ -184,7 +184,7 @@ public class TestRandomMovement {
 		int forloop = 0;
 		for (int i = 0; i < 50; i++) {
 			for (Coordinates coord : path) {
-				if (game.getCurrentMap(coord) == 'O' || game.getCurrentMap(coord) == '$') {
+				if (game.getCurrentMap(coord) == 'O' || game.getCurrentMap(coord) == '&') {
 					forloop++;
 					break;
 				}
