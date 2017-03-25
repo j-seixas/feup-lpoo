@@ -179,7 +179,18 @@ public class TestDungeonGameLogic {
 
 	@Test
 	public void testLevelsOfIterationsAllPosRookie() {
+		String smap = "X X X X X X X X X X \n"
+				+ "X H     I   X   G X \n"
+				+ "X X X   X X X     X \n"
+				+ "X   I   I   X     X \n"
+				+ "X X X   X X X     X \n"
+				+ "I                 X \n"
+				+ "I                 X \n"
+				+ "X X X   X X X X   X \n"
+				+ "X   I   I   X k   X \n"
+				+ "X X X X X X X X X X \n"; 
 		Game game = new Game(1, 0);
+		assertEquals(smap,game.getStringMap());
 		assertEquals('G', game.getCurrentMap(new Coordinates(8, 1)));
 		assertEquals(new Coordinates(1, 1), game.getCurrentHero().getCoord());
 
@@ -303,11 +314,13 @@ public class TestDungeonGameLogic {
 		assertTrue(level.canAdd(ogre));
 		level.addOgre(ogre);
 
-		Guardian guard = new DrunkenG(1, 1);
+		Guardian guard = new RookieG(1, 1);
 		assertFalse(level.canAdd(guard));
 		Guardian guard1 = new SuspiciousG(3, 1);
 		assertTrue(level.canAdd(guard1));
 		level.addGuardian(guard1);
+		Guardian guard2 = new DrunkenG(1, 1);
+		assertFalse(level.canAdd(guard2));
 
 		assertFalse(level.isValid());
 
