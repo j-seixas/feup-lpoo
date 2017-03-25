@@ -129,6 +129,10 @@ public class GameWindow implements java.io.Serializable {
 		ogreNumber.setBounds(150, 15, 30, 20);
 	}
 
+	public boolean validGameArgs(int numOgres){
+		return (numOgres > Game.MAX_OGRES || numOgres <= 0);
+	}
+	
 	private void newDefaultGame(){
 		int numOgres;
 		try {
@@ -137,7 +141,7 @@ public class GameWindow implements java.io.Serializable {
 			lblInstructions.setText("Invalid Number of Ogres. Select Ogre Number and Guard Type to Play.");
 			return;
 		}
-		if (numOgres > Game.MAX_OGRES || numOgres <= 0) {
+		if (validGameArgs(numOgres)) {
 			lblInstructions.setText("Invalid Number of Ogres. Select Ogre Number and Guard Type to Play.");
 			return;
 		}
