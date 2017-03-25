@@ -133,6 +133,16 @@ public class GameWindow implements java.io.Serializable {
 		return (numOgres > Game.MAX_OGRES || numOgres <= 0);
 	}
 	
+	public Game setGame(int numOgres, String guard){
+		if (guard == "Rookie")
+			return new Game(numOgres, 0);
+		else if (guard == "Drunken")
+			return new Game(numOgres, 1);
+		else if (guard == "Suspicious")
+			return new Game(numOgres, 2);
+		else return null;
+	}
+	
 	private void newDefaultGame(){
 		int numOgres;
 		try {
@@ -146,12 +156,7 @@ public class GameWindow implements java.io.Serializable {
 			return;
 		}
 		String guard = (String) guardSelector.getSelectedItem();
-		if (guard == "Rookie")
-			game = new Game(numOgres, 0);
-		else if (guard == "Drunken")
-			game = new Game(numOgres, 1);
-		else if (guard == "Suspicious")
-			game = new Game(numOgres, 2);
+		game = setGame(numOgres, guard);
 	}
 	
 	private void newCustomGame(){
