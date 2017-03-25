@@ -40,6 +40,7 @@ public class Game implements java.io.Serializable{
 		char map[][];
 		
 		//Level 1
+		Level level_1 = new Level();
 		hero = new Hero(1, 1);
 		guardians.add(generateGuardian(guardianType));
 		key = new Coordinates(7, 8);		
@@ -56,12 +57,20 @@ public class Game implements java.io.Serializable{
 			{ 'X', 'X', 'X', ' ', 'X', 'X', 'X', 'X', ' ', 'X', },
 			{ 'X', ' ', 'I', ' ', 'I', ' ', 'X', ' ', ' ', 'X', },
 			{ 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', } };
-		levels.add(new Level(new Hero(hero), (ArrayList<Ogre>)ogres.clone(), (ArrayList<Guardian>)guardians.clone(), key, (ArrayList<Door>)doors.clone(), map, true));
+		level_1.setHero(new Hero(hero));
+		level_1.setGuardians((ArrayList<Guardian>)guardians.clone());
+		level_1.setKey(key);
+		level_1.setDoors((ArrayList<Door>)doors.clone());
+		level_1.setMap(map);
+		level_1.setWonByLever(true);
+		level_1.setOgres((ArrayList<Ogre>)ogres.clone());
+		levels.add(level_1);
 		guardians.clear();
 		doors.clear();
 		ogres.clear();
 		
 		//Level 2
+		Level level_2 = new Level();
 		hero = new Hero(1, 7);
 		hero.setHasClub(true);
 		hero.setHasKey(false);
@@ -80,11 +89,14 @@ public class Game implements java.io.Serializable{
 		for(int i = 0; i < ogreNumber; i++){
 			ogres.add(generateOgre(hero, map));
 		}
-		levels.add(new Level(new Hero(hero), (ArrayList<Ogre>)ogres.clone(), (ArrayList<Guardian>)guardians.clone(), key, (ArrayList<Door>)doors.clone(), map, false));
-		
-		guardians.clear();
-		doors.clear();
-		ogres.clear();		
+		level_2.setHero(new Hero(hero));
+		level_2.setGuardians((ArrayList<Guardian>)guardians.clone());
+		level_2.setKey(key);
+		level_2.setDoors((ArrayList<Door>)doors.clone());
+		level_2.setMap(map);
+		level_2.setWonByLever(false);
+		level_2.setOgres((ArrayList<Ogre>)ogres.clone());
+		levels.add(level_2);
 	}
 	
 	private Guardian generateGuardian(int guardianType) {		

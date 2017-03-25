@@ -41,8 +41,15 @@ public class TestRandomMovement {
 			{ 'X', 'X', 'X', 'X', 'X' } };
 
 		ArrayList<Level> testLevels = new ArrayList<Level>();
-		testLevels.add(new Level(new Hero(hero), (ArrayList<Ogre>) ogres.clone(),
-				(ArrayList<Guardian>) guardians.clone(), key, (ArrayList<Door>) doors.clone(), map, false));
+		Level testLevel = new Level();
+		testLevel.setHero(new Hero(hero));
+		testLevel.setGuardians((ArrayList<Guardian>)guardians.clone());
+		testLevel.setKey(key);
+		testLevel.setDoors((ArrayList<Door>)doors.clone());
+		testLevel.setMap(map);
+		testLevel.setWonByLever(false);
+		testLevel.setOgres((ArrayList<Ogre>)ogres.clone());
+		testLevels.add(testLevel);
 		return testLevels;
 	}
 	

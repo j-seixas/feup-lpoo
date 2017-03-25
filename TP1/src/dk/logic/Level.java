@@ -14,22 +14,6 @@ public class Level implements java.io.Serializable {
 	private char currentMap[][];
 	private boolean won_by_lever;
 
-	public Level(Hero hero, ArrayList<Ogre> ogres, ArrayList<Guardian> guardians, Coordinates key,
-			ArrayList<Door> doors, char[][] initialMap, boolean won_by_lever) {
-		this.hero = hero;
-		this.ogres = ogres;
-		this.guardians = guardians;
-		this.key = key;
-		this.doors = doors;
-		this.initialMap = initialMap;
-		this.won_by_lever = won_by_lever;
-		updateMap();
-		for (Ogre o : ogres) {
-			o.getClub().moveCharacter(this);
-		}
-		updateMap();
-	}
-	
 	public Level() {
 		hero = null;
 		key = null;
@@ -200,6 +184,23 @@ public class Level implements java.io.Serializable {
 	public void setMap(char map[][]) {
 		initialMap = map;
 		cloneMap();
+	}
+	
+	public void setDoors(ArrayList<Door> doors){
+		this.doors = doors;
+	}
+	
+	public void setGuardians(ArrayList<Guardian> guardians){
+		this.guardians = guardians;
+	}
+	
+	public void setOgres(ArrayList<Ogre> ogres){
+		this.ogres = ogres;
+		updateMap();
+		for (Ogre o : ogres) {
+			o.getClub().moveCharacter(this);
+		}
+		updateMap();
 	}
 
 	public void setMap(Coordinates coordinate, char ch) {
