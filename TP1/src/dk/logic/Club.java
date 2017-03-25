@@ -6,16 +6,32 @@ public class Club extends GameCharacter {
 
 	public GameCharacter character;
 
+	/**
+	 * Creates a Club, bound to a generic GameCharacter
+	 * @param x	Coordinate x of its initial position
+	 * @param y	Coordinate y of its initial position
+	 * @param c GameCharacter to whom the club is bound to
+	 * */
 	public Club(int x, int y, GameCharacter c) {
 		super(x, y);
 		character = c;
 	}
 	
+	/**
+	 * Copy Constructor
+	 * @param club Club to be copied
+	 * @param ogre Ogre to whom its bound to
+	 * */
 	public Club(Club club, Ogre ogre){
 		this.coordinates = new Coordinates(club.coordinates);
 		this.character = ogre; 
 	}
 
+	/**
+	 * Moves the club to a random position next to its character
+	 * @param level Indicates the level on which the club will move
+	 * @return Returns the possibility to move
+	 * */
 	public boolean moveCharacter(Level level) {
 		if (!((Ogre) character).isSleeping()) {
 
@@ -68,7 +84,7 @@ public class Club extends GameCharacter {
 		return false;
 	}
 
-	public void moveClub(int clubDirection) {
+	private void moveClub(int clubDirection) {
 		switch (clubDirection) {
 		case 0: setY(character.getY() - 1); setX(character.getX());
 			break;

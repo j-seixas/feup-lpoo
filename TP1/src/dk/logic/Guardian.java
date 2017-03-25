@@ -32,17 +32,29 @@ public abstract class Guardian extends GameCharacter{
 	protected int indexPath;
 	protected boolean sleeping = false;
 
+	/**
+	 * Creates a Guardian with the default path
+	 * */
 	public Guardian(){
 		indexPath = 0;
 		this.coordinates = this.path[indexPath];
 	}
 	
+	/**
+	 * Creates a Guardian that doesn't move
+	 * @param x	Coordinate x of its initial position
+	 * @param y	Coordinate y of its initial position
+	 * */
 	public Guardian(int x, int y){
 		indexPath = 0;
 		this.path = new Coordinates[] { new Coordinates(x, y) };
 		this.coordinates = this.path[indexPath];
 	}
 	
+	/**
+	 * Creates a Guardian with a specific path
+	 * @param path Specifies the path the guardian will walk on
+	 * */
 	public Guardian(Coordinates path[]) {
 		indexPath = 0;
 		this.path = path;
@@ -51,10 +63,17 @@ public abstract class Guardian extends GameCharacter{
 		
 	protected abstract boolean moveCharacter(Level level);
 	
+	/**
+	 * Checks if the guardian is sleeping
+	 * @return Returns whether or not the guardian is sleeping
+	 */
 	public boolean IsSleeping(){
 		return sleeping;
 	}
 
+	/**
+	 * Makes the guardian go to sleep
+	 */
 	public void sleep(){
 		sleeping = true;
 	}

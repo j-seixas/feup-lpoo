@@ -6,10 +6,18 @@ public class SuspiciousG extends Guardian {
 	private boolean dir = true;
 	private int wait = 0;
 
+	/**
+	 * Creates a Suspicious Guardian with the default path
+	 * */
 	public SuspiciousG() {
 		super();
 	}
 	
+	/**
+	 * Creates a Suspicious Guardian that doesn't move
+	 * @param x	Coordinate x of its initial position
+	 * @param y	Coordinate y of its initial position
+	 * */
 	public SuspiciousG(int x, int y) {
 		super(x, y);
 	}
@@ -34,6 +42,11 @@ public class SuspiciousG extends Guardian {
 		}
 	}
 
+	/**
+	 * Moves the guardian to its next position. There is a possibility for the guardian to change his direction.
+	 * @param level Indicates the level on which the guardian will move
+	 * @return Returns true
+	 * */
 	public boolean moveCharacter(Level level) {
 		directionMove();
 		wait--;

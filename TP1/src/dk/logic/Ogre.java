@@ -8,17 +8,32 @@ public class Ogre extends GameCharacter {
 	private boolean ogre_is_stunned = false;
 	private boolean sleeping = false;
 
+	/**
+	 * Creates an Ogre and its Club
+	 * @param x	Coordinate x of its initial position
+	 * @param y	Coordinate y of its initial position
+	 * */
 	public Ogre(int x, int y) {
 		super(x, y);
 		club = new Club(x, y, this);
 	}
 
+	/**
+	 * Creates an Ogre and its Club
+	 * @param x	Coordinate x of its initial position
+	 * @param y	Coordinate y of its initial position
+	 * @param sleeping Boolean that specifies the sleeping state of the ogre
+	 * */
 	public Ogre(int x, int y, boolean sleeping) {
 		super(x, y);
 		this.sleeping = sleeping;
 		club = new Club(x, y, this);
 	}
-
+	
+	/**
+	 * Copy constructor
+	 * @param ogre Ogre to be copied
+	 * */
 	public Ogre(Ogre ogre) {
 		coordinates = new Coordinates(ogre.coordinates);
 		ogre_is_stunned = ogre.ogre_is_stunned;
@@ -26,6 +41,11 @@ public class Ogre extends GameCharacter {
 		club = new Club(ogre.club, this);
 	}
 
+	/**
+	 * Moves the ogre to a random position
+	 * @param level Indicates the level on which the ogre will move
+	 * @return Returns the possibility to move
+	 * */
 	public boolean moveCharacter(Level level) {
 		if (!sleeping) {
 			boolean can_move;
@@ -92,18 +112,34 @@ public class Ogre extends GameCharacter {
 		}
 	}
 
+	/**
+	 * Sets the stun state of the ogre
+	 * @param stun Specifies the stun state of the ogre
+	 */
 	public void setIsStunned(boolean stun) {
 		ogre_is_stunned = stun;
 	}
 
+	/**
+	 * Gets the stun state of the ogre
+	 * @return Returns the stun state of the ogre
+	 */
 	public boolean isStunned() {
 		return ogre_is_stunned;
 	}
 
+	/**
+	 * Gets the ogre's club
+	 * @return Returns the ogre's club
+	 */
 	public Club getClub() {
 		return club;
 	}
 
+	/**
+	 * Gets the sleeping state of the ogre
+	 * @return Returns the sleeping state of the ogre
+	 */
 	public boolean isSleeping() {
 		return sleeping;
 	}
