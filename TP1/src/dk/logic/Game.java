@@ -37,11 +37,6 @@ public class Game implements java.io.Serializable{
 			levels.add(new Level(current));
 	}
 	
-	/**
-	 * Initializes the default Levels
-	 * @param ogreNumber Number of Ogres
-	 * @param guardianType Type of Guardian
-	 */
 	private void initLevels(int ogreNumber, int guardianType) {
 		levels = new ArrayList<Level>();
 		
@@ -113,11 +108,6 @@ public class Game implements java.io.Serializable{
 		levels.add(level_2);
 	}
 	
-	/**
-	 * Creates a Guardian
-	 * @param guardianType Type of Guardian that will be created
-	 * @return Returns the Created Guardian or null in case of a not valid type
-	 */
 	private Guardian generateGuardian(int guardianType) {		
 		switch (guardianType) {
 		case 0:
@@ -131,12 +121,6 @@ public class Game implements java.io.Serializable{
 		}
 	}
 
-	/**
-	 * Creates a Ogre
-	 * @param hero Hero to check if its not overlapping or ending the game
-	 * @param map The Game Map
-	 * @return Returns the Ogre Created
-	 */
 	private Ogre generateOgre(Hero hero, char map[][]){
 		int height = map.length;
 		int width = map[0].length;
@@ -154,9 +138,6 @@ public class Game implements java.io.Serializable{
 		}
 	}
 
-	/**
-	 * Advances to the Next Level if it's possible, if it isn't Game ends with WIN
-	 */
 	private void advanceLevel() {
 		level++;
 		if(level == levels.size())
