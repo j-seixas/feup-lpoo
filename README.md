@@ -15,8 +15,6 @@
 ![PIT](/TP1/imgs/pit.png)
 
 
-
-
 **Authors**
 - Daniel Filipe Santos Marques - 201503822 - up201503822@fe.up.pt
 - João Nuno Fonseca Seixas - 201505648 - up201505648@fe.up.pt
