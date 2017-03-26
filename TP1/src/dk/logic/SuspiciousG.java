@@ -2,6 +2,10 @@ package dk.logic;
 
 import java.util.Random;
 
+/**
+ * Class for the Game Character Suspicious Guardian
+ * @see Guardian
+ */
 public class SuspiciousG extends Guardian {
 	private boolean dir = true;
 	private int wait = 0;

@@ -1,5 +1,9 @@
 package dk.logic;
 
+/**
+ * Class for the Coordinates of the Game Map
+ *
+ */
 public class Coordinates implements java.io.Serializable {
 	private int x;
 	private int y;

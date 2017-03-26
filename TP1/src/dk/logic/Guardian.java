@@ -1,5 +1,10 @@
 package dk.logic;
 
+/**
+ * Abstract Class for the different types of Guardians
+ * 
+ * @see GameCharacter
+ */
 public abstract class Guardian extends GameCharacter{
 	
 	protected Coordinates path[] = {

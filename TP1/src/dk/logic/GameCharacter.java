@@ -1,5 +1,9 @@
 package dk.logic;
 
+/**
+ * Abstract Class for the All the Game Characters
+ *
+ */
 public abstract class GameCharacter implements java.io.Serializable{
 	public enum Direction {
 		UP, DOWN, RIGHT, LEFT, NONE

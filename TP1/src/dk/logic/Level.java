@@ -3,6 +3,10 @@ package dk.logic;
 import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+/**
+ * Class for a Game Level
+ *
+ */
 public class Level implements java.io.Serializable {
 
 	private Hero hero;

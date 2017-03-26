@@ -2,6 +2,10 @@ package dk.logic;
 
 import java.util.Random;
 
+/**
+ * Class for the Game Character Ogre
+ * @see GameCharacter
+ */
 public class Ogre extends GameCharacter {
 
 	private Club club;

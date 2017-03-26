@@ -2,6 +2,10 @@ package dk.logic;
 
 import dk.logic.GameCharacter;
 
+/**
+ * Class for the Game Character Hero
+ * @see GameCharacter
+ */
 public class Hero extends GameCharacter{
 
 	private Direction direction;

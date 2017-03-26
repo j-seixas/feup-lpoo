@@ -6,6 +6,10 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import dk.logic.Hero;
 
+/**
+ * Class for the Game
+ *
+ */
 public class Game implements java.io.Serializable{
 	public enum GameStat {
 		LOSE, WIN, RUNNING

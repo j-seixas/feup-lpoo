@@ -1,5 +1,10 @@
 package dk.logic;
 
+/**
+ * Class for the Game Character Rookie Guardian
+ * 
+ * @see Guardian
+ */
 public class RookieG extends Guardian {
 
 	/**

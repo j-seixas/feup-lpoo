@@ -2,6 +2,10 @@ package dk.logic;
 
 import java.util.Random;
 
+/**
+ * Class for the Game Character Drunken Guardian
+ * @see Guardian
+ */
 public class DrunkenG extends Guardian {
 	private boolean dir = true;
 	private int wait = 0;

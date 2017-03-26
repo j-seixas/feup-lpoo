@@ -1,5 +1,9 @@
 package dk.logic;
 
+/**
+ * Class for the Game's Doors
+ *
+ */
 public class Door implements java.io.Serializable {
 	private Coordinates coordinates;
 	private boolean door_is_open = false;
