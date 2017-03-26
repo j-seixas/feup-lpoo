@@ -18,16 +18,30 @@ public class Game implements java.io.Serializable{
 	public ArrayList<Level> levels;
 	private GameStat game_stat = GameStat.RUNNING;
 
+	/**
+	 * Creates a Game with the default Levels
+	 * @param ogreNumber Number of Ogres
+	 * @param guardianType Type of the Guardian
+	 */
 	public Game(int ogreNumber, int guardianType) {
 		initLevels(ogreNumber, guardianType);
 	}
 
+	/**
+	 * Creates a Game with custom Levels
+	 * @param customLevels Levels to play
+	 */
 	public Game(ArrayList<Level> customLevels){
 		this.levels = new ArrayList<Level>();
 		for(Level current : customLevels)
 			levels.add(new Level(current));
 	}
 	
+	/**
+	 * Initializes the default Levels
+	 * @param ogreNumber Number of Ogres
+	 * @param guardianType Type of Guardian
+	 */
 	private void initLevels(int ogreNumber, int guardianType) {
 		levels = new ArrayList<Level>();
 		
@@ -99,6 +113,11 @@ public class Game implements java.io.Serializable{
 		levels.add(level_2);
 	}
 	
+	/**
+	 * Creates a Guardian
+	 * @param guardianType Type of Guardian that will be created
+	 * @return Returns the Created Guardian or null in case of a not valid type
+	 */
 	private Guardian generateGuardian(int guardianType) {		
 		switch (guardianType) {
 		case 0:
@@ -112,6 +131,12 @@ public class Game implements java.io.Serializable{
 		}
 	}
 
+	/**
+	 * Creates a Ogre
+	 * @param hero Hero to check if its not overlapping or ending the game
+	 * @param map The Game Map
+	 * @return Returns the Ogre Created
+	 */
 	private Ogre generateOgre(Hero hero, char map[][]){
 		int height = map.length;
 		int width = map[0].length;
@@ -129,6 +154,9 @@ public class Game implements java.io.Serializable{
 		}
 	}
 
+	/**
+	 * Advances to the Next Level if it's possible, if it isn't Game ends with WIN
+	 */
 	private void advanceLevel() {
 		level++;
 		if(level == levels.size())
@@ -136,7 +164,11 @@ public class Game implements java.io.Serializable{
 		else
 			levels.get(level).updateMap();
 	}
-
+	
+	/**
+	 * Processes the Movement of the Hero
+	 * @param direction	Direction of the Movement
+	 */
 	public void processInput(GameCharacter.Direction direction) {
 		AtomicBoolean insideCanvas = new AtomicBoolean(false);
 		char nextCharacter = levels.get(level).getNextCharacter(direction, insideCanvas);
@@ -175,14 +207,26 @@ public class Game implements java.io.Serializable{
 
 	//Wrappers / Getters / Setters
 	
+	/**
+	 * Checks if the Game has Ended
+	 * @return	Returns whether or not the game has ended
+	 */
 	public boolean isOver(){
 		return game_stat != GameStat.RUNNING || getCurrentLevel() == null;
 	}
 	
+	/**
+	 * Checks the Game Status
+	 * @return Returns the Status of the Game (Lose, Win or Running)
+	 */
 	public GameStat getGameStatus() {
 		return this.game_stat;
 	}
 
+	/**
+	 * Gets the Current Game Map
+	 * @return Returns the Game Map
+	 */
 	public char[][] getCurrentMap(){
 		Level currentLevel = getCurrentLevel();
 		if(currentLevel != null)
@@ -190,10 +234,19 @@ public class Game implements java.io.Serializable{
 		else return null;
 	}
 	
+	/**
+	 * Gets the Element of a Position in the Game Map
+	 * @param c Coordinates of the Element
+	 * @return	Returns the Element
+	 */
 	public char getCurrentMap(Coordinates c){
 		return getCurrentMap()[c.getY()][c.getX()];
 	}
 	
+	/**
+	 * Gets the Current Level
+	 * @return Returns the Current Level
+	 */
  	public Level getCurrentLevel(){
 		if(level < levels.size())
 			return levels.get(level);
@@ -202,6 +255,10 @@ public class Game implements java.io.Serializable{
 		else return null;
 	}
 	
+ 	/**
+ 	 * Gets the Map
+ 	 * @return Returns the Map in form of a string with spaces and new lines
+ 	 */
 	public String getStringMap(){
 		char map[][] = getCurrentMap();
 		String result = new String();
@@ -213,12 +270,19 @@ public class Game implements java.io.Serializable{
 		return result;
 	}
 
+	/**
+	 * Calls the Current Level function updateMap
+	 */
 	public void updateMap(){
 		Level currentLevel = getCurrentLevel();
 		if(currentLevel != null)
 			currentLevel.updateMap();
 	}
 
+	/**
+	 * Gets the Hero
+	 * @return Returns the Hero
+	 */
 	public Hero getCurrentHero(){
 		Level currentLevel = getCurrentLevel();
 		if(currentLevel != null)
