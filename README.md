@@ -2,7 +2,7 @@
 
 - **Better Code Hub**
 
-    [![BCH compliance](https://bettercodehub.com/edge/badge/myownxdeath/LPOO1617_T3G4?token=58f9c501fe233344b2451d6888aa37fa7c4be6b1)](https://bettercodehub.com/)
+    [![BCH compliance](https://bettercodehub.com/edge/badge/myownxdeath/LPOO1617_T3G4?token=dcef5d19902b9838436967c5ddf2c71a718877cb)](https://bettercodehub.com/)
 
 - **Coverage :** 96.6%
 
