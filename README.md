@@ -1,5 +1,6 @@
-# LPOO1617_T3G34
-## Grade: 19.3
+# LPOO1617_T3G34  
+**Grade:** 19.3  
+**Final Project:** 
 
 - **Better Code Hub**
 
