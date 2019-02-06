@@ -1,4 +1,7 @@
 # LPOO1617_T3G34  
+
+Project of FEUP's Course [LPOO](https://sigarra.up.pt/feup/pt/ucurr_geral.ficha_uc_view?pv_ocorrencia_id=384940) using Java and Java Swing
+
 **Grade:** 19.3  
 **Final Project:** https://github.com/myownxdeath/LPOO1617_T3G4_GravityGuy  
 
